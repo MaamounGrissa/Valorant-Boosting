@@ -2,8 +2,12 @@ import React, { useState } from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
+import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
+import PeopleIcon from '@material-ui/icons/People';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import FlashOnIcon from '@material-ui/icons/FlashOn';
+import VideocamIcon from '@material-ui/icons/Videocam';
 
 const OrangeSwitch = withStyles({
     switchBase: {
@@ -235,7 +239,7 @@ export default function RankTab() {
                                     onChange={e => handleChatOffline(e)}
                                     name="chat-offline"
                                 />
-                                <label className="switch-label">APPEAR OFFLINE ON CHAT <span>FREE</span></label>
+                                <label className="switch-label"><SpeakerNotesOffIcon /> APPEAR OFFLINE ON CHAT <span>FREE</span></label>
                             </div>
 
                             <div className="switch-container">
@@ -244,7 +248,7 @@ export default function RankTab() {
                                     onChange={e => handleSpecificAgents(e)}
                                     name="specific-agents"
                                 />
-                                <label className="switch-label">SPECIFIC AGENTS <span>FREE</span></label>
+                                <label className="switch-label"><PeopleIcon /> SPECIFIC AGENTS <span>FREE</span></label>
                             </div>
 
                             <div className="switch-container">
@@ -253,7 +257,7 @@ export default function RankTab() {
                                     onChange={e => handlePlayWithBooster(e)}
                                     name="play-with-booster"
                                 />
-                                <label className="switch-label">PLAY WITH BOOSTER AT <span>+40%</span></label>
+                                <label className="switch-label"><PersonAddIcon /> PLAY WITH BOOSTER AT <span>+40%</span></label>
                             </div>
 
                             <div className="switch-container">
@@ -262,7 +266,7 @@ export default function RankTab() {
                                     onChange={e => handlePriorityOrder(e)}
                                     name="priority-order"
                                 />
-                                <label className="switch-label">PRIORITY ORDER AT <span>+20%</span></label>
+                                <label className="switch-label"><FlashOnIcon /> PRIORITY ORDER AT <span>+20%</span></label>
                             </div>
 
                             <div className="switch-container">
@@ -271,7 +275,7 @@ export default function RankTab() {
                                     onChange={e => handleWithStreaming(e)}
                                     name="with-streaming"
                                 />
-                                <label className="switch-label">WITH STREAMING AT <span>+20%</span></label>
+                                <label className="switch-label"><VideocamIcon /> WITH STREAMING AT <span>+20%</span></label>
                             </div>
                         
                         </div>

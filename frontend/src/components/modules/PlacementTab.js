@@ -6,6 +6,11 @@ import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Typography from '@material-ui/core/Typography';
+import SpeakerNotesOffIcon from '@material-ui/icons/SpeakerNotesOff';
+import PeopleIcon from '@material-ui/icons/People';
+import PersonAddIcon from '@material-ui/icons/PersonAdd';
+import FlashOnIcon from '@material-ui/icons/FlashOn';
+import VideocamIcon from '@material-ui/icons/Videocam';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -217,60 +222,51 @@ export default function PlacementTab() {
                             </div>
                         </div>
                         <div className="options">
-                        <FormControlLabel
-                            control={
-                            <OrangeSwitch
-                                checked={chatOffline}
-                                onChange={e => handleChatOffline(e)}
-                                name="chat-offline"
-                            />
-                            }
-                            label="APPEAR OFFLINE ON CHAT FREE"
-                        />
-                        <FormControlLabel
-                            control={
-                            <OrangeSwitch
-                                checked={specificAgents}
-                                onChange={e => handleSpecificAgents(e)}
-                                name="specific-agents"
-                                color="secondary"
-                            />
-                            }
-                            label="SPECIFIC AGENTS FREE"
-                        />
-                        <FormControlLabel
-                            control={
-                            <OrangeSwitch
-                                checked={playWithBooster}
-                                onChange={e => handlePlayWithBooster(e)}
-                                name="play-with-booster"
-                                color="secondary"
-                            />
-                            }
-                            label="PLAY WITH BOOSTER AT +40%"
-                        />
-                        <FormControlLabel
-                            control={
-                            <OrangeSwitch
-                                checked={priorityOrder}
-                                onChange={e => handlePriorityOrder(e)}
-                                name="priority-order"
-                                color="secondary"
-                            />
-                            }
-                            label="PRIORITY ORDER AT +20%"
-                        />
-                        <FormControlLabel
-                            control={
-                            <OrangeSwitch
-                                checked={withStreaming}
-                                onChange={e => handleWithStreaming(e)}
-                                name="with-streaming"
-                                color="secondary"
-                            />
-                            }
-                            label="WITH STREAMING AT +20%"
-                        />
+                            <div className="switch-container">
+                                <OrangeSwitch
+                                    checked={chatOffline}
+                                    onChange={e => handleChatOffline(e)}
+                                    name="chat-offline"
+                                />
+                                <label className="switch-label"><SpeakerNotesOffIcon /> APPEAR OFFLINE ON CHAT <span>FREE</span></label>
+                            </div>
+
+                            <div className="switch-container">
+                                <OrangeSwitch
+                                    checked={specificAgents}
+                                    onChange={e => handleSpecificAgents(e)}
+                                    name="specific-agents"
+                                />
+                                <label className="switch-label"><PeopleIcon /> SPECIFIC AGENTS <span>FREE</span></label>
+                            </div>
+
+                            <div className="switch-container">
+                                <OrangeSwitch
+                                    checked={playWithBooster}
+                                    onChange={e => handlePlayWithBooster(e)}
+                                    name="play-with-booster"
+                                />
+                                <label className="switch-label"><PersonAddIcon /> PLAY WITH BOOSTER AT <span>+40%</span></label>
+                            </div>
+
+                            <div className="switch-container">
+                                <OrangeSwitch
+                                    checked={priorityOrder}
+                                    onChange={e => handlePriorityOrder(e)}
+                                    name="priority-order"
+                                />
+                                <label className="switch-label"><FlashOnIcon /> PRIORITY ORDER AT <span>+20%</span></label>
+                            </div>
+
+                            <div className="switch-container">
+                                <OrangeSwitch
+                                    checked={withStreaming}
+                                    onChange={e => handleWithStreaming(e)}
+                                    name="with-streaming"
+                                />
+                                <label className="switch-label"><VideocamIcon /> WITH STREAMING AT <span>+20%</span></label>
+                            </div>
+                        
                         </div>
                         <div className="checkout-price">
                             {price}&nbsp;$

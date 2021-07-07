@@ -5,7 +5,7 @@
   "description": "Valorant Boosting App",
   "main": "server.js",
   "scripts": {
-    "start": "server.js",
+    "start": "nodemon --watch * --exec node --experimental-modules server.js",
     "build": "cd frontend && npm run build",
     "install-frontend": "cd frontend && npm install",
     "heroku-postbuild": "npm run install-frontend && npm run build",
