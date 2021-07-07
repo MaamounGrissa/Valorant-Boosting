@@ -37,9 +37,9 @@ app.use('/api/projects', projectRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/instagrams', instagramRouter);
 
-app.get('/', (req, res) => {
+/* app.get('/', (req, res) => {
     res.send('Server is ready!');
-});
+}); */
 
 // Return Error =>
 app.use((err, req, res, next) => {
