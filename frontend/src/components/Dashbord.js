@@ -178,11 +178,15 @@ export default function Dashbord() {
                   </IconButton>
                 </div>
                 <Divider />
-                { userInfo.rule === 'client' ? (
-                    <ClientMenuListItems />
-                ) : (userInfo.rule)
+                { 
+                  userInfo.rule === 'client' ? (
+                      <ClientMenuListItems />
+                  ) : userInfo.rule === 'booster' ? (
+                    'Your are Booster'
+                  ) : userInfo.rule === 'admin' ? (
+                    'Your are Admin'
+                  ) : ('Permission Error')
                 }
-                
               </Drawer>
               <main className={classes.content}>
                 <div className={classes.appBarSpacer} />
