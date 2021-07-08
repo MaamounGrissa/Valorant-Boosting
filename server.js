@@ -19,7 +19,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // const uri = "mongodb+srv://maamoun:Grissa1906@cluster0.wslrq.mongodb.net/Cluster0?retryWrites=true&w=majority";
-const uri = "mongodb+srv://maamoun:Grissa1906@valorantboosting.lyq9o.mongodb.net/valorantboosting?retryWrites=true&w=majority"
+const uri = "mongodb+srv://maamoun:sHgLCLYgHV8MDznf@valorantboosting.lyq9o.mongodb.net/valorantboosting?retryWrites=true&w=majority"
 
 // Connect to mongoDB
 mongoose.connect(process.env.MONGODB_URL || uri , {
@@ -37,9 +37,11 @@ app.use('/api/projects', projectRouter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/instagrams', instagramRouter);
 
-/* app.get('/', (req, res) => {
+/* 
+app.get('/', (req, res) => {
     res.send('Server is ready!');
-}); */
+}); 
+*/
 
 // Return Error =>
 app.use((err, req, res, next) => {

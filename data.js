@@ -9,19 +9,26 @@ export default {
             name: 'Maamoun',
             email: 'grissa.maamoun@gmail.com',
             password: bcrypt.hashSync('Grissa1906', 8),
-            isAdmin: true,
+            rule: 'admin',
+            photo: '/images/users/maamoun.png'
         },
         {
-            name: 'Mohamed Abdelaziz',
-            email: 'abdelaziz.hamado@gmail.com',
-            password: bcrypt.hashSync('Hammado2021', 8),
-            isAdmin: true,
+            name: 'Admin Account',
+            email: 'udaniel91@gmail.com',
+            password: bcrypt.hashSync('TESTDZ50302', 8),
+            rule: 'admin',
         },
         {
-            name: 'User',
-            email: 'user@gmail.com',
-            password: bcrypt.hashSync('grissa1906', 8),
-            isAdmin: false,
+            name: 'Client Account',
+            email: 'novaccounts@yahoo.com',
+            password: bcrypt.hashSync('TESTNZU9J02', 8),
+            rule: 'client',
+        },
+        {
+            name: 'Booster Account',
+            email: 'koreyboosting@gmail.com',
+            password: bcrypt.hashSync('rikat123', 8),
+            rule: 'booster',
         }
     ],
 

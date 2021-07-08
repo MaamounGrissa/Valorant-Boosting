@@ -6,6 +6,8 @@ import Header from './components/Header.js';
 import Footer from './components/Footer.js';
 import Home from './components/Home.js';
 import Signin from './components/Signin.js';
+import Register from './components/Register';
+import Dashbord from './components/Dashbord';
 
 function App(props) {
 
@@ -47,14 +49,21 @@ function App(props) {
         <Header userInfo={userInfo} />
 
         <main>
+          <img src="/images/main-bg.gif" alt="GifBackground" />
+          <div className="overlay">&nbsp;</div>
 
           <Route path="/" exact={true} component={Home} />
 
           <Route path='/signin' component={Signin} />
+
+          <Route path='/register' component={Register} />
+
+          <Route path='/dashbord'>
+            <Dashbord userInfo={userInfo} />
+          </Route>
+
           
         </main>
-
-        <Footer />
 
       </div>
 

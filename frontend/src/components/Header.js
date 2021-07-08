@@ -33,19 +33,14 @@ export default function Header(props) {
                   </div>
                   {
                   userInfo ? (
-                      <div>
                         <li className="setting">
-                          <Link to="/admin">
-                            <SettingsIcon style={{ fontSize: '25px' }} />
+                          <Link to="/dashbord">
+                            <SettingsIcon style={{ fontSize: '25px' }} /><span>Dashbord</span>
                           </Link>
-                        </li>
-                          <li className="setting">
                           <Link to="#signout" onClick={e => signoutHandler(e)}>
-                            <ExitToAppIcon style={{ fontSize: '25px' }} />
+                            <ExitToAppIcon style={{ fontSize: '25px' }} /><span>Logout</span>
                           </Link>
                         </li>
-                      </div>
-                      
                     ) :
                     (
                       <li className="setting">

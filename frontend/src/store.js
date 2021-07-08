@@ -6,7 +6,7 @@ import { instagramListReducer } from './reducer/instagramReducers';
 import { productDetailsReducer, productListReducer } from './reducer/productReducers';
 import { projectDetailsReducer, projectListReducer } from './reducer/projectReducers';
 import { sliderListReducer } from './reducer/sliderReducers';
-import { userSigninReducer } from './reducer/userReducers';
+import { userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
 const initialState = {
     userSignin : {
@@ -17,6 +17,7 @@ const initialState = {
 const reducer = combineReducers({
 
     userSignin: userSigninReducer,
+    userRegister: userRegisterReducer,
 
     sliderList: sliderListReducer,
 

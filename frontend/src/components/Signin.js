@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { signin } from '../actions/userActions';
 import LoadingModule from './modules/LoadingModule';
 import MessageBox from './modules/MessageBox';
+import PersonIcon from '@material-ui/icons/Person';
 
 export default function Signin(props) {
 
@@ -11,7 +12,7 @@ export default function Signin(props) {
 
     const redirect = props.location.search 
     ? props.location.search.split('=')[1] 
-    : '/';
+    : '/dashbord';
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
@@ -28,23 +29,15 @@ export default function Signin(props) {
     }, [props.history, redirect, userInfo]);
 
     return (
-        <div className="signin-page">
-            <div className="signin-box">
-                <form onSubmit={submitHandler}>
-                    <div>
-                        <h1>Sign In</h1>
-                    </div>
+        <div className="register-container">
+            <div className="register-content">
+                <form>
+                    <h3>Login</h3>
+                    <input required type="email" placeholder="E-mail adress" value={email} onChange={e => setEmail(e.target.value)}/>
+                    <input required type="password" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)}/>
+                    <button onClick={e => submitHandler(e)} ><PersonIcon /><span>Login</span></button>
                     { loading && <LoadingModule /> }
                     { error && <MessageBox variant="danger">{error}</MessageBox>}
-                    <div className="form-group">
-                        <label htmlFor="email">Email adress</label>
-                        <input type="email" id="email" placeholder="Enter email..." required onChange={(e) => setEmail(e.target.value)} />
-                    </div>
-                    <div className="form-group">
-                        <label htmlFor="password">Password</label>
-                        <input type="password" id="password" placeholder="Enter password..." required onChange={(e) => setPassword(e.target.value)} />
-                    </div>
-                    <button className="view-all comfirn-command">Login</button>
                 </form>
             </div>
         </div>

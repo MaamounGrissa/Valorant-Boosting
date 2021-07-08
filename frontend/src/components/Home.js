@@ -23,8 +23,6 @@ function Home () {
 
     return (
         <div className="intro-container">
-            <img src="/images/main-bg.gif" alt="GifBackground" />
-            <div className="overlay">&nbsp;</div>
             <div className="intro-content">
                 <img src="/images/vlrnt.png" alt="vlnrt" />
                 <h2>VLRNT Boosting</h2>
@@ -37,17 +35,17 @@ function Home () {
                 <TransitionGroup component={null}>
                 {
                 rank ? (
-                    <CSSTransition  
+                    <CSSTransition
+                    in={rank}
                     transitionName="myanimation"
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={300}>
+                    timeout={300}>
                         <RankTab />
                     </CSSTransition >
                 ) : placement ? (
-                    <CSSTransition  
+                    <CSSTransition
+                    in={placement}
                     transitionName="myanimation"
-                    transitionEnterTimeout={500}
-                    transitionLeaveTimeout={300}>
+                    timeout={300}>
                         <PlacementTab />
                     </CSSTransition >
                 ) : ('')
