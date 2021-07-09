@@ -1,6 +1,7 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import fileUpload from 'express-fileupload';
 import categoryRouter from './routers/categoryRouter.js';
 import productRouter from './routers/productRouter.js';
 import userRouter from './routers/userRouter.js';
@@ -27,6 +28,8 @@ mongoose.connect(process.env.MONGODB_URL || uri , {
     useUnifiedTopology: true,
     useCreateIndex: true,
 }); 
+
+app.use(fileUpload());
 
 // Routes
 app.use('/api/users', userRouter);
@@ -55,7 +58,7 @@ if (process.env.NODE_ENV === 'production') {
     // set static frontend path
     app.use(express.static('frontend/build'));
     app.get('*', (req, res) => {
-        res.sendFile(path.join(__dirname, 'frontend', 'build', 'index.html'));
+        res.sendFile(path.resolve(__dirname, 'frontend', 'build', 'index.html'));
     })
 }
 

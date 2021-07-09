@@ -46,8 +46,8 @@ export default function RankTab() {
 
     const handleRank = (e, selected, imageLink) => {
         e.preventDefault();
-        setRank(selected)
-        setSelectedImage(imageLink)
+        setRank(selected);
+        setSelectedImage(imageLink);
     }
 
     const handleDivision = (e, selected) => {
@@ -84,11 +84,14 @@ export default function RankTab() {
     const handleSpecificAgents = (e) => {
         e.preventDefault();
         setSpecificAgents(!specificAgents);
+        setPrice(20);
+
     }
 
     const handlePlayWithBooster = (e) => {
         e.preventDefault();
         setPlayWithBooster(!playWithBooster);
+        setFeedback('All Good !');
     }
 
     const handlePriorityOrder = (e) => {
@@ -99,6 +102,7 @@ export default function RankTab() {
     const handleWithStreaming = (e) => {
         e.preventDefault();
         setWithStreaming(!withStreaming);
+        setTime('2-3');
     }
 
     return (

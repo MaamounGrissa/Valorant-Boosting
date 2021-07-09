@@ -1,5 +1,5 @@
 import axios from "axios";
-import { USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants";
+import { USER_EDIT_FAIL, USER_EDIT_REQUEST, USER_EDIT_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants";
 
 export const register = (name, email, password) => async(dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST, payload: { name, email, password } });
@@ -34,6 +34,34 @@ export const signin = (email, password) => async(dispatch) => {
         });
     }
 }
+
+export const EditUser = (formData) => async(dispatch) => { 
+    dispatch({
+        type: USER_EDIT_REQUEST, payload: formData
+    });
+    try {
+        const { data } = await axios.post('/api/users/edit', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        dispatch({
+            type: USER_EDIT_SUCCESS, payload: data
+        });
+        if(data[0]?._id) {
+            localStorage.setItem('userInfo', JSON.stringify(data[0]));
+        } 
+    } catch (error) {
+        dispatch({
+            type: USER_EDIT_FAIL, 
+            payload: 
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+}
+
 
 export const signout = () => (dispatch) => {
     localStorage.removeItem('userInfo');

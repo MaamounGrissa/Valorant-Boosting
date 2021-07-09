@@ -14,10 +14,14 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import AdminMenuListItems from './modules/AdminDashbordModules/AdminMenuListItems.js';
 import ClientMenuListItems from './modules/ClientDashboadModules/ClientMenuListItems.js';
 import HomeTab from './modules/ClientDashboadModules/HomeTab.js';
-import LoadingBox from './modules/LoadingBox.js'
+import LoadingBox from './modules/LoadingBox.js';
 import ErrorPage from './modules/ErrorPage.js';
+import ProfileTab from './modules/ProfileTab.js';
+import AddUser from './modules/AdminDashbordModules/AddUser.js';
+import ListUsers from './modules/AdminDashbordModules/ListUsers.js';
 
 function Copyright() {
   return (
@@ -128,8 +132,6 @@ export default function Dashbord() {
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
-
-    console.log(userInfo)
     
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -179,12 +181,12 @@ export default function Dashbord() {
                 </div>
                 <Divider />
                 { 
-                  userInfo.rule === 'client' ? (
+                  userInfo?.rule === 'client' ? (
                       <ClientMenuListItems />
-                  ) : userInfo.rule === 'booster' ? (
+                  ) : userInfo?.rule === 'booster' ? (
                     'Your are Booster'
-                  ) : userInfo.rule === 'admin' ? (
-                    'Your are Admin'
+                  ) : userInfo?.rule === 'admin' ? (
+                      <AdminMenuListItems />
                   ) : ('Permission Error')
                 }
               </Drawer>
@@ -197,7 +199,20 @@ export default function Dashbord() {
                         <Route path="/dashbord" exact={true} render={ (props) =>
                             <HomeTab fixedHeightPaper={fixedHeightPaper} classes={classes} />
                         }/>
-                    </Switch>
+
+                        <Route path="/dashbord/profile" exact={true} render={ (props) =>
+                            <ProfileTab />
+                        }/>
+
+                        <Route path="/dashbord/adduser" exact={true} render={ (props) =>
+                            <AddUser />
+                        }/>
+
+                        <Route path="/dashbord/listusers" exact={true} render={ (props) =>
+                            <ListUsers />
+                        }/>
+
+                        </Switch>
                  
                   <Box pt={4}>
                     <Copyright />

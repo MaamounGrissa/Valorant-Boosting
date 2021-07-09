@@ -764,6 +764,123 @@ footer > p {
 }
 
 /******************************************************************/
+/************************ Admin Dashbord **************************/
+/******************************************************************/
+
+.delete-btn {
+  border: none;
+  padding: 0;
+  margin: 0 0 0 10px;
+  background: none;
+  cursor: pointer;
+}
+
+.product-img-table {
+  width: 80px;
+  height: auto;
+  object-fit: cover;
+}
+
+.icon-table {
+  width: 50px;
+  height: auto;
+  object-fit: cover;
+  background: #CCC;
+}
+
+.table-header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.table-header-container button {
+  border: none;
+  padding: 0;
+  background: none;
+  cursor: pointer;
+  margin-bottom: 40px;
+}
+
+.table-header-container svg {
+  transition: all 0.5s;
+}
+
+.table-header-container svg:hover {
+  transform: scale(1.15);
+}
+
+.admin-actions svg {
+  transition: all 0.5s;
+}
+
+.admin-actions svg:hover {
+  transform: scale(1.2);
+  color: #20a020;
+}
+
+.delete-btn svg:hover {
+  color: #a02020;
+}
+
+.admin-icon-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 200px;
+  height: 200px;
+  margin: 0 0 0 20px;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.add-image {
+  width: 100px;
+}
+
+.image-display {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.input-upload {
+  display: none;
+}
+
+.icon-upload {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px !important;
+}
+
+.select-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px auto;
+}
+
+.admin-image-container {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 3px solid rgba(233, 229, 221, 0.479);
+  margin: 50px auto 20px;
+  box-shadow: 0 5px 20px rgb(0 0 0 / 10%);
+  overflow: hidden;
+}
+
+.admin-image-container.slider {
+  height: 280px;
+}
+
+/******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/
 
@@ -785,7 +902,27 @@ footer > p {
   transition: opacity 300ms ease-in;
 }
 
+.mybtn {
+  width: 90%;
+  margin-left: 5% !important;
+}
 
+.form-center {
+  width: 50%;
+  margin: 20px auto;
+}
+
+.mysingleform {
+  width: 70%;
+  margin: 0 auto;
+  padding: 40px 10px;
+
+}
+
+.mysingleform input, .mysingleform select {
+  display: block;
+  width: 100%;
+}
 
 
 .view-all {
@@ -1074,7 +1211,7 @@ footer > p {
 
 .alert {
   padding: 0.5rem;
-  margin: 2rem;
+  margin: 1rem 2rem;
   border: 0.1rem solid transparent;
   border-radius: 0.5rem;
   font-size: 12px;

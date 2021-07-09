@@ -6,18 +6,20 @@ import { instagramListReducer } from './reducer/instagramReducers';
 import { productDetailsReducer, productListReducer } from './reducer/productReducers';
 import { projectDetailsReducer, projectListReducer } from './reducer/projectReducers';
 import { sliderListReducer } from './reducer/sliderReducers';
-import { userRegisterReducer, userSigninReducer } from './reducer/userReducers';
+import { userEditReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
 const initialState = {
     userSignin : {
         userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
-    }
+    },
 };
+
 
 const reducer = combineReducers({
 
     userSignin: userSigninReducer,
     userRegister: userRegisterReducer,
+    userEdit: userEditReducer,
 
     sliderList: sliderListReducer,
 

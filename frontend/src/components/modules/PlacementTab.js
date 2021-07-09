@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Switch from '@material-ui/core/Switch';
 import Slider from '@material-ui/core/Slider';
 import { withStyles, makeStyles } from '@material-ui/core/styles';
@@ -114,11 +113,13 @@ export default function PlacementTab() {
     const handleSpecificAgents = (e) => {
         e.preventDefault();
         setSpecificAgents(!specificAgents);
+        setPrice(20);
     }
 
     const handlePlayWithBooster = (e) => {
         e.preventDefault();
         setPlayWithBooster(!playWithBooster);
+        setFeedback('All Good !');
     }
 
     const handlePriorityOrder = (e) => {
@@ -129,6 +130,7 @@ export default function PlacementTab() {
     const handleWithStreaming = (e) => {
         e.preventDefault();
         setWithStreaming(!withStreaming);
+        setTime('2-3');
     }
 
     return (

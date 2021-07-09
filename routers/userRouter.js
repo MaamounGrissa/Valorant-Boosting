@@ -4,7 +4,10 @@ import bcrypt from 'bcryptjs';
 import data from '../data.js';
 import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
+import path from 'path';
+import { stringify } from 'querystring';
 
+const __dirname = path.dirname(import.meta.url).replace(/^file:\/\/\//, '');
 const userRouter = express.Router();
 
 // Seed Users From Data.js
@@ -55,7 +58,7 @@ userRouter.post(
             name: req.body.name,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
-            rule: 'client',
+            rule: req.body.rule ? req.body.rule : 'client',
         });
 
         const createdUser = await user.save();
@@ -68,6 +71,56 @@ userRouter.post(
             photo: createdUser.photo,
             token: generateToken(createdUser),
         });
+    })
+)
+
+// Profile Edit
+
+userRouter.post('/edit', expressAsyncHandler(async (req, res) => {
+   
+        const user = await User.findById(req.body.id);
+        var savedUser = {};
+        var photoFile= '', photoFilename = '';
+
+        if (!user) {
+            return res.send([null, 'User not found !']);
+        }
+
+        if (bcrypt.compareSync(req.body.password, user.password)) {
+
+            // Upload File 1 if new image selected
+            if (req.files && req.files.photo) {
+                photoFile = req.files.photo;
+                photoFilename = Date.now() + '-' + photoFile.name;
+                photoFile.mv(path.join(__dirname + './../frontend/public/images', 'users/') + photoFilename, err => {
+                    if(err) {
+                        return res.status(500).send(err);
+                    }
+                });
+                photoFile = '/images/users/' + photoFilename;
+            } else {
+                photoFile = user.photo;
+            }
+
+            user.name = req.body.name;
+            photoFile !== '' && ( user.photo = photoFile );
+            req.body.newPassword !== '' && ( user.password = bcrypt.hashSync(req.body.password, 8) );
+            // return res.status(404).send(user);
+            await user.save()
+
+            // return res.status(404).send(data);
+            // Return User
+            res.send([{
+                _id: user._id,
+                name: user.name,
+                email: user.email,
+                rule: user.rule,
+                photo: user.photo,
+                token: generateToken(user),
+            }, 'Profile Updated']);  
+        } else {
+            res.send([null, 'Old Password Error']);
+        }
     })
 ) 
 export default userRouter;

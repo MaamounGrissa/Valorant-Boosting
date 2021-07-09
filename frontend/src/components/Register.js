@@ -15,7 +15,7 @@ export default function Register(props) {
 
     const redirect = props.location.search 
     ? props.location.search.split('=')[1] 
-    : '/';
+    : '/dashbord';
 
     const userRegister = useSelector((state) => state.userRegister);
     const { userInfo, loading, error } = userRegister;
@@ -49,7 +49,11 @@ export default function Register(props) {
     const handleRegister = (e) => {
         e.preventDefault();
         if (confirmPassword === password) {
-            dispatch(register(name, email, password));
+            if (password.length < 8) {
+                setConfirmError('Password is too short');
+            } else {
+                dispatch(register(name, email, password));
+            }
         } else {
             setConfirmError('Password not confirmed');
         }
