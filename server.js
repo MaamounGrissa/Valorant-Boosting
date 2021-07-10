@@ -2,13 +2,8 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
-import categoryRouter from './routers/categoryRouter.js';
-import productRouter from './routers/productRouter.js';
 import userRouter from './routers/userRouter.js';
-import sliderRouter from './routers/sliderRouter.js';
-import projectRouter from './routers/projectRouter.js';
 import blogRouter from './routers/blogRouter.js';
-import instagramRouter from './routers/instagramRouter.js';
 import path from 'path';
 
 dotenv.config();
@@ -33,12 +28,7 @@ app.use(fileUpload());
 
 // Routes
 app.use('/api/users', userRouter);
-app.use('/api/categories', categoryRouter);
-app.use('/api/products', productRouter);
-app.use('/api/sliders', sliderRouter);
-app.use('/api/projects', projectRouter);
 app.use('/api/blogs', blogRouter);
-app.use('/api/instagrams', instagramRouter);
 
 /* 
 app.get('/', (req, res) => {

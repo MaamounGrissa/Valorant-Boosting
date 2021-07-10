@@ -5,10 +5,17 @@ import data from '../data.js';
 import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
 import path from 'path';
-import { stringify } from 'querystring';
 
 const __dirname = path.dirname(import.meta.url).replace(/^file:\/\/\//, '');
 const userRouter = express.Router();
+
+// GET ALL USERS
+
+userRouter.get('/', expressAsyncHandler(async (req, res) => {
+    const users = await User.find({});
+    res.send(users);
+}));
+
 
 // Seed Users From Data.js
 
@@ -59,6 +66,9 @@ userRouter.post(
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
             rule: req.body.rule ? req.body.rule : 'client',
+            rank: req.body.rank ? req.body.rank : null,
+            paypal: req.body.paypal ? req.body.paypal : null,
+            percentage: req.body.percentage ? req.body.percentage : null,
         });
 
         const createdUser = await user.save();
@@ -74,12 +84,34 @@ userRouter.post(
     })
 )
 
+// Add user
+
+userRouter.post(
+    '/add',
+    expressAsyncHandler(async (req, res) => {
+        const user = new User({
+            name: req.body.name,
+            email: req.body.email,
+            password: bcrypt.hashSync(req.body.password, 8),
+            rule: req.body.rule ? req.body.rule : 'client',
+            rank: req.body.rank ? req.body.rank : null,
+            paypal: req.body.paypal ? req.body.paypal : null,
+            percentage: req.body.percentage ? req.body.percentage : null,
+        });
+
+        await user.save();
+
+        const users = await User.find({});
+
+        res.send([users]);
+    })
+)
+
 // Profile Edit
 
 userRouter.post('/edit', expressAsyncHandler(async (req, res) => {
    
         const user = await User.findById(req.body.id);
-        var savedUser = {};
         var photoFile= '', photoFilename = '';
 
         if (!user) {

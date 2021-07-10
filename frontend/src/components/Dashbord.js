@@ -22,6 +22,7 @@ import ErrorPage from './modules/ErrorPage.js';
 import ProfileTab from './modules/ProfileTab.js';
 import AddUser from './modules/AdminDashbordModules/AddUser.js';
 import ListUsers from './modules/AdminDashbordModules/ListUsers.js';
+import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
 
 function Copyright() {
   return (
@@ -42,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     width: '100vw',
     height: '100vh',
-    zIndex: '999',
+    zIndex: '888',
     position: 'fixed',
     top: '0',
     left: '0',
@@ -81,6 +82,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
+    color: '#000',
   },
   drawerPaper: {
     position: 'relative',
@@ -119,6 +121,7 @@ const useStyles = makeStyles((theme) => ({
     display: 'flex',
     overflow: 'auto',
     flexDirection: 'column',
+    background: '#fff9f8',
   },
   fixedHeight: {
     height: 240,
@@ -196,9 +199,19 @@ export default function Dashbord() {
         
                     { /* TAB CONTENT */ }
                     <Switch>
-                        <Route path="/dashbord" exact={true} render={ (props) =>
-                            <HomeTab fixedHeightPaper={fixedHeightPaper} classes={classes} />
-                        }/>
+                      {
+                        userInfo?.rule === 'admin' ? (
+                            <Route path="/dashbord" exact={true} render={ (props) =>
+                              <AdminHome fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                            }/>
+                        ) : userInfo?.rule === 'booster' ? (
+                          ''
+                        ) : userInfo?.rule === 'client' ? (
+                            <Route path="/dashbord" exact={true} render={ (props) =>
+                              <HomeTab fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                            }/>
+                        ): ('')
+                      }
 
                         <Route path="/dashbord/profile" exact={true} render={ (props) =>
                             <ProfileTab />

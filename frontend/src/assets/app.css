@@ -880,6 +880,67 @@ footer > p {
   height: 280px;
 }
 
+.paper-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.paper-title {
+  font-size: 1.2rem;
+  color: #444;
+
+}
+
+.paper-header button {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.paper-header button:focus {
+  outline: none;
+}
+
+.paper-header button svg {
+  font-size: 35px;
+  color: #3f51b5;
+}
+
+.paper-header button:hover {
+  transform: scale(1.2);
+}
+
+.booster-group {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.booster-input {
+  width: 100%;
+  margin-bottom: 20px !important;
+}
+
+.booster-input.middle {
+  width: 48%;
+  margin-bottom: 0 !important;
+}
+
+.booster-form-controle {
+  display: block;
+  width: 100%;
+  margin-bottom: 20px !important;
+}
+
+.MuiAppBar-colorPrimary {
+  background-color: #f2ebf0 !important;
+}
+
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/
@@ -917,6 +978,10 @@ footer > p {
   margin: 0 auto;
   padding: 40px 10px;
 
+}
+
+.custom-thead {
+  background: #f3edf0;
 }
 
 .mysingleform input, .mysingleform select {
@@ -1011,93 +1076,71 @@ footer > p {
 }
 
 .modal-container {
-  width: 100vw;
-  height: 100vh;
-  transform: scale(1);
-  opacity: 1;
+  width: 100%;
+  height: 100%;
+  transform: scale(0);
+  opacity: 0;
   transition: all 0.5s;
   display: flex;
   justify-content: center;
   align-items: center;
   background-color: rgba(0,0,0,0.8);
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
-  z-index: 200;
+  z-index: 1000;
+}
+
+.modal-container.show {
+  transform: scale(1);
+  opacity: 1;
+
 }
 
 .modal-box {
-  width: 50%;
-  background-color: #f7f7f7;
+  width: 80%;
+  background-color: #DDD;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 5px 30px rgb(0 0 0 / 20%);
 }
 
 #close-modal {
-  position: absolute;
-  top: 15px;
-  right: 15px;
   cursor: pointer;
   border: none;
   background: transparent;
-  z-index: 203;
 }
 
 #close-modal svg {
   width: 30px;
   height: 30px;
-  color: #fff;
+  color: #333;
   transition: all 0.5s;
 }
 
 #close-modal:hover svg {
-  color: #fb0;
-  transform: scale(1.1);
+  color: #000;
+  transform: scale(1.2);
 }
 
 .modal-header {
   width: 100%;
-  height: 100%;
   position: relative;
-  padding: 100px 5% 20px;
+  padding: 20px 5%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   
 }
 
-.modal-header:after {
-  content: "";
-  display: block;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 202;
-  background-color: rgba(0,0,0,.5);
-}
-
-.modal-header img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  object-fit: cover;
-  z-index: 200;
-}
-
 .modal-header h2 {
-  color: #fff;
-  font-size: 2rem;
+  color: #333;
+  font-size: 1.8rem;
   font-weight: bold;
-  position: absolute;
-  bottom: 15px;
-  left: 15px;
-  z-index: 204;
 }
 
 .modal-form {
-  padding: 40px 20px;
+  padding: 20px 20px;
 }
 
 .modal-form .form-group {

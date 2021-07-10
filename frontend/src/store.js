@@ -1,12 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { blogDetailsReducer, blogListReducer } from './reducer/blogReducers';
-import { categoryDetailsReducer, categoryListReducer } from './reducer/categoryReducers';
-import { instagramListReducer } from './reducer/instagramReducers';
-import { productDetailsReducer, productListReducer } from './reducer/productReducers';
-import { projectDetailsReducer, projectListReducer } from './reducer/projectReducers';
-import { sliderListReducer } from './reducer/sliderReducers';
-import { userEditReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
+import { userAddReducer, userEditReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
 const initialState = {
     userSignin : {
@@ -20,22 +15,13 @@ const reducer = combineReducers({
     userSignin: userSigninReducer,
     userRegister: userRegisterReducer,
     userEdit: userEditReducer,
+    userList: userListReducer,
+    userAdd: userAddReducer,
 
-    sliderList: sliderListReducer,
-
-    categoryList: categoryListReducer,
-    categoryDetails: categoryDetailsReducer,
-
-    productList: productListReducer,
-    productDetails: productDetailsReducer,
-
-    projectList: projectListReducer,
-    projectDetails: projectDetailsReducer,
-
+   
     blogList: blogListReducer,
     blogDetails: blogDetailsReducer,
 
-    instagramList: instagramListReducer,
 })
 
 const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
