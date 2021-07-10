@@ -1,7 +1,7 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { blogDetailsReducer, blogListReducer } from './reducer/blogReducers';
-import { userAddReducer, userEditReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
+import { boosterAddReducer, boosterDeleteReducer, boosterEditReducer, userEditReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
 const initialState = {
     userSignin : {
@@ -16,8 +16,9 @@ const reducer = combineReducers({
     userRegister: userRegisterReducer,
     userEdit: userEditReducer,
     userList: userListReducer,
-    userAdd: userAddReducer,
-
+    boosterAdd: boosterAddReducer,
+    boosterEdit: boosterEditReducer,
+    boosterDelete: boosterDeleteReducer,
    
     blogList: blogListReducer,
     blogDetails: blogDetailsReducer,

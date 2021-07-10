@@ -65,10 +65,7 @@ userRouter.post(
             name: req.body.name,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
-            rule: req.body.rule ? req.body.rule : 'client',
-            rank: req.body.rank ? req.body.rank : null,
-            paypal: req.body.paypal ? req.body.paypal : null,
-            percentage: req.body.percentage ? req.body.percentage : null,
+            rule: 'client',
         });
 
         const createdUser = await user.save();
@@ -84,16 +81,16 @@ userRouter.post(
     })
 )
 
-// Add user
+// Add Booster
 
 userRouter.post(
-    '/add',
+    '/addbooster',
     expressAsyncHandler(async (req, res) => {
         const user = new User({
             name: req.body.name,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
-            rule: req.body.rule ? req.body.rule : 'client',
+            rule: 'booster',
             rank: req.body.rank ? req.body.rank : null,
             paypal: req.body.paypal ? req.body.paypal : null,
             percentage: req.body.percentage ? req.body.percentage : null,
@@ -103,9 +100,47 @@ userRouter.post(
 
         const users = await User.find({});
 
-        res.send([users]);
+        res.send('Booster Added');
     })
 )
+
+// Edit Booster
+
+userRouter.post(
+    '/editbooster',
+    expressAsyncHandler(async (req, res) => {
+
+        const user = await User.findById(req.body.id);
+
+        if (!user) {
+            return res.send([null, 'User not found !']);
+        }
+
+        user.name = req.body.name;
+        req.body.password !== '' && ( user.password = bcrypt.hashSync(req.body.password, 8) );
+        user.rak = req.body.rank;
+        user.paypal = req.body.paypal;
+        user.percentage = req.body.percentage;
+
+        await user.save();
+
+        res.send('Booster Updated');
+    })
+)
+
+// DELETE Booster
+
+userRouter.delete('/:id', expressAsyncHandler(async (req, res) => {
+
+    await User.deleteOne({ _id: req.params.id }, 
+        function (err) {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.send('Booster Deleted');
+    });
+
+}));
 
 // Profile Edit
 

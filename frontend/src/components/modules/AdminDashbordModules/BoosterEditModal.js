@@ -1,33 +1,32 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import { TextField } from '@material-ui/core';
 import Select from '@material-ui/core/Select';
-import { AddBooster } from '../../../actions/userActions';
+import { EditBooster } from '../../../actions/userActions';
 import Button from '@material-ui/core/Button';
 import MessageBox from '../MessageBox.js';
 import SaveIcon from '@material-ui/icons/Save';
 
-export default function BoosterAddModal(props) {
-    const dispatch = useDispatch();
-    const boosterAdd = useSelector((state) => state.boosterAdd);
-    const { feedback, loading, error } = boosterAdd;
+export default function BoosterEditModal(props) {
+    const { booster } = props;
+    const boosterEdit = useSelector((state) => state.boosterEdit);
+    const { feedback, loading, error } = boosterEdit;
+    const dispatch = useDispatch()
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
-    const [rank, setRank] = useState('Challenger I');
+    const [rank, setRank] = useState('');
     const [paypal, setPaypal] = useState('');
-    const [percentage, setPercentage] = useState(0)
+    const [percentage, setPercentage] = useState('')
     const [myfeedback, setMyfeedback] = useState(null);
     const [errors, setErrors] = useState(null);
-
 
     const submitSave = (e) => {
         e.preventDefault();
 
-        if (!password || password === '' || password.length < 8 ) {
+        if (password !== '' && password.length < 8 ) {
             setErrors('Password lenght less than 8 !');
             return;
         }
@@ -37,25 +36,28 @@ export default function BoosterAddModal(props) {
             return;
         }
 
-        dispatch(AddBooster(name, email, password, rank, paypal, percentage)).then(() => {
-            setMyfeedback('New Booster added');
-            setName('');
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-            setRank('');
-            setPaypal('');
-            setPercentage('');
+        dispatch(EditBooster(booster._id, name, password, rank, paypal, percentage)).then(() => {
+            setMyfeedback('Booster Updated');
         });
     }
 
-    if (props.showAddBooster) {
+    useEffect(() => {
+        if (props.showEditBooster) {
+            setName(booster.name);
+            setRank(booster.rank);
+            setPaypal(booster.paypal);
+            setPercentage(booster.percentage);
+        }
+    }, [props.showEditBooster, booster]);
+
+    if (props.showEditBooster) {
+        
         return (
             <div className="modal-container show">
                 <div className="modal-box">
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h2>Add Booster</h2>
+                            <h2>Edit Booster</h2>
                             <button id="close-modal" onClick={props.onClose} >
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -66,11 +68,11 @@ export default function BoosterAddModal(props) {
                             <form  className="booster-add-form" noValidate autoComplete="off">
                                 <div className="booster-group">
                                     <TextField onChange={e => setName(e.target.value)} value={name} className="booster-input middle" type="text" label="Name" variant="outlined"  />
-                                    <TextField onChange={e => setPassword(e.target.value)} value={password} className="booster-input middle" type="password" label="Password" variant="outlined" />
+                                    <TextField onChange={e => setPassword(e.target.value)} value={password} className="booster-input middle" type="password" label="New Password" variant="outlined" />
                                 </div>
                                 <div className="booster-group">
-                                    <TextField onChange={e => setEmail(e.target.value)} value={email} className="booster-input middle" type="email" label="Email" variant="outlined"   />
-                                    <TextField onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} className="booster-input middle" type="password" label="Confirm Password" variant="outlined" />
+                                    <TextField value={booster?.email} className="booster-input middle" type="email" label="Email" variant="outlined"   />
+                                    <TextField onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} className="booster-input middle" type="password" label="Confirm New Password" variant="outlined" />
                                 </div>
                                 <FormControl className="booster-form-controle">
                                     <InputLabel htmlFor="rank-select">Rank</InputLabel>
@@ -104,7 +106,7 @@ export default function BoosterAddModal(props) {
                                                 Save&nbsp;&nbsp;
                                                 {
                                                 loading ? (
-                                                        <img src="/images/loading-buffering.gif" width='20' alt="Loading" />
+                                                    <img src="/images/loading-buffering.gif" width='20px' alt="Loading" />
                                                 ) : ( '' )
                                                 }
                                         </Button>

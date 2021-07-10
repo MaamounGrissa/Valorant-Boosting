@@ -812,15 +812,20 @@ footer > p {
 
 .admin-actions svg {
   transition: all 0.5s;
+  margin-right: 5px;
+  cursor: pointer;
+}
+
+.admin-actions svg:first-of-type {
+  color: #20a020;
+}
+
+.admin-actions svg:last-of-type {
+  color: #a02020;
 }
 
 .admin-actions svg:hover {
   transform: scale(1.2);
-  color: #20a020;
-}
-
-.delete-btn svg:hover {
-  color: #a02020;
 }
 
 .admin-icon-container {
@@ -1103,6 +1108,37 @@ footer > p {
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 5px 30px rgb(0 0 0 / 20%);
+  padding: 20px;
+}
+
+.modal-box.confirmation-box {
+  width: 35%;
+}
+
+.confirmation-content {
+  padding: 10px;
+}
+
+.confirmation-content h3 {
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 15px;
+}
+
+.confirmation-content p {
+  padding-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  margin-bottom: 20px;
+}
+
+.confirmation-actions {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.confirmation-actions button {
+  margin-left: 15px;
 }
 
 #close-modal {

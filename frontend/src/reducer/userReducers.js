@@ -1,4 +1,4 @@
-import { USER_ADD_FAIL, USER_ADD_REQUEST, USER_ADD_SUCCESS, USER_EDIT_FAIL, USER_EDIT_REQUEST, USER_EDIT_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants";
+import { BOOSTER_ADD_FAIL, BOOSTER_ADD_REQUEST, BOOSTER_ADD_SUCCESS, BOOSTER_DELETE_FAIL, BOOSTER_DELETE_REQUEST, BOOSTER_DELETE_SUCCESS, BOOSTER_EDIT_FAIL, BOOSTER_EDIT_REQUEST, BOOSTER_EDIT_SUCCESS, USER_EDIT_FAIL, USER_EDIT_REQUEST, USER_EDIT_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants";
 
 export const userSigninReducer = (state = {}, action) => {
     switch (action.type) {
@@ -28,14 +28,40 @@ export const userRegisterReducer = (state = {}, action) => {
     }
 }
 
-export const userAddReducer = (state = { loading: true, users: [] }, action) => {
+export const boosterAddReducer = (state = { feedback: '' }, action) => {
     switch(action.type){
-        case USER_ADD_REQUEST:
+        case BOOSTER_ADD_REQUEST:
             return {loading: true};
-        case USER_ADD_SUCCESS:
-            return {loading: false, users: action.payload};
-        case USER_ADD_FAIL:
+        case BOOSTER_ADD_SUCCESS:
+            return {loading: false, feedback: action.payload};
+        case BOOSTER_ADD_FAIL:
             return {loading: false, error: action.payload};
+        default:
+            return state;
+    }
+}
+
+export const boosterEditReducer = (state = { feedback: '' }, action) => {
+    switch(action.type){
+        case BOOSTER_EDIT_REQUEST:
+            return {loading: true};
+        case BOOSTER_EDIT_SUCCESS:
+            return {loading: false, feedback: action.payload};
+        case BOOSTER_EDIT_FAIL:
+            return {loading: false, error: action.payload};
+        default:
+            return state;
+    }
+}
+
+export const boosterDeleteReducer = (state = { feedback: '' }, action) => {
+    switch(action.type){
+        case BOOSTER_DELETE_REQUEST:
+            return {loadingRemove: true};
+        case BOOSTER_DELETE_SUCCESS:
+            return {loadingRemove: false, feedback: action.payload};
+        case BOOSTER_DELETE_FAIL:
+            return {loadingRemove: false, error: action.payload};
         default:
             return state;
     }
