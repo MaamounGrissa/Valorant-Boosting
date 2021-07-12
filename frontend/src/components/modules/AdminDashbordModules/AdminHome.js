@@ -5,6 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import BoosterTab from './BoostersTab.js'
 import WaitingOrders from './WaitingOrders.js'
+import FinishedOrders from './FinishedOrders.js'
 import BoosterAddModal from './BoosterAddModal.js';
 import OrderAddModal from './OrderAddModal.js';
 import BoosterEditModal from './BoosterEditModal.js';
@@ -14,9 +15,9 @@ import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
 
 export default function AdminHome(props) {
-    let boosters, clients, waitingOrders;
+    let boosters, clients, waitingOrders, finishedOrders;
     const dispatch = useDispatch();
-    const { fixedHeightPaper, classes } = props;
+    const { classes } = props;
     const userList = useSelector( state => state.userList);
     const {loading, error, users} = userList;
     const orderList = useSelector( state => state.orderList);
@@ -81,29 +82,35 @@ export default function AdminHome(props) {
         boosters = users?.filter(user => user.rule === 'booster');
         clients = users?.filter(user => user.rule === 'client');
         waitingOrders = orders?.filter(order => order.status === 'Looking for a booster');
+        finishedOrders = orders?.filter(order => order.status === 'Finished');
         return (
             <Grid container spacing={3}>
                 {/* Chart */}
                 <Grid item xs={12}>
-                    <Paper className={fixedHeightPaper}>
-                        Empty
+                    <Paper className={classes.paper}>
+                        <div className="paper-header">
+                            <div className="paper-title">Finished orders</div>
+                        </div>
+                        <div className="paper-content">
+                            <FinishedOrders onEdit={boosterId => handleOpenEditBooster(boosterId)} orders={finishedOrders} reloadData={() => LoadData()} />
+                        </div>
                     </Paper>
                 </Grid>
                 {/* Waiting Orders */}
                 <Grid item xs={12} md={5}>
-                <Paper className={classes.paper}>
-                <div className="paper-header">
-                        <div className="paper-title">Waiting orders</div>
-                            <div className="button-container">
-                                <button onClick={() => setShowAddOrder(true)}><AddCircleIcon /></button>
+                    <Paper className={classes.paper}>
+                        <div className="paper-header">
+                            <div className="paper-title">Waiting orders</div>
+                                <div className="button-container">
+                                    <button onClick={() => setShowAddOrder(true)}><AddCircleIcon /></button>
                             </div>
                         </div>
-                        <div className="paper-content">
-                            <WaitingOrders onEdit={boosterId => handleOpenEditBooster(boosterId)} orders={waitingOrders} reloadData={() => LoadData()} />
-                        </div>
-                        <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients}/>
-                        <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
-                </Paper>
+                            <div className="paper-content">
+                                <WaitingOrders onEdit={boosterId => handleOpenEditBooster(boosterId)} orders={waitingOrders} reloadData={() => LoadData()} />
+                            </div>
+                            <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients}/>
+                            <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
+                    </Paper>
                 </Grid>
                 {/* Booster */}
                 <Grid item xs={12} md={7}>

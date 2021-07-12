@@ -72,8 +72,8 @@ export default function PlacementTab() {
     const [showOrderModal, setShowOrderModal] = useState(false);
 
     const [selectedImage, setSelectedImage] = useState('');
-    const [rank, setRank] = useState(null);
-    const [division, setDivision] = useState(null);
+    const [rank, setRank] = useState(0);
+    const [division, setDivision] = useState(0);
     
     const [games, setGames] = useState(5);
     const [server, setServer] = useState('');
@@ -145,14 +145,22 @@ export default function PlacementTab() {
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
-        setOrder({
-            boostType : 'Placement Boosting',
-            startRank : rank,
-            startDivision: division,
-            server: server,
-            games: games,
-        })
-        setShowOrderModal(true);
+        if (rank === 0) {
+            setFeedback('Select your start rank !');
+        } else if (division === 0) {
+            setFeedback('Select your start division !');
+        } else if (server === '') {
+                setFeedback('Select your server !')
+        } else {
+            setOrder({
+                boostType : 'Placement Boosting',
+                startRank : rank,
+                startDivision: division,
+                games: games,
+                server: server,
+            })
+            setShowOrderModal(true);
+        }
     }
 
     const ranks = [

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import InfoIcon from '@material-ui/icons/Info';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -6,6 +6,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 export default function OrderModal(props) {
 
+    const { order } = props;
 
     const [fullName, setFullName] = useState('');
     const [country, setCountry] = useState('');
@@ -13,7 +14,10 @@ export default function OrderModal(props) {
     const [city, setCity] = useState('');
     const [zipCode, setZipCode] = useState('');
     const [adress, setAdress] = useState('')
-    const [checkTerms, setCheckTerms] = useState(false);
+    const [checkTerms, setCheckTerms] = useState(true);
+    const [account, setAccount] = useState('');
+    const [password, setPassword] = useState('');
+    const [summoner, setSummoner] = useState('');
 
     const ranks = [
         "Iron",
@@ -24,6 +28,20 @@ export default function OrderModal(props) {
         "Diamond",
         "Immortal"
     ];
+
+    const divisions = [
+        "I",
+        "II",
+        'III',
+    ]
+
+    useEffect(() => {
+        if (props.showOrderModal) {
+            document.getElementById('header').classList.add('under-element');
+        } else {
+            document.getElementById('header').classList.remove('under-element');
+        }
+    }, [props.showOrderModal])
 
     if (props.showOrderModal) {
         return (
@@ -42,24 +60,32 @@ export default function OrderModal(props) {
                             <div className="order-block order-details">
                                 <div className="order-block-title">Your order</div>
                                 <div className="order-block-content">
-                                    <img src="/images/vlrnt.png" alt="Vlrnt" />
-                                    <div>
-                                        <h3>
-                                            {ranks[props.order.startRank - 1]}
-                                            &nbsp;
-                                            to
-                                            &nbsp;
-                                            {ranks[props.order.desiredRank - 1]}
-                                        </h3>
-                                        <p>Valorant rank boosting</p>
+                                    <div className="flex start">
+                                        <img src="/images/vlrnt.png" alt="Vlrnt" width="90" />
+                                        <div>
+                                            <h3>
+                                                {ranks[order.startRank - 1]} {divisions[order.startDivision - 1]}
+                                                &nbsp;
+                                                {order.desiredRank ? 'to' : ''}
+                                                &nbsp;
+                                                {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
+                                            </h3>
+                                            <p>Valorant&nbsp;{ order.boostType }</p>
+                                        </div>    
+                                    </div>
+                                    <div className="user-infos">
+                                        <input onChange={e => setAccount(e.target.value)} value={account} placeholder="Valorant account" type="text" name="accountname" />
+                                        <input onChange={e => setPassword(e.target.value)} value={password} placeholder="Account password" type="text" name="accountpassword" />
+                                        <input onChange={e => setSummoner(e.target.value)} value={summoner} placeholder="Summoner name" type="text" name="accountsummoner" />
                                     </div>
                                 </div>
-                                
                             </div>
                             <div className="order-block payement-methode">
                                 <div className="order-block-title">Payement gateway</div>
                                 <div className="order-block-content">
-                                        
+                                    <div className="flex center">
+                                        <img src="/images/paypal-logo.png" alt="Paypal" width="200" />
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -70,9 +96,8 @@ export default function OrderModal(props) {
                                     <div className="form-infos">
                                         <InfoIcon /> Further information will be requested after payment.
                                     </div>
-                                    <h5>Billing Details</h5>
                                     <input value={fullName} onChange={e => setFullName(e.target.value)} type="text" name="fullname" placeholder="Your full name" />
-                                    <select defaultValue={country} onCahnge={e => setCountry(e.target.value)}>
+                                    <select defaultValue={country} onChange={e => setCountry(e.target.value)}>
                                         <option value=''>Select Country</option>
                                         <option value="Afganistan">Afghanistan</option>
                                         <option value="Albania">Albania</option>
@@ -322,20 +347,20 @@ export default function OrderModal(props) {
                                         <option value="Zimbabwe">Zimbabwe</option>
                                     </select>
                                     <input value={billingAdress} onChange={e => setBillingAdress(e.target.value)} type="text" name="billingAdress" placeholder="Your billing adress" />
-                                    <div>
+                                    <div className="flex between">
                                         <input value={city} onChange={e => setCity(e.target.value)} type="text" name="city" placeholder="City" />
                                         <input value={zipCode} onChange={e => setZipCode(e.target.value)} type="text" name="zipcode" placeholder="Zip code" />
                                     </div>
                                     <input value={adress} onChange={e => setAdress(e.target.value)} type="text" name="adress" placeholder="Adress" />
                                     <FormGroup row>
-                                    <FormControlLabel
+                                    <FormControlLabel className="mycheckbox"
                                         control={<Checkbox checked={checkTerms} onChange={() => setCheckTerms(!checkTerms)} name="checkTerms" />}
                                         label="I confirm that all the entered information is accurate and I agree to your terms of use."
                                     />
                                     </FormGroup>
                                     <div className="order-submit">
                                         <div className="price">
-                                            0 $
+                                            { order.price } $
                                         </div>
                                         <button>Pay now</button>
                                     </div>

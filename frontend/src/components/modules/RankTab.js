@@ -109,7 +109,6 @@ export default function RankTab(props) {
         setSpecificAgents(false);
         setWithStreaming(false);
         setPlayWithBooster(!playWithBooster);
-        setFeedback('All Good !');
     }
 
     const handlePriorityOrder = (e) => {
@@ -126,16 +125,28 @@ export default function RankTab(props) {
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
-        setOrder({
-            boostType : 'Division Boost',
-            startRank : rank,
-            startDivision: division,
-            ratingAmount: ratingAmount,
-            desiredRank: desiredRank,
-            desiredRR: desiredDivision,
-            server: server
-        })
-        setShowOrderModal(true);
+        if (rank === 0) {
+            setFeedback('Select your start rank !');
+        } else if (division === 0) {
+            setFeedback('Select your start division !');
+        } else if (desiredRank === 0) {
+            setFeedback('Select your desired rank !');
+        } else if (desiredDivision === 0) {
+            setFeedback('Select your desired division !');
+        } else if (server === '') {
+                setFeedback('Select your server !')
+        } else {
+            setOrder({
+                boostType : 'Rank Boosting',
+                startRank : rank,
+                startDivision: division,
+                ratingAmount: ratingAmount,
+                desiredRank: desiredRank,
+                desiredDivision: desiredDivision,
+                server: server
+            })
+            setShowOrderModal(true);
+        }
     }
 
     const ranks = [
