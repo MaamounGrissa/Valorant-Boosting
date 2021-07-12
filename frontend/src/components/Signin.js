@@ -12,7 +12,7 @@ export default function Signin(props) {
 
     const redirect = props.location.search 
     ? props.location.search.split('=')[1] 
-    : '/dashbord';
+    : '/';
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;

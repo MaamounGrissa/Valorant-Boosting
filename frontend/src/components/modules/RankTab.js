@@ -8,6 +8,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
 import VideocamIcon from '@material-ui/icons/Videocam';
+import OrderModal from './OrderModal.js'
 
 const OrangeSwitch = withStyles({
     switchBase: {
@@ -23,16 +24,20 @@ const OrangeSwitch = withStyles({
     track: {},
   })(Switch);
 
-export default function RankTab() {
+export default function RankTab(props) {
+
+    const [order, setOrder] = useState({});
+    const [showOrderModal, setShowOrderModal] = useState(false);
+
     const [selectedImage, setSelectedImage] = useState('');
-    const [rank, setRank] = useState(null);
-    const [division, setDivision] = useState(null);
-    const [rankDetails, setRankDetails] = useState(20);
+    const [rank, setRank] = useState(0);
+    const [division, setDivision] = useState(0);
+    const [ratingAmount, setRatingAmount] = useState(0);
     
     const [selectedDesiredImage, setSelectedDesiredImage] = useState('');
-    const [desiredRank, setDesiredRank] = useState(null);
-    const [desiredRR, setDesiredRR] = useState(1);
-    const [server, setServer] = useState(20);
+    const [desiredRank, setDesiredRank] = useState(0);
+    const [desiredDivision, setDesiredDivision] = useState(0);
+    const [server, setServer] = useState('');
 
     const [chatOffline, setChatOffline] = useState(false);
     const [specificAgents, setSpecificAgents] = useState(false);
@@ -46,8 +51,15 @@ export default function RankTab() {
 
     const handleRank = (e, selected, imageLink) => {
         e.preventDefault();
-        setRank(selected);
-        setSelectedImage(imageLink);
+        if (desiredRank === 0) {
+            setRank(selected);
+            setSelectedImage(imageLink);
+        } else {
+            if (selected < desiredRank) {
+                setRank(selected);
+                setSelectedImage(imageLink);
+            }
+        }
     }
 
     const handleDivision = (e, selected) => {
@@ -55,20 +67,22 @@ export default function RankTab() {
         setDivision(selected)
     }
 
-    const handleChangeRankDetails = (e) => {
+    const handleChangeRatingAmount = (e) => {
         e.preventDefault();
-        setRankDetails(e.target.value);
+        setRatingAmount(e.target.value);
     }
 
     const handleDesiredRank = (e, selected, imageLink) => {
         e.preventDefault();
-        setDesiredRank(selected)
-        setSelectedDesiredImage(imageLink)
+        if (selected > rank) {
+            setDesiredRank(selected)
+            setSelectedDesiredImage(imageLink)
+        }
     }
 
-    const handleRR = (e, selected) => {
+    const handleDesiredDivision = (e, selected) => {
         e.preventDefault();
-        setDesiredRR(selected)
+        setDesiredDivision(selected)
     }
 
     const handleServer = (e, details) => {
@@ -83,6 +97,7 @@ export default function RankTab() {
 
     const handleSpecificAgents = (e) => {
         e.preventDefault();
+        setPlayWithBooster(false);
         setSpecificAgents(!specificAgents);
         setPrice(20);
 
@@ -90,6 +105,9 @@ export default function RankTab() {
 
     const handlePlayWithBooster = (e) => {
         e.preventDefault();
+        setChatOffline(false);
+        setSpecificAgents(false);
+        setWithStreaming(false);
         setPlayWithBooster(!playWithBooster);
         setFeedback('All Good !');
     }
@@ -101,9 +119,34 @@ export default function RankTab() {
 
     const handleWithStreaming = (e) => {
         e.preventDefault();
+        setPlayWithBooster(false);
         setWithStreaming(!withStreaming);
         setTime('2-3');
+    } 
+
+    const handleShowOrderModal = (e) => {
+        e.preventDefault();
+        setOrder({
+            boostType : 'Division Boost',
+            startRank : rank,
+            startDivision: division,
+            ratingAmount: ratingAmount,
+            desiredRank: desiredRank,
+            desiredRR: desiredDivision,
+            server: server
+        })
+        setShowOrderModal(true);
     }
+
+    const ranks = [
+        "Iron",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "Diamond",
+        "Immortal"
+    ];
 
     return (
         <Grid container spacing={5}>
@@ -118,7 +161,9 @@ export default function RankTab() {
                             {
                                 rank ? (
                                     <div className="selected-rank-container">
-                                        <span className="selected-rank">{rank}</span>
+                                        <span className="selected-rank">
+                                        {ranks[rank - 1]}
+                                        </span>
                                         <img src={selectedImage} alt="Selected" />
                                     </div>
                                 ) : ('')
@@ -126,25 +171,25 @@ export default function RankTab() {
                             
                         </div>
                         <div className="ranks">
-                            <div className={rank === 'Iron' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Iron', '/images/ranks/iron.png')}>
+                            <div className={rank === 1 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 1, '/images/ranks/iron.png')}>
                                 <img title="Iron" src="/images/ranks/iron.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Bronze' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Bronze', '/images/ranks/bronze.png')}>
+                            <div className={rank === 2 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 2, '/images/ranks/bronze.png')}>
                                 <img title="Bronze" src="/images/ranks/bronze.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Silver' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Silver', '/images/ranks/silver.png')}>
+                            <div className={rank === 3 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 3, '/images/ranks/silver.png')}>
                                 <img title="Silver" src="/images/ranks/silver.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Gold' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Gold', '/images/ranks/gold.png')}>
+                            <div className={rank === 4 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 4, '/images/ranks/gold.png')}>
                                 <img title="Gold" src="/images/ranks/gold.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Platinum' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Platinum', '/images/ranks/platinum.png')}>
+                            <div className={rank === 5 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 5, '/images/ranks/platinum.png')}>
                                 <img title="Platinum" src="/images/ranks/platinum.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Diamond' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Diamond', '/images/ranks/diamond.png')}>
+                            <div className={rank === 6 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 6, '/images/ranks/diamond.png')}>
                                 <img title="Diamond" src="/images/ranks/diamond.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Immortal' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Immortal', '/images/ranks/immortal.png')}>
+                            <div className={rank === 7 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 7, '/images/ranks/immortal.png')}>
                                 <img title="Immortal" src="/images/ranks/immortal.png" alt="Rank" />
                             </div>
                         </div>
@@ -160,13 +205,13 @@ export default function RankTab() {
                                     <strong>III</strong>
                                 </div>
                             </div>
-                            <select className="myselect" value={rankDetails} onChange={e => handleChangeRankDetails(e)}>
-                                <option value={null}>Current rating amount</option>
-                                <option value={20}>00 - 20</option>
-                                <option value={40}>21 - 40</option>
-                                <option value={60}>41 - 60</option>
-                                <option value={80}>61 - 80</option>
-                                <option value={100}>81 - 100</option>
+                            <select className="myselect" value={ratingAmount} onChange={e => handleChangeRatingAmount(e)}>
+                                <option value={0}>Current rating amount</option>
+                                <option value={10}>00 - 20</option>
+                                <option value={30}>21 - 40</option>
+                                <option value={50}>41 - 60</option>
+                                <option value={60}>61 - 80</option>
+                                <option value={90}>81 - 100</option>
                             </select>
                         </div>
                     </div>
@@ -181,7 +226,9 @@ export default function RankTab() {
                             {
                                 desiredRank ? (
                                     <div className="selected-rank-container">
-                                        <span className="selected-rank">{desiredRank}</span>
+                                        <span className="selected-rank">
+                                            {ranks[desiredRank - 1]}
+                                        </span>
                                         <img src={selectedDesiredImage} alt="Selected" />
                                     </div>
                                 ) : ('')
@@ -189,48 +236,55 @@ export default function RankTab() {
                             
                         </div>
                         <div className="ranks">
-                            <div className={desiredRank === 'Iron' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Iron', '/images/ranks/iron.png')}>
+                            <div className={desiredRank === 1 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 1, '/images/ranks/iron.png')}>
                                 <img title="Iron" src="/images/ranks/iron.png" alt="Rank" />
                             </div>
-                            <div className={desiredRank === 'Bronze' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Bronze', '/images/ranks/bronze.png')}>
+                            <div className={desiredRank === 2 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 2, '/images/ranks/bronze.png')}>
                                 <img title="Bronze" src="/images/ranks/bronze.png" alt="Rank" />
                             </div>
-                            <div className={desiredRank === 'Silver' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Silver', '/images/ranks/silver.png')}>
+                            <div className={desiredRank === 3 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 3, '/images/ranks/silver.png')}>
                                 <img title="Silver" src="/images/ranks/silver.png" alt="Rank" />
                             </div>
-                            <div className={desiredRank === 'Gold' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Gold', '/images/ranks/gold.png')}>
+                            <div className={desiredRank === 4 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 4, '/images/ranks/gold.png')}>
                                 <img title="Gold" src="/images/ranks/gold.png" alt="Rank" />
                             </div>
-                            <div className={desiredRank === 'Platinum' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Platinum', '/images/ranks/platinum.png')}>
+                            <div className={desiredRank === 5 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 5, '/images/ranks/platinum.png')}>
                                 <img title="Platinum" src="/images/ranks/platinum.png" alt="Rank" />
                             </div>
-                            <div className={desiredRank === 'Diamond' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Diamond', '/images/ranks/diamond.png')}>
+                            <div className={desiredRank === 6 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 6, '/images/ranks/diamond.png')}>
                                 <img title="Diamond" src="/images/ranks/diamond.png" alt="Rank" />
                             </div>
-                            <div className={desiredRank === 'Immortal' ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 'Immortal', '/images/ranks/immortal.png')}>
+                            <div className={desiredRank === 7 ? 'rank active' : 'rank'} onClick={e => handleDesiredRank(e, 7, '/images/ranks/immortal.png')}>
                                 <img title="Immortal" src="/images/ranks/immortal.png" alt="Rank" />
                             </div>
                         </div>
                         <div className="divisions-container">
                             <div className="divisions">
-                                <span className="attached-label">Desired RR</span>
-                                <input type="number" value={desiredRR} min="1" max="100" onChange={e => handleRR(e)} />
+                                <div className={desiredDivision === 1 ? 'division active' : 'division'} onClick={e => handleDesiredDivision(e, 1)}>
+                                    <strong>I</strong>
+                                </div>
+                                <div className={desiredDivision === 2 ? 'division active' : 'division'} onClick={e => handleDesiredDivision(e, 2)}>
+                                    <strong>II</strong>
+                                </div>
+                                <div className={desiredDivision === 3 ? 'division active' : 'division'} onClick={e => handleDesiredDivision(e, 3)}>
+                                    <strong>III</strong>
+                                </div>
                             </div>
                             <select className="myselect" value={server} onChange={e => handleServer(e)}>
-                                <option value={null}>Select Server</option>
-                                <option value={'North America'}>North America</option>
-                                <option value={'EU-West'}>EU-West</option>
-                                <option value={'Turkey'}>Turkey</option>
-                                <option value={'Brazil'}>Brazil</option>
-                                <option value={'Korea'}>Korea</option>
+                                <option value={''}>Select Server</option>
+                                <option value={'EUW'}>EUW</option>
+                                <option value={'EUNE'}>EUNE</option>
+                                <option value={'NA'}>NA</option>
+                                <option value={'OCE'}>OCE</option>
+                                <option value={'TR'}>TR</option>
                             </select>
                         </div>
                     </div>
                 </Paper>
             </Grid>
             <Grid item xs={12} md={6} >
-            <Paper className="grid-paper">
-            <div className="ranks-container">
+                <Paper className="grid-paper">
+                    <div className="ranks-container">
                         <div className="ranks-header">
                             <div>
                                 <h3>Checkout</h3>
@@ -242,6 +296,7 @@ export default function RankTab() {
                                     checked={chatOffline}
                                     onChange={e => handleChatOffline(e)}
                                     name="chat-offline"
+                                    disabled={playWithBooster ? true : false}
                                 />
                                 <label className="switch-label"><SpeakerNotesOffIcon /> APPEAR OFFLINE ON CHAT <span>FREE</span></label>
                             </div>
@@ -251,6 +306,7 @@ export default function RankTab() {
                                     checked={specificAgents}
                                     onChange={e => handleSpecificAgents(e)}
                                     name="specific-agents"
+                                    disabled={playWithBooster ? true : false}
                                 />
                                 <label className="switch-label"><PeopleIcon /> SPECIFIC AGENTS <span>FREE</span></label>
                             </div>
@@ -260,6 +316,7 @@ export default function RankTab() {
                                     checked={playWithBooster}
                                     onChange={e => handlePlayWithBooster(e)}
                                     name="play-with-booster"
+                                    disabled={withStreaming || specificAgents ? true : false}
                                 />
                                 <label className="switch-label"><PersonAddIcon /> PLAY WITH BOOSTER AT <span>+40%</span></label>
                             </div>
@@ -278,6 +335,7 @@ export default function RankTab() {
                                     checked={withStreaming}
                                     onChange={e => handleWithStreaming(e)}
                                     name="with-streaming"
+                                    disabled={playWithBooster ? true : false}
                                 />
                                 <label className="switch-label"><VideocamIcon /> WITH STREAMING AT <span>+20%</span></label>
                             </div>
@@ -287,7 +345,7 @@ export default function RankTab() {
                             {price}&nbsp;$
                         </div>
                         <div className="options-submit">
-                            <button>Boost Now</button>
+                            <button onClick={e => handleShowOrderModal(e)} >Boost Now</button>
                             <p>Approximate completion time: {time} days</p>
                             {
                                 feedback ? (
@@ -296,8 +354,10 @@ export default function RankTab() {
                             }
                         </div>
                     </div>
+                    <OrderModal showOrderModal={showOrderModal} onClose={e => setShowOrderModal(false)} order={order} />
                 </Paper>
             </Grid>
+            
         </Grid>
     )
 }

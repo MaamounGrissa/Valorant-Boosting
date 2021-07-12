@@ -4,32 +4,45 @@ import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import BoosterTab from './BoostersTab.js'
+import WaitingOrders from './WaitingOrders.js'
 import BoosterAddModal from './BoosterAddModal.js';
+import OrderAddModal from './OrderAddModal.js';
 import BoosterEditModal from './BoosterEditModal.js';
 import { ListUsers } from '../../../actions/userActions';
+import { ListOrders } from '../../../actions/orderActions';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
 
 export default function AdminHome(props) {
-    let boosters;
+    let boosters, clients, waitingOrders;
     const dispatch = useDispatch();
     const { fixedHeightPaper, classes } = props;
     const userList = useSelector( state => state.userList);
     const {loading, error, users} = userList;
+    const orderList = useSelector( state => state.orderList);
+    const {loadingOrders, errorOrders, orders} = orderList;
     const [selectedBooster, setSelectedBooster] = useState({})
     const [showAddBooster, setShowAddBooster] = useState(false);
     const [showEditBooster, setShowEditBooster] = useState(false);
+    const [showAddOrder, setShowAddOrder] = useState(false);
 
 
     useEffect(() => {
         dispatch(ListUsers());
+        dispatch(ListOrders());
     }, [dispatch]);
+
+    // BOOSTERS MODALS
+
+    // Add Booster Modal -/Close
 
     const handleCloseAddBooster = (e) => {
         e.preventDefault();
         dispatch(ListUsers());
         setShowAddBooster(false);
     }
+
+    // Edit Booster Modal Open/Close
 
     const handleOpenEditBooster = (boosterId) => {
         const booster = boosters?.find(b => b._id === boosterId);
@@ -43,16 +56,31 @@ export default function AdminHome(props) {
         setShowEditBooster(false);
     }
 
-    const LoadData = () => {
-        dispatch(ListUsers());
+    // ORDERS MODALS
+
+    // Add Booster Modal -/Close
+
+    const handleCloseAddOrder = (e) => {
+        e.preventDefault();
+        dispatch(ListOrders());
+        setShowAddOrder(false);
     }
 
-    if (loading) {
+    // Reload Data
+
+    const LoadData = () => {
+        dispatch(ListUsers());
+        dispatch(ListOrders());
+    }
+
+    if (loading || loadingOrders) {
         return ( <LoadingModule></LoadingModule> );
-    } else if (error) {
+    } else if (error ||errorOrders) {
         return ( <MessageBox variant="danger">{error}</MessageBox> );
     } else {
         boosters = users?.filter(user => user.rule === 'booster');
+        clients = users?.filter(user => user.rule === 'client');
+        waitingOrders = orders?.filter(order => order.status === 'Looking for a booster');
         return (
             <Grid container spacing={3}>
                 {/* Chart */}
@@ -61,10 +89,20 @@ export default function AdminHome(props) {
                         Empty
                     </Paper>
                 </Grid>
-                {/* Recent Deposits */}
+                {/* Waiting Orders */}
                 <Grid item xs={12} md={5}>
-                <Paper className={fixedHeightPaper}>
-                        Empty
+                <Paper className={classes.paper}>
+                <div className="paper-header">
+                        <div className="paper-title">Waiting orders</div>
+                            <div className="button-container">
+                                <button onClick={() => setShowAddOrder(true)}><AddCircleIcon /></button>
+                            </div>
+                        </div>
+                        <div className="paper-content">
+                            <WaitingOrders onEdit={boosterId => handleOpenEditBooster(boosterId)} orders={waitingOrders} reloadData={() => LoadData()} />
+                        </div>
+                        <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients}/>
+                        <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
                 </Paper>
                 </Grid>
                 {/* Booster */}

@@ -12,7 +12,7 @@ import SaveIcon from '@material-ui/icons/Save';
 export default function BoosterEditModal(props) {
     const { booster } = props;
     const boosterEdit = useSelector((state) => state.boosterEdit);
-    const { feedback, loading, error } = boosterEdit;
+    const { loading } = boosterEdit;
     const dispatch = useDispatch()
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
@@ -67,8 +67,8 @@ export default function BoosterEditModal(props) {
                         <div className="modal-form">
                             <form  className="booster-add-form" noValidate autoComplete="off">
                                 <div className="booster-group">
-                                    <TextField onChange={e => setName(e.target.value)} value={name} className="booster-input middle" type="text" label="Name" variant="outlined"  />
-                                    <TextField onChange={e => setPassword(e.target.value)} value={password} className="booster-input middle" type="password" label="New Password" variant="outlined" />
+                                    <TextField onChange={e => setName(e.target.value)} value={name} className="booster-input middle" type="text" label="Name" variant="outlined" autoComplete="off" />
+                                    <TextField onChange={e => setPassword(e.target.value)} value={password} className="booster-input middle" type="password" label="New Password" variant="outlined" autoComplete="off" />
                                 </div>
                                 <div className="booster-group">
                                     <TextField value={booster?.email} className="booster-input middle" type="email" label="Email" variant="outlined"   />
@@ -111,11 +111,7 @@ export default function BoosterEditModal(props) {
                                                 }
                                         </Button>
                                         {
-                                            feedback ? (
-                                                <MessageBox>{feedback}</MessageBox>
-                                            ) : error ? (
-                                                <MessageBox variant='danger'>{error}</MessageBox>
-                                            ) : myfeedback ? (
+                                            myfeedback ? (
                                                 <MessageBox>{myfeedback}</MessageBox>
                                             ) : errors ? (
                                                 <MessageBox variant='danger'>{errors}</MessageBox>

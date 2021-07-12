@@ -53,9 +53,10 @@ header {
 
 header.dark {
   background-color: #232529;
-  padding-top: 10px;
-  padding-bottom: 15px;
+  padding-top: 6px;
+   padding-bottom: 10px;
 }
+
 
 .topbar {
   display: flex;
@@ -69,7 +70,7 @@ header.dark {
 
 .topnav {
   width: 100%;
-  padding-top: 5px;
+  padding-top: 0;
 }
 
 .topnav .social-media-container .social-icon {
@@ -198,7 +199,7 @@ header.dark {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 10px;
+  padding-top: 8px;
   transition: all 0.3s;
 }
 
@@ -471,6 +472,13 @@ main > .overlay {
   color: #fff;
   transition: all 0.5s;
   cursor: pointer;
+  line-height: 20px;
+}
+
+.myselect option {
+  padding: 5px 15px;
+  font-size: 15px;
+  line-height: 20px;
 }
 
 .divisions>input[type=number] {
@@ -497,7 +505,8 @@ main > .overlay {
 .myselect:focus {
   outline: none;
   border: 1px solid #ff9155;
-  color: #000;
+  background: #281b2b;
+  color: #fff;
 }
 
 .ranks-container .options {
@@ -630,6 +639,24 @@ main > .overlay {
 
 .register-content button:hover {
   background-color: #ff9155;
+}
+
+/******************************************************************/
+/************************** checkout modal ************************/
+/******************************************************************/
+
+.order-modal-content {
+  padding: 20px;
+  display: flex;
+  justify-content: space-between
+}
+
+.order-modal-content .modal-col {
+  width: 45%;
+}
+
+.order-details {
+
 }
 
 /******************************************************************/
@@ -942,6 +969,90 @@ footer > p {
   margin-bottom: 20px !important;
 }
 
+.modal-form-single {
+  margin: 0 20px;
+  padding: 20px;
+  border: 1px dashed #999;
+  position: relative;
+}
+
+.modal-form-group {
+  position: relative;
+  margin: 30px 20px;
+  padding: 20px;
+  border: 1px dashed #999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.modal-form-group:after, .modal-form-single:after {
+  content: attr(title-data);
+  position: absolute;
+  top: -12px;
+  left: 10px;
+  z-index: 2;
+  padding: 0 5px;
+  color: #999;
+  background-color: #DDD;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.group3-input {
+  width: 30%;
+}
+
+.group4-input {
+  width: 24%;
+}
+
+.order-type {
+  position: absolute;
+  right: 10px;
+  top: -17px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 3px;
+  background-color: #DDD;
+}
+
+.order-type button {
+  width: 150px;
+  font-size: 14px;
+  color: #fff;
+  background-color: #8a8a8a;
+  border: 1px solid #ff9155;
+  padding: 3px 5px;
+  border-radius: 20px;
+  margin: 0 3px;
+  transition: all 0.5s;
+  cursor: pointer;
+}
+
+.order-type button:hover, .order-type button.active {
+  background-color: #ff9155;
+}
+
+.games-slider-input {
+  width: 22%;
+}
+
+.status-output {
+  padding: 4px 10px;
+  border-radius: 20px;
+  color: #fff;
+  font-size: 13px;
+  font-weight: bold;
+}
+
+.status-output.waiting {
+  background-color: #ff9155;
+}
+
 .MuiAppBar-colorPrimary {
   background-color: #f2ebf0 !important;
 }
@@ -1102,13 +1213,24 @@ footer > p {
 
 }
 
+.modal-container.order-modal {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0,0,0,0.9);
+}
+
 .modal-box {
-  width: 80%;
+  width: 90%;
   background-color: #DDD;
   border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 5px 30px rgb(0 0 0 / 20%);
   padding: 20px;
+}
+
+.modal-box.order-modal {
+  background-color: #16081a;
 }
 
 .modal-box.confirmation-box {
@@ -1175,6 +1297,18 @@ footer > p {
   font-weight: bold;
 }
 
+.modal-header.order-modal button svg {
+  color: #999 !important;
+}
+
+.modal-header.order-modal button:hover svg {
+  color: #fff !important;
+}
+
+.modal-header.order-modal h2 {
+  color: #fff;
+}
+
 .modal-form {
   padding: 20px 20px;
 }
@@ -1207,6 +1341,10 @@ footer > p {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.order-modal-content p {
+  color: #fff;
 }
 
 .confirm-command {
@@ -1307,6 +1445,7 @@ footer > p {
   background: #ffe0e0;
 }
 
+
 /******************************************************************/
 /************************** Mobile Style **************************/
 /******************************************************************/
@@ -1319,8 +1458,8 @@ footer > p {
     left: 0;
     width: 100vw;
     background-color: #000;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 6px;
+    padding-bottom: 6px;
   }
 
   .topbar {
@@ -1328,7 +1467,7 @@ footer > p {
   }
 
   .topbar ul li {
-    padding: 5px 18px;
+    padding: 3px 18px;
   }
 
   .menu-container {

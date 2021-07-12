@@ -10,6 +10,7 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
 import VideocamIcon from '@material-ui/icons/Videocam';
+import OrderModal from './OrderModal.js'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -67,12 +68,15 @@ const PrettoSlider = withStyles({
 export default function PlacementTab() {
     const classes = useStyles();
 
+    const [order, setOrder] = useState({});
+    const [showOrderModal, setShowOrderModal] = useState(false);
+
     const [selectedImage, setSelectedImage] = useState('');
     const [rank, setRank] = useState(null);
     const [division, setDivision] = useState(null);
     
     const [games, setGames] = useState(5);
-    const [server, setServer] = useState(20);
+    const [server, setServer] = useState('');
 
     const [chatOffline, setChatOffline] = useState(false);
     const [specificAgents, setSpecificAgents] = useState(false);
@@ -112,12 +116,17 @@ export default function PlacementTab() {
 
     const handleSpecificAgents = (e) => {
         e.preventDefault();
+        setPlayWithBooster(false);
         setSpecificAgents(!specificAgents);
         setPrice(20);
+
     }
 
     const handlePlayWithBooster = (e) => {
         e.preventDefault();
+        setChatOffline(false);
+        setSpecificAgents(false);
+        setWithStreaming(false);
         setPlayWithBooster(!playWithBooster);
         setFeedback('All Good !');
     }
@@ -129,9 +138,32 @@ export default function PlacementTab() {
 
     const handleWithStreaming = (e) => {
         e.preventDefault();
+        setPlayWithBooster(false);
         setWithStreaming(!withStreaming);
         setTime('2-3');
     }
+
+    const handleShowOrderModal = (e) => {
+        e.preventDefault();
+        setOrder({
+            boostType : 'Placement Boosting',
+            startRank : rank,
+            startDivision: division,
+            server: server,
+            games: games,
+        })
+        setShowOrderModal(true);
+    }
+
+    const ranks = [
+        "Iron",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "Diamond",
+        "Immortal"
+    ];
 
     return (
         <Grid container spacing={5}>
@@ -146,33 +178,34 @@ export default function PlacementTab() {
                             {
                                 rank ? (
                                     <div className="selected-rank-container">
-                                        <span className="selected-rank">{rank}</span>
+                                        <span className="selected-rank">
+                                        {ranks[rank - 1]}
+                                        </span>
                                         <img src={selectedImage} alt="Selected" />
                                     </div>
                                 ) : ('')
                             }
-                            
                         </div>
                         <div className="ranks">
-                            <div className={rank === 'Iron' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Iron', '/images/ranks/iron.png')}>
+                            <div className={rank === 1 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 1, '/images/ranks/iron.png')}>
                                 <img title="Iron" src="/images/ranks/iron.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Bronze' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Bronze', '/images/ranks/bronze.png')}>
+                            <div className={rank === 2 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 2, '/images/ranks/bronze.png')}>
                                 <img title="Bronze" src="/images/ranks/bronze.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Silver' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Silver', '/images/ranks/silver.png')}>
+                            <div className={rank === 3 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 3, '/images/ranks/silver.png')}>
                                 <img title="Silver" src="/images/ranks/silver.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Gold' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Gold', '/images/ranks/gold.png')}>
+                            <div className={rank === 4 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 4, '/images/ranks/gold.png')}>
                                 <img title="Gold" src="/images/ranks/gold.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Platinum' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Platinum', '/images/ranks/platinum.png')}>
+                            <div className={rank === 5 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 5, '/images/ranks/platinum.png')}>
                                 <img title="Platinum" src="/images/ranks/platinum.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Diamond' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Diamond', '/images/ranks/diamond.png')}>
+                            <div className={rank === 6 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 6, '/images/ranks/diamond.png')}>
                                 <img title="Diamond" src="/images/ranks/diamond.png" alt="Rank" />
                             </div>
-                            <div className={rank === 'Immortal' ? 'rank active' : 'rank'} onClick={e => handleRank(e, 'Immortal', '/images/ranks/immortal.png')}>
+                            <div className={rank === 7 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 7, '/images/ranks/immortal.png')}>
                                 <img title="Immortal" src="/images/ranks/immortal.png" alt="Rank" />
                             </div>
                         </div>
@@ -189,12 +222,12 @@ export default function PlacementTab() {
                                 </div>
                             </div>
                             <select className="myselect" value={server} onChange={e => handleServer(e)}>
-                                <option value={null}>Select Server</option>
-                                <option value={'North America'}>North America</option>
-                                <option value={'EU-West'}>EU-West</option>
-                                <option value={'Turkey'}>Turkey</option>
-                                <option value={'Brazil'}>Brazil</option>
-                                <option value={'Korea'}>Korea</option>
+                                <option value={''}>Select Server</option>
+                                <option value={'EUW'}>EUW</option>
+                                <option value={'EUNE'}>EUNE</option>
+                                <option value={'NA'}>NA</option>
+                                <option value={'OCE'}>OCE</option>
+                                <option value={'TR'}>TR</option>
                             </select>
                         </div>
                     </div>
@@ -217,7 +250,7 @@ export default function PlacementTab() {
             </Grid>
             <Grid item xs={6} >
             <Paper className="grid-paper">
-            <div className="ranks-container">
+                    <div className="ranks-container">
                         <div className="ranks-header">
                             <div>
                                 <h3>Checkout</h3>
@@ -229,6 +262,7 @@ export default function PlacementTab() {
                                     checked={chatOffline}
                                     onChange={e => handleChatOffline(e)}
                                     name="chat-offline"
+                                    disabled={playWithBooster ? true : false}
                                 />
                                 <label className="switch-label"><SpeakerNotesOffIcon /> APPEAR OFFLINE ON CHAT <span>FREE</span></label>
                             </div>
@@ -238,6 +272,7 @@ export default function PlacementTab() {
                                     checked={specificAgents}
                                     onChange={e => handleSpecificAgents(e)}
                                     name="specific-agents"
+                                    disabled={playWithBooster ? true : false}
                                 />
                                 <label className="switch-label"><PeopleIcon /> SPECIFIC AGENTS <span>FREE</span></label>
                             </div>
@@ -247,6 +282,7 @@ export default function PlacementTab() {
                                     checked={playWithBooster}
                                     onChange={e => handlePlayWithBooster(e)}
                                     name="play-with-booster"
+                                    disabled={withStreaming || specificAgents ? true : false}
                                 />
                                 <label className="switch-label"><PersonAddIcon /> PLAY WITH BOOSTER AT <span>+40%</span></label>
                             </div>
@@ -265,6 +301,7 @@ export default function PlacementTab() {
                                     checked={withStreaming}
                                     onChange={e => handleWithStreaming(e)}
                                     name="with-streaming"
+                                    disabled={playWithBooster ? true : false}
                                 />
                                 <label className="switch-label"><VideocamIcon /> WITH STREAMING AT <span>+20%</span></label>
                             </div>
@@ -274,7 +311,7 @@ export default function PlacementTab() {
                             {price}&nbsp;$
                         </div>
                         <div className="options-submit">
-                            <button>Boost Now</button>
+                            <button onClick={e => handleShowOrderModal(e)} >Boost Now</button>
                             <p>Approximate completion time: {time} days</p>
                             {
                                 feedback ? (
@@ -283,6 +320,7 @@ export default function PlacementTab() {
                             }
                         </div>
                     </div>
+                    <OrderModal showOrderModal={showOrderModal} onClose={e => setShowOrderModal(false)} order={order} />
                 </Paper>
             </Grid>
         </Grid>

@@ -5,7 +5,6 @@ import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Link } from 'react-router-dom';
 import PeopleIcon from '@material-ui/icons/People';
-import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 
 export default function AdminMenuListItems() {
@@ -17,15 +16,6 @@ export default function AdminMenuListItems() {
                     <DashboardIcon />
                 </ListItemIcon>
                 <ListItemText primary="Home" />
-            </ListItem>
-        </Link>
-
-        <Link to='/dashbord/adduser'>
-            <ListItem button>
-                <ListItemIcon>
-                    <PersonAddIcon />
-                </ListItemIcon>
-                <ListItemText primary="Add User" />
             </ListItem>
         </Link>
 

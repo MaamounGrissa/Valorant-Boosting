@@ -98,8 +98,6 @@ userRouter.post(
 
         await user.save();
 
-        const users = await User.find({});
-
         res.send('Booster Added');
     })
 )

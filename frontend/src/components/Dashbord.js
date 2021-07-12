@@ -114,7 +114,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
     position: 'relative',
-    minHeight: '100vh'
+    minHeight: '120vh'
   },
   paper: {
     padding: theme.spacing(2),
