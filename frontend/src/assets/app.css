@@ -923,6 +923,12 @@ footer > p {
   margin: 0 0 0 10px;
   background: none;
   cursor: pointer;
+  color: #a02020;
+  transition: all 0.5s !important;
+}
+
+.delete-btn:hover {
+  transform: scale(1.2);
 }
 
 .product-img-table {
@@ -1176,10 +1182,146 @@ footer > p {
   background-color: #ff9155;
 }
 
+.status-output.paied {
+  background-color: green;
+}
+
+.status-output.progress {
+  background-color: #02cbe1;
+}
+
 .MuiAppBar-colorPrimary {
   background-color: #f2ebf0 !important;
 }
 
+.paid-button {
+  padding: 6px 10px;
+  cursor: pointer;
+  background-color: rgb(55, 170, 55);
+  border: none;
+  color: #fff;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 20px;
+  transition: all 0.5s;
+}  .paid-button.red {
+  background-color: rgb(192, 76, 76);
+}
+
+.paid-button:hover {
+  transform: scale(1.1);
+}
+
+.mytablerow {
+  cursor: pointer;
+  transition: all 0.5s;
+}
+.mytablerow:hover, .mytablerow.active {
+ background-color: rgba(236, 226, 209, 0.438);
+}
+
+.orders-select {
+  padding: 8px 15px;
+  font-size: 15px;
+  font-weight: bold;
+  border-radius: 15px;
+  background-color: #f3edf0;
+  cursor: pointer;
+  border: 1px solid #eee;
+}
+
+.orders-select:focus {
+  outline: none;
+}
+
+.chat-messages {
+  border: 1px solid #eee;
+  border-radius: 15px;
+  background-color: #fff;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 10%);
+  height: 180px;
+  overflow-y: auto;
+  margin-bottom: 15px;
+  padding: 20px;
+  width: 100%;
+}
+
+.message-container {
+  width: 100%;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;  
+}
+
+.message-container.reverse {
+  direction: rtl;
+}
+
+.message-container img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  box-shadow: 0 4px 10px rgb(0 0 0 / 10%);
+  border: 1px solid #eee;
+  object-fit: cover;
+  margin: 5px;
+}
+
+.message-container.reverse img {
+  order: 1;
+}
+
+.message-container.reverse span {
+  order: 2;
+}
+
+.chat-message {
+  background-color: #f2ebf0;
+  padding: 5px;
+  border-radius: 30px;
+  white-space: pre-wrap;
+  font-size: 14px;
+}
+
+.chat-action {
+  position: relative;
+}
+
+.chat-action textarea {
+  border: 1px solid #eee;
+  border-radius: 15px;
+  resize: none;
+  width: 100%;
+  height: 40px;
+  padding: 10px 15px;
+  font-size: 14px;
+}
+
+.chat-action textarea:focus {
+  outline: none;
+}
+
+.chat-action button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 30px;
+  width: 30px;
+  background-color: lightseagreen;
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgb(0 0 0 / 10%);
+}
+
+.chat-action button svg {
+  font-size: 14px;
+  color: #fff;
+}
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/
@@ -1359,6 +1501,7 @@ footer > p {
 
 .modal-box.confirmation-box {
   width: 35%;
+  min-height: 30vh;
 }
 
 .confirmation-content {
@@ -1810,5 +1953,11 @@ footer > p {
     width: 100%;
     flex: initial;
     padding-left: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .MuiContainer-maxWidthLg {
+      max-width: 100% !important;
   }
 }

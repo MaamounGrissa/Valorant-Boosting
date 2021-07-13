@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
 import userRouter from './routers/userRouter.js';
-import orderRouter from './routers/orderRouter.js'
+import orderRouter from './routers/orderRouter.js';
+import chatRouter from './routers/chatRouter.js'
 import blogRouter from './routers/blogRouter.js';
 import path from 'path';
 
@@ -30,7 +31,9 @@ app.use(fileUpload());
 // Routes
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
+app.use('/api/chat', chatRouter);
 app.use('/api/blogs', blogRouter);
+
 
 /* 
 app.get('/', (req, res) => {

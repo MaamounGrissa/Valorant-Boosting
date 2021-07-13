@@ -6,6 +6,7 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Link } from 'react-router-dom';
 import PeopleIcon from '@material-ui/icons/People';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
+import CloudDoneIcon from '@material-ui/icons/CloudDone';
 
 export default function AdminMenuListItems() {
   return (
@@ -19,14 +20,23 @@ export default function AdminMenuListItems() {
             </ListItem>
         </Link>
 
-        <Link to='/dashbord/listusers'>
+        <Link to='/dashbord/paiedorders'>
+            <ListItem button>
+                <ListItemIcon>
+                    <CloudDoneIcon />
+                </ListItemIcon>
+                <ListItemText primary="Paied orders" />
+            </ListItem>
+        </Link>
+
+       {/*  <Link to='/dashbord/listusers'>
             <ListItem button>
                 <ListItemIcon>
                     <PeopleIcon />
                 </ListItemIcon>
                 <ListItemText primary="List Users" />
             </ListItem>
-        </Link>
+        </Link> */}
 
         <Link to='/dashbord/profile'>
             <ListItem button>

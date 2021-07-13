@@ -20,8 +20,7 @@ import HomeTab from './modules/ClientDashboadModules/HomeTab.js';
 import LoadingBox from './modules/LoadingBox.js';
 import ErrorPage from './modules/ErrorPage.js';
 import ProfileTab from './modules/ProfileTab.js';
-import AddUser from './modules/AdminDashbordModules/AddUser.js';
-import ListUsers from './modules/AdminDashbordModules/ListUsers.js';
+import PaiedOrders from './modules/AdminDashbordModules/PaiedOrders.js';
 import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
 
 function Copyright() {
@@ -122,9 +121,10 @@ const useStyles = makeStyles((theme) => ({
     overflow: 'auto',
     flexDirection: 'column',
     background: '#fff9f8',
+    height: 350,
   },
   fixedHeight: {
-    height: 240,
+    height: 350,
   },
 }));
 
@@ -201,30 +201,32 @@ export default function Dashbord() {
                     <Switch>
                       {
                         userInfo?.rule === 'admin' ? (
+                         <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>
                               <AdminHome fixedHeightPaper={fixedHeightPaper} classes={classes} />
                             }/>
+                            <Route path="/dashbord/paiedorders" exact={true} render={ (props) =>
+                              <PaiedOrders />
+                            }/>
+                            <Route path="/dashbord/profile" exact={true} render={ (props) =>
+                                <ProfileTab />
+                            }/>
+                          </React.Fragment>
+                            
                         ) : userInfo?.rule === 'booster' ? (
                           ''
                         ) : userInfo?.rule === 'client' ? (
+                          <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>
-                              <HomeTab fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                                <HomeTab fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                              }/>
+                              <Route path="/dashbord/profile" exact={true} render={ (props) =>
+                                <ProfileTab />
                             }/>
+                          </React.Fragment>
+                            
                         ): ('')
                       }
-
-                        <Route path="/dashbord/profile" exact={true} render={ (props) =>
-                            <ProfileTab />
-                        }/>
-
-                        <Route path="/dashbord/adduser" exact={true} render={ (props) =>
-                            <AddUser />
-                        }/>
-
-                        <Route path="/dashbord/listusers" exact={true} render={ (props) =>
-                            <ListUsers />
-                        }/>
-
                         </Switch>
                  
                   <Box pt={4}>

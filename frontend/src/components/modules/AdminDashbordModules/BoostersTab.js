@@ -33,7 +33,6 @@ export default function BoostersTab(props) {
     }
 
     const deleteBooster = () => {
-      console.log(selectedBooster)
       dispatch(DeleteBooster(selectedBooster)).then(() => {
         props.reloadData();
         setShowConfirmation(false);

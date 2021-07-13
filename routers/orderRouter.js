@@ -1,6 +1,8 @@
 import express from 'express';
+import dateFormat from 'dateformat';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
+import Chat from '../models/chatModel.js';
 import Order from '../models/orderModel.js';
 
 const orderRouter = express.Router();
@@ -13,7 +15,7 @@ orderRouter.get('/', expressAsyncHandler(async (req, res) => {
 }));
 
 
-// Seed Users From Data.js
+// Seed Orders From Data.js
 
 orderRouter.get('/seed', expressAsyncHandler(async (req, res) => {
         // Remove All Orders
@@ -30,7 +32,7 @@ orderRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 // Add Order
 
 orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
-        
+       
     const order = new Order({
             status: 'Looking for a booster',
             userId: req.body.userid,
@@ -58,11 +60,54 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
             payementZipCode: req.body.zipcode ? req.body.zipcode : '',
             payementAdress: req.body.adress ? req.body.adress : '',
         });
-        
         await order.save();
+
+        const chat = new Chat({
+            userId: req.body.userid,
+            orderId: order._id,
+            message: 'Chat created at ' + dateFormat(new Date(), "DD/MM/YYYY"),
+        });
+
+        chat.save();
+
+        order.chatId = chat._id
+        order.save();
 
         res.send('Order Added');
     })
-)
+);
+
+// Change Status
+
+orderRouter.post('/changestatus', expressAsyncHandler(async (req, res) => {
+
+        const order = await Order.findById(req.body.id);
+
+        if (!order) {
+            return res.send('Order not found !');
+        }
+
+        order.status = req.body.status;
+
+        await order.save();
+
+        res.send('Order paied');
+    })
+);
+
+// DELETE Order
+
+orderRouter.delete('/:id', expressAsyncHandler(async (req, res) => {
+
+    await Order.deleteOne({ _id: req.params.id }, 
+        function (err) {
+            if (err) {
+                return res.status(500).send(err);
+            }
+            res.send('Order Deleted');
+    });
+
+}));
 
 export default orderRouter;
+

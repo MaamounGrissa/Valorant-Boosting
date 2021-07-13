@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -10,23 +11,27 @@ import BoosterAddModal from './BoosterAddModal.js';
 import OrderAddModal from './OrderAddModal.js';
 import BoosterEditModal from './BoosterEditModal.js';
 import { ListUsers } from '../../../actions/userActions';
-import { ListOrders } from '../../../actions/orderActions';
+import { ChangeStatus, ListOrders } from '../../../actions/orderActions';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
+import ProgressOrders from './ProgressOrders.js'
+import ConfirmModal from './ConfirmModal.js';
+import ChatModule from '../ChatModule.js'
 
 export default function AdminHome(props) {
-    let boosters, clients, waitingOrders, finishedOrders;
+    let boosters, clients, waitingOrders, progressOrders, finishedOrders;
     const dispatch = useDispatch();
     const { classes } = props;
     const userList = useSelector( state => state.userList);
     const {loading, error, users} = userList;
     const orderList = useSelector( state => state.orderList);
     const {loadingOrders, errorOrders, orders} = orderList;
-    const [selectedBooster, setSelectedBooster] = useState({})
+    const [selectedBooster, setSelectedBooster] = useState(null);
+    const [selectedOrder, setSelectedOrder] = useState({});
     const [showAddBooster, setShowAddBooster] = useState(false);
     const [showEditBooster, setShowEditBooster] = useState(false);
     const [showAddOrder, setShowAddOrder] = useState(false);
-
+    const [showConfirmation, setShowConfirmation] = useState(false);
 
     useEffect(() => {
         dispatch(ListUsers());
@@ -67,11 +72,25 @@ export default function AdminHome(props) {
         setShowAddOrder(false);
     }
 
+    const handleConfirmDropOrder = (orderId) => {
+        setSelectedOrder(orderId);
+        setShowConfirmation(true);
+      }
+
+    const handleChangeStatus = (e) => {
+        e.preventDefault();
+        dispatch(ChangeStatus(selectedOrder, 'Droped')).then(() => {
+          LoadData();
+          setShowConfirmation(false);
+        })
+      }
+
     // Reload Data
 
     const LoadData = () => {
         dispatch(ListUsers());
         dispatch(ListOrders());
+        setSelectedOrder(null)
     }
 
     if (loading || loadingOrders) {
@@ -83,17 +102,63 @@ export default function AdminHome(props) {
         clients = users?.filter(user => user.rule === 'client');
         waitingOrders = orders?.filter(order => order.status === 'Looking for a booster');
         finishedOrders = orders?.filter(order => order.status === 'Finished');
+        progressOrders = orders?.filter(order => order.status === 'In progress')
+
         return (
             <Grid container spacing={3}>
-                {/* Chart */}
+                {/* Finished Orders */}
                 <Grid item xs={12}>
                     <Paper className={classes.paper}>
                         <div className="paper-header">
                             <div className="paper-title">Finished orders</div>
                         </div>
                         <div className="paper-content">
-                            <FinishedOrders onEdit={boosterId => handleOpenEditBooster(boosterId)} orders={finishedOrders} reloadData={() => LoadData()} />
+                            <FinishedOrders 
+                                orders={finishedOrders} 
+                                boosters={boosters} 
+                                reloadData={() => LoadData()} />
                         </div>
+                    </Paper>
+                </Grid>
+                {/* In Progress */}
+                <Grid item xs={12} md={8}>
+                    <Paper className={classes.paper}>
+                        <div className="paper-header">
+                            <div className="paper-title">In Progress orders</div>
+                        </div>
+                        <div className="paper-content">
+                            <ProgressOrders 
+                                selectOrder={orderId => setSelectedOrder(orderId)} 
+                                onDrop={orderId => handleConfirmDropOrder(orderId)} 
+                                orders={progressOrders} boosters={boosters} 
+                                reloadData={() => LoadData()} 
+                                selectedOrder={selectedOrder}
+                                />
+                        </div>
+                    </Paper>
+                </Grid>
+                {/* Chat */}
+                <Grid item xs={12} md={4}>
+                    <Paper className={classes.paper}>
+                        <div className="paper-header">
+                            <div className="paper-title">Chat</div>
+                                <div className="button-container">
+                                    <select 
+                                        value={selectedOrder} 
+                                        onChange={e => setSelectedOrder(e.target.value)}
+                                        className="orders-select">
+                                        <option value={null}>Select Order</option>
+                                        {
+                                            progressOrders.map(order =>
+                                                <option key={order._id} value={order._id}> {order._id.substring(order._id.length - 5)} | {Moment(order.createdAt).format('DD/MM/YY')}</option>
+                                            )
+                                        }
+                                    </select>
+                            </div>
+                        </div>
+                            <div className="paper-content">
+                                <ChatModule order={selectedOrder} users={users} />
+                            </div>
                     </Paper>
                 </Grid>
                 {/* Waiting Orders */}
@@ -106,7 +171,10 @@ export default function AdminHome(props) {
                             </div>
                         </div>
                             <div className="paper-content">
-                                <WaitingOrders onEdit={boosterId => handleOpenEditBooster(boosterId)} orders={waitingOrders} reloadData={() => LoadData()} />
+                                <WaitingOrders 
+                                    onEdit={boosterId => handleOpenEditBooster(boosterId)} 
+                                    orders={waitingOrders} 
+                                    reloadData={() => LoadData()} />
                             </div>
                             <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients}/>
                             <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
@@ -114,7 +182,7 @@ export default function AdminHome(props) {
                 </Grid>
                 {/* Booster */}
                 <Grid item xs={12} md={7}>
-                <Paper className={classes.paper}>
+                    <Paper className={classes.paper}>
                         <div className="paper-header">
                             <div className="paper-title">Boosters</div>
                             <div className="button-container">
@@ -122,13 +190,22 @@ export default function AdminHome(props) {
                             </div>
                         </div>
                         <div className="paper-content">
-                            <BoosterTab onEdit={boosterId => handleOpenEditBooster(boosterId)} boosters={boosters} reloadData={() => LoadData()} />
+                            <BoosterTab 
+                                onEdit={boosterId => handleOpenEditBooster(boosterId)} 
+                                boosters={boosters} reloadData={() => LoadData()} />
                         </div>
                         <BoosterAddModal onClose={e => handleCloseAddBooster(e)} showAddBooster={showAddBooster} />
                         <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
-                </Paper>
+                    </Paper>
+                </Grid>
+                <ConfirmModal
+                    show={showConfirmation} 
+                    qst="Are you sure to drop this order ?"
+                    title="Drop order"
+                    onConfirm={e => handleChangeStatus(e)} 
+                    onClose={() => {setShowConfirmation(false)}}>
+                </ConfirmModal>
             </Grid>
-        </Grid>
         )
     }
 }

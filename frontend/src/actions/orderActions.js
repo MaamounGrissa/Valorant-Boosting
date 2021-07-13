@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ORDER_ADD_FAIL, ORDER_ADD_REQUEST, ORDER_ADD_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS } from "../constants/orderConstants";
+import { CHANGE_STATUS_FAIL, CHANGE_STATUS_REQUEST, CHANGE_STATUS_SUCCESS, ORDER_ADD_FAIL, ORDER_ADD_REQUEST, ORDER_ADD_SUCCESS, ORDER_DELETE_FAIL, ORDER_DELETE_REQUEST, ORDER_DELETE_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS } from "../constants/orderConstants";
 
 export const ListOrders = () => async (dispatch) => {
     dispatch({
@@ -84,6 +84,46 @@ export const AddOrder = (
     } catch(error) {
         dispatch({
             type: ORDER_ADD_FAIL, 
+            payload: 
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+};
+
+// Order Change Status
+
+export const ChangeStatus = (id, status) => async(dispatch) => {
+    dispatch({ type: CHANGE_STATUS_REQUEST, payload: { id, status } });
+    try {
+        const {data} = await axios.post('/api/orders/changestatus', { id, status });
+        dispatch({ type: CHANGE_STATUS_SUCCESS, payload: data});
+    } catch(error) {
+        dispatch({
+            type: CHANGE_STATUS_FAIL, 
+            payload: 
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+}
+
+// Delete Order
+
+export const DeleteOrder = (orderId) => async(dispatch) => { 
+    dispatch({
+        type: ORDER_DELETE_REQUEST, payload: orderId
+    });
+    try {
+        const { data } = await axios.delete(`/api/orders/${orderId}`);
+        dispatch({
+            type: ORDER_DELETE_SUCCESS, payload: data
+        });
+    } catch (error) {
+        dispatch({
+            type: ORDER_DELETE_FAIL, 
             payload: 
                 error.response && error.response.data.message
                     ? error.response.data.message

@@ -17,7 +17,7 @@ export default function ConfirmModal(props) {
                     Cancel
                 </Button>
                 <Button onClick={props.onConfirm} color="secondary" autoFocus>
-                    Delete
+                    {props.title?.split(' ')[0]}
                 </Button>
                 </div>
             </div>
