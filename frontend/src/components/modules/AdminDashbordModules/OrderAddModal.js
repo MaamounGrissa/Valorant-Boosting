@@ -79,11 +79,11 @@ export default function OrderAddModal(props) {
     const [password, setPassword] = useState('');
     const [summoner, setSummoner] = useState('');
     const [boostType, setBoostType] = useState('Rank Boosting')
-    const [startRank, setStartRank] = useState('');
+    const [startRank, setStartRank] = useState(0);
     const [startDivision, setStartDivision] = useState(0);
     const [rankRating, setRankRating] = useState(0);
     const [server, setServer] = useState('');
-    const [desiredRank, setDesiredRank] = useState('');
+    const [desiredRank, setDesiredRank] = useState(0);
     const [desiredDivision, setDesiredDivision] = useState(0);
     const [games, setGames] = useState(5);
     const [price, setPrice] = useState(0);
@@ -95,6 +95,16 @@ export default function OrderAddModal(props) {
     const [myfeedback, setMyfeedback] = useState(null);
     const [errors, setErrors] = useState(null);
 
+    const ranks = [
+        "Iron",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "Diamond",
+        "Immortal"
+    ];
+
     const handleGames = (e) => {
         e.preventDefault();
         setGames(e.target.value)
@@ -103,6 +113,24 @@ export default function OrderAddModal(props) {
     const handleBoostType = (e, type) => {
         e.preventDefault();
         setBoostType(type)
+    }
+
+    const handleStartRank = (e) => {
+        e.preventDefault();
+        if (desiredRank === 0) {
+            setStartRank(e.target.value);
+        } else {
+            if (e.target.value < desiredRank) {
+                setStartRank(e.target.value);
+            }
+        }
+    }
+
+    const handleDesiredRank = (e) => {
+        e.preventDefault();
+        if (e.target.value > startRank) {
+            setDesiredRank(e.target.value);
+        }
     }
 
 
@@ -190,16 +218,6 @@ export default function OrderAddModal(props) {
         });
     }
 
-    const ranks = [
-        "Iron",
-        "Bronze",
-        "Silver",
-        "Gold",
-        "Platinum",
-        "Diamond",
-        "Immortal"
-    ];
-
     if (props.showAddOrder) {
         return (
             <div className="modal-container show">
@@ -252,7 +270,7 @@ export default function OrderAddModal(props) {
                                         <Select
                                         native
                                         value={startRank}
-                                        onChange={e => setStartRank(e.target.value)}
+                                        onChange={e => handleStartRank(e)}
                                         inputProps={{
                                             name: 'startrank',
                                             id: 'startrank-select',
@@ -260,8 +278,8 @@ export default function OrderAddModal(props) {
                                         >
                                          <option value={''}>Start rank</option>
                                         {
-                                            ranks.map((rank) => 
-                                                <option key={rank} value={rank}>{rank}</option>
+                                            ranks.map((rank, index) => 
+                                                <option key={index} value={index + 1}>{rank}</option>
                                             )
                                         }
                                         </Select>
@@ -324,7 +342,7 @@ export default function OrderAddModal(props) {
                                         <Select
                                         native
                                         value={desiredRank}
-                                        onChange={e => setDesiredRank(e.target.value)}
+                                        onChange={e => handleDesiredRank(e)}
                                         inputProps={{
                                             name: 'desiredrank',
                                             id: 'desiredrank-select',
@@ -332,8 +350,8 @@ export default function OrderAddModal(props) {
                                         >
                                          <option value={''}>Desired rank</option>
                                         {
-                                            ranks.map((rank) => 
-                                                <option key={rank} value={rank}>{rank}</option>
+                                            ranks.map((rank, index) => 
+                                                <option key={index} value={index + 1}>{rank}</option>
                                             )
                                         }
                                         </Select>

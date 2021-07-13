@@ -13,7 +13,7 @@ import { DeleteOrder, ListOrders } from '../../../actions/orderActions.js';
 import { ListUsers } from '../../../actions/userActions.js';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
-import ConfirmModal from './ConfirmModal.js';
+import ConfirmModal from '../ConfirmModal.js';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles({
@@ -97,8 +97,8 @@ export default function PaiedOrders(props) {
                     <TableCell>{order.price?.toLocaleString('en-US', {minimumIntegerDigits: 1,useGrouping: false})}&nbsp;$</TableCell>
                     <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
                     <TableCell>{boosters.find(b => b._id === order.boosterId)?.percentage}</TableCell>
-                    <TableCell>{((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)?.toLocaleString('en-US', {minimumIntegerDigits: 1,useGrouping: false})}&nbsp;$</TableCell>
-                    <TableCell className="bold">{(order.price - ((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage))?.toLocaleString('en-US', {minimumIntegerDigits: 1,useGrouping: false})}&nbsp;$</TableCell>
+                    <TableCell>{parseInt(((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage))}&nbsp;$</TableCell>
+                    <TableCell className="bold">{parseInt((order.price - ((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)))}&nbsp;$</TableCell>
                     <TableCell><span className="status-output paied">{order.status}</span></TableCell>
                     <TableCell><DeleteForeverIcon className="delete-btn" onClick={() => showDeleteConfirmation(order._id)} /></TableCell>
                 </TableRow>

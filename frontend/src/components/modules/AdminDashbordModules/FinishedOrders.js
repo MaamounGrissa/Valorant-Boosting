@@ -8,7 +8,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Moment from 'moment';
-import ConfirmModal from './ConfirmModal.js';
+import ConfirmModal from '../ConfirmModal.js';
 import { useDispatch } from 'react-redux';
 import { ChangeStatus } from '../../../actions/orderActions.js';
 
@@ -35,7 +35,7 @@ export default function FinishedOrders(props) {
     
     const handleChangeStatus = (e) => {
         e.preventDefault();
-        dispatch(ChangeStatus(selectedOrder, 'Paied')).then(() => {
+        dispatch(ChangeStatus(selectedOrder, 'Paied', null)).then(() => {
           props.reloadData();
           setShowConfirmation(false);
         })
@@ -65,12 +65,12 @@ export default function FinishedOrders(props) {
                   {order._id.substring(order._id.length - 5)}
                 </TableCell>
                 <TableCell>{order.boostType}</TableCell>
-                <TableCell>{order.duoGame ? 'Duo Game' : 'Solo/Duo'}</TableCell>
+                <TableCell>{order.duoGame ? 'Duo Boost' : 'Solo Boost'}</TableCell>
                 <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                 <TableCell>{order.price}&nbsp;$</TableCell>
                 <TableCell>{order.summoner}</TableCell>
                 <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
-                <TableCell>{(order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage}&nbsp;$</TableCell>
+                <TableCell>{parseInt((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)}&nbsp;$</TableCell>
                 <TableCell>{boosters.find(b => b._id === order.boosterId)?.paypal}</TableCell>
                 <TableCell><button className="paid-button" onClick={e => showChangeStatusConfirmation(e, order._id) }>Paid</button></TableCell>
               </TableRow>

@@ -9,7 +9,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import ConfirmModal from './ConfirmModal.js';
+import ConfirmModal from '../ConfirmModal.js';
 import { useDispatch } from 'react-redux';
 import { DeleteBooster } from '../../../actions/userActions.js';
 

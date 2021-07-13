@@ -35,7 +35,7 @@ export default function WaitingOrders(props) {
                 <TableCell component="th" scope="row">
                   {row._id.substring(row._id.length - 5)}
                 </TableCell>
-                <TableCell>{row.price}&nbsp;$</TableCell>
+                <TableCell>{parseInt(row.price)}&nbsp;$</TableCell>
                 <TableCell><span className="status-output waiting">{row.status}</span></TableCell>
               </TableRow>
             ))}

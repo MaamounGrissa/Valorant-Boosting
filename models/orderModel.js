@@ -5,7 +5,6 @@ const orderSchema = new mongoose.Schema({
     status: { type: String, required: true },
     userId: {type: String, required: true },
     boosterId: {type: String },
-    chatId:{type:String },
     account: {type: String },
     password: { type: String },
     summoner: { type: String },

@@ -22,9 +22,11 @@ export default function ChatModule(props) {
 
     const handleSendMessage = (e) => {
         e.preventDefault();
-        dispatch(AddChat(userInfo._id, order, message));
-        dispatch(ListChat());
-        document.getElementById('chat-messages').scrollTop = document.getElementById('chat-messages').scrollHeight;
+        if(message) {
+            dispatch(AddChat(userInfo._id, order, message)).then(() => {
+                dispatch(ListChat());
+            });
+        }
     }
 
     if (loading) {
@@ -39,7 +41,8 @@ export default function ChatModule(props) {
                 <div id="chat-messages" className="chat-messages">
                     {
                         myChat.map((message, index) =>
-                            <div key={index} className={users.find(u => u._id === message.userId)?.rule === 'client' ? 'message-container' : 'message-container reverse'}>
+                            <div key={index} 
+                                className={users.find(u => u._id === message.userId)?.rule === 'client' ? 'message-container' : 'message-container reverse'}>
                                     {
                                         users.find(u => u._id === message.userId)?.photo ? (
                                             <img 

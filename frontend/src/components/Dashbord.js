@@ -15,6 +15,7 @@ import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AdminMenuListItems from './modules/AdminDashbordModules/AdminMenuListItems.js';
+import BoosterMenuListItems from './modules/BoosterDashbordModules/BoosterMenuListItems';
 import ClientMenuListItems from './modules/ClientDashboadModules/ClientMenuListItems.js';
 import HomeTab from './modules/ClientDashboadModules/HomeTab.js';
 import LoadingBox from './modules/LoadingBox.js';
@@ -22,12 +23,13 @@ import ErrorPage from './modules/ErrorPage.js';
 import ProfileTab from './modules/ProfileTab.js';
 import PaiedOrders from './modules/AdminDashbordModules/PaiedOrders.js';
 import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
+import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
 
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
-      Your Website
+      Valorant Boosting
       {' '}
       {new Date().getFullYear()}
       {'.'}
@@ -81,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   title: {
     flexGrow: 1,
-    color: '#000',
+    color: '#333',
   },
   drawerPaper: {
     position: 'relative',
@@ -165,9 +167,9 @@ export default function Dashbord() {
                     <MenuIcon />
                   </IconButton>
                   <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    Dashboard
+                    {userInfo.rule === 'admin' ? 'Admin ' : userInfo.rule === 'booster' ? 'Booster ' : ''}Dashboard
                   </Typography>
-                  <Link to='/' className='white' >Valorant Boosting</Link>
+                  <Link to='/' className='white' ><img src="/images/logo.png" alt="Logo" className="logo-style" /></Link>
                 </Toolbar>
               </AppBar>
               <Drawer
@@ -187,7 +189,7 @@ export default function Dashbord() {
                   userInfo?.rule === 'client' ? (
                       <ClientMenuListItems />
                   ) : userInfo?.rule === 'booster' ? (
-                    'Your are Booster'
+                      <BoosterMenuListItems />
                   ) : userInfo?.rule === 'admin' ? (
                       <AdminMenuListItems />
                   ) : ('Permission Error')
@@ -214,7 +216,14 @@ export default function Dashbord() {
                           </React.Fragment>
                             
                         ) : userInfo?.rule === 'booster' ? (
-                          ''
+                          <React.Fragment>
+                            <Route path="/dashbord" exact={true} render={ (props) =>
+                              <BoosterHome fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                            }/>
+                            <Route path="/dashbord/profile" exact={true} render={ (props) =>
+                                <ProfileTab />
+                            }/>
+                          </React.Fragment>
                         ) : userInfo?.rule === 'client' ? (
                           <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>

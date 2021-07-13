@@ -2,6 +2,7 @@ import express from 'express';
 import dateFormat from 'dateformat';
 import expressAsyncHandler from 'express-async-handler';
 import data from '../data.js';
+import User from '../models/userModel.js';
 import Chat from '../models/chatModel.js';
 import Order from '../models/orderModel.js';
 
@@ -68,10 +69,7 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
             message: 'Chat created at ' + dateFormat(new Date(), "DD/MM/YYYY"),
         });
 
-        chat.save();
-
-        order.chatId = chat._id
-        order.save();
+        await chat.save();
 
         res.send('Order Added');
     })
@@ -89,7 +87,31 @@ orderRouter.post('/changestatus', expressAsyncHandler(async (req, res) => {
 
         order.status = req.body.status;
 
+        if(req.body.status === 'In progress' && req.body.boosterId) {
+            order.boosterId = req.body.boosterId
+        }
+
         await order.save();
+
+        if (req.body.status === 'Finished') {
+            const user = await User.findById(order.boosterId);
+            if(user) {
+                user.payementPending = user.payementPending + ((order.price / 100) * user.percentage);
+                user.save();
+            }
+            
+        }
+
+        if (req.body.status === 'Paied') {
+            const user = await User.findById(order.boosterId);
+            if (user) {
+                user.payementPending = user.payementPending - ((order.price / 100) * user.percentage);
+                user.totalRevenue = user.totalRevenue + ((order.price / 100) * user.percentage);
+                user.save();
+            }
+        }
+
+
 
         res.send('Order paied');
     })

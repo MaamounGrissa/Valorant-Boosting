@@ -1,4 +1,5 @@
 import React from 'react';
+import Moment from 'moment';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -15,9 +16,9 @@ const useStyles = makeStyles({
 });
 
 
-export default function ProgressOrders(props) {
+export default function ProgressOrdersBooster(props) {
     const classes = useStyles();
-    const { orders, boosters } = props;
+    const { orders, clients, user } = props;
 
     return (
       <TableContainer component={Paper}>
@@ -25,9 +26,12 @@ export default function ProgressOrders(props) {
           <TableHead className="custom-thead">
             <TableRow>
               <TableCell>Id</TableCell>
-              <TableCell>Price</TableCell>
-              <TableCell>Booster</TableCell>
-              <TableCell>Status</TableCell>
+              <TableCell>Date</TableCell>
+              <TableCell>User</TableCell>
+              <TableCell>Boost Type</TableCell>
+              <TableCell>Queue</TableCell>
+              <TableCell>Server</TableCell>
+              <TableCell>Your Price</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
           </TableHead>
@@ -36,13 +40,14 @@ export default function ProgressOrders(props) {
               <TableRow key={order._id} 
                 className={props.selectedOrder === order._id ? 'mytablerow active' : 'mytablerow'} 
                 onClick={() => props.selectOrder(order._id)}>
-                <TableCell component="th" scope="row">
-                  {order._id.substring(order._id.length - 5)}
-                </TableCell>
-                <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
-                <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
-                <TableCell><span className="status-output progress">{order.status}</span></TableCell>
-                <TableCell><button className="paid-button red" onClick={() => props.onDrop(order._id) }>Drop</button></TableCell>
+                <TableCell>{order._id.substring(order._id.length - 5)}</TableCell>
+                <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
+                <TableCell>{clients.find(b => b._id === order.userId)?.name}</TableCell>
+                <TableCell>{order.boostType}</TableCell>
+                <TableCell>{order.duoGame ? 'Duo Boost' : 'Solo Boost'}</TableCell>
+                <TableCell>{order.server}</TableCell>
+                <TableCell>{parseInt((order.price / 100) * user.percentage)}&nbsp;$</TableCell>
+                <TableCell><button className="paid-button blue" onClick={() => props.onTake(order._id) }>Take</button></TableCell>
               </TableRow>
             ))}
           </TableBody>

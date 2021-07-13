@@ -9,6 +9,8 @@ const userSchema = new mongoose.Schema({
     rank: { type: String },
     paypal: { type: String },
     percentage: { type: String },
+    payementPending: { type: Number, default: 0},
+    totalRevenue: {type: Number, default: 0},
 
 }, {
     timestamps: true

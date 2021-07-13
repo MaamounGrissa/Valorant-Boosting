@@ -15,7 +15,7 @@ import { ChangeStatus, ListOrders } from '../../../actions/orderActions';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
 import ProgressOrders from './ProgressOrders.js'
-import ConfirmModal from './ConfirmModal.js';
+import ConfirmModal from '../ConfirmModal.js';
 import ChatModule from '../ChatModule.js'
 
 export default function AdminHome(props) {
@@ -79,7 +79,7 @@ export default function AdminHome(props) {
 
     const handleChangeStatus = (e) => {
         e.preventDefault();
-        dispatch(ChangeStatus(selectedOrder, 'Droped')).then(() => {
+        dispatch(ChangeStatus(selectedOrder, 'Droped', null)).then(() => {
           LoadData();
           setShowConfirmation(false);
         })

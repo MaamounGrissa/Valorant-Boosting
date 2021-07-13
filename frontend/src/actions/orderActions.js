@@ -94,10 +94,10 @@ export const AddOrder = (
 
 // Order Change Status
 
-export const ChangeStatus = (id, status) => async(dispatch) => {
-    dispatch({ type: CHANGE_STATUS_REQUEST, payload: { id, status } });
+export const ChangeStatus = (id, status, boosterId) => async(dispatch) => {
+    dispatch({ type: CHANGE_STATUS_REQUEST, payload: { id, status, boosterId } });
     try {
-        const {data} = await axios.post('/api/orders/changestatus', { id, status });
+        const {data} = await axios.post('/api/orders/changestatus', { id, status, boosterId });
         dispatch({ type: CHANGE_STATUS_SUCCESS, payload: data});
     } catch(error) {
         dispatch({

@@ -1204,8 +1204,13 @@ footer > p {
   font-weight: bold;
   border-radius: 20px;
   transition: all 0.5s;
-}  .paid-button.red {
+}
+.paid-button.red {
   background-color: rgb(192, 76, 76);
+}
+
+.paid-button.blue {
+  background-color: cornflowerblue;
 }
 
 .paid-button:hover {
@@ -1321,6 +1326,39 @@ footer > p {
 .chat-action button svg {
   font-size: 14px;
   color: #fff;
+}
+
+.booster-panel-infos {
+  display: flex;
+}
+
+.booster-panel-infos .booster-infos-box {
+  width: 48%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.booster-infos-box .icon-container {
+  padding: 15px 25px;
+  border-radius: 20px;
+  box-shadow: 0 5px 14px rgb(0 0 0 / 10%);
+  background-color: #ff9155;
+  margin-right: 20px;
+}
+
+.icon-container svg {
+  font-size: 2.2rem;
+  color: #fff;
+}
+
+.infos-container p {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+}
+
+.infos-container p:last-of-type {
+  margin-bottom: 0;
 }
 /******************************************************************/
 /*************************** Frameworks ***************************/
@@ -1713,6 +1751,14 @@ footer > p {
 .alert-danger {
   color: #a02020;
   background: #ffe0e0;
+}
+
+.logo-style {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 2px solid #eee;
 }
 
 

@@ -38,9 +38,8 @@ export default {
     orders: [
         {
             status: "Looking for a booster",
-            userId: "60ecdd01598a235944e3ec02",
+            userId: "60eda31b76804221dc3c5ddd",
             boosterId: "",
-            chatId: "",
             account: "maamoun",
             password: "grissa",
             summoner: "MaamounGrissa",
@@ -67,9 +66,8 @@ export default {
         },
         {
             status: "Looking for a booster",
-            userId: "60ecdd01598a235944e3ec02",
+            userId: "60eda31b76804221dc3c5ddd",
             boosterId: "",
-            chatId: "",
             account: "wahb",
             password: "testpassword",
             summoner: "WahbGrissa",
@@ -96,9 +94,8 @@ export default {
         },
         {
             status: "In progress",
-            userId: "60ecdd01598a235944e3ec02",
-            boosterId: "60ecdd01598a235944e3ec03",
-            chatId: "",
+            userId: "60eda31b76804221dc3c5ddd",
+            boosterId: "60eda31b76804221dc3c5dde",
             account: "maamoun",
             password: "grissa",
             summoner: "MaamounGrissa",
@@ -125,9 +122,8 @@ export default {
         },
         {
             status: "Finished",
-            userId: "60ecdd01598a235944e3ec02",
-            boosterId: "60ecdd01598a235944e3ec03",
-            chatId: "",
+            userId: "60eda31b76804221dc3c5ddd",
+            boosterId: "60eda31b76804221dc3c5dde",
             account: "maamoun",
             password: "grissa",
             summoner: "MaamounGrissa",
@@ -158,25 +154,30 @@ export default {
 
     chat: [
         {
-            userId: "60ecdd01598a235944e3ec02",
-            orderId: "60ecddb037d2d55c30edaa37",
+            userId: "60eda31b76804221dc3c5ddd",
+            orderId: "60eda38e722a104390370fba",
             message: "Test from customer",
         },
         {
-            userId: "60ecd61ae67c204c189a526c",
-            orderId: "60ecddb037d2d55c30edaa37",
+            userId: "60eda31b76804221dc3c5dde",
+            orderId: "60eda38e722a104390370fba",
             message: "Test from Booster",
         },
         {
-            userId: "60ecdd01598a235944e3ec02",
-            orderId: "60ecddb037d2d55c30edaa37",
+            userId: "60eda31b76804221dc3c5ddd",
+            orderId: "60eda38e722a104390370fba",
             message: "Test From customer",
         },
         {
-            userId: "60ecdd01598a235944e3ec00",
-            orderId: "60ecddb037d2d55c30edaa37",
+            userId: "60eda31b76804221dc3c5ddc",
+            orderId: "60eda38e722a104390370fba",
             message: "Test From admin",
-        },        
+        },
+        {
+            userId: "60eda31a76804221dc3c5ddb",
+            orderId: "60eda38e722a104390370fba",
+            message: "Test From Maamoun",
+        },    
     ],
 
 
