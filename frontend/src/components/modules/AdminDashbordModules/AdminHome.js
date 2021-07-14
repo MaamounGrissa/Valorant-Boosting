@@ -81,7 +81,7 @@ export default function AdminHome(props) {
 
     const handleChangeStatus = (e) => {
         e.preventDefault();
-        dispatch(ChangeStatus(selectedOrder, 'Droped', null)).then(() => {
+        dispatch(ChangeStatus(selectedOrder, 'Looking for a booster', '')).then(() => {
           LoadData();
           setShowConfirmation(false);
         })

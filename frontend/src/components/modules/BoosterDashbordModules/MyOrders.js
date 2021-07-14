@@ -14,7 +14,7 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import ForwardIcon from '@material-ui/icons/Forward';
 import ChatModule from '../ChatModule.js'
-import { ChangeStatus, DeleteOrder, ListOrders } from '../../../actions/orderActions.js';
+import { ChangeStatus, ListOrders } from '../../../actions/orderActions.js';
 import ConfirmModal from '../ConfirmModal.js'
 import CachedIcon from '@material-ui/icons/Cached';
 
@@ -51,10 +51,10 @@ export default function MyOrders(props) {
   
     const deleteOrder = (e) => {
         e.preventDefault();
-        dispatch(DeleteOrder(selectedOrder)).then(() => {
+        dispatch(ChangeStatus(selectedOrder, 'Looking for a booster', '')).then(() => {
             LoadData();
             setShowConfirmation(false);
-        })
+          })
     }
 
     // FINISH ORDER

@@ -9,12 +9,11 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { DeleteOrder, ListOrders } from '../../../actions/orderActions.js';
+import { ChangeStatus, ListOrders } from '../../../actions/orderActions.js';
 import { ListUsers } from '../../../actions/userActions.js';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
 import ConfirmModal from '../ConfirmModal.js';
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 
 const useStyles = makeStyles({
   table: {
@@ -43,10 +42,10 @@ export default function BoosterFinishedOrders(props) {
 
     const deleteOrder = (e) => {
         e.preventDefault();
-        dispatch(DeleteOrder(selectedOrder)).then(() => {
+        dispatch(ChangeStatus(selectedOrder, 'Looking for a booster', '')).then(() => {
             LoadData();
             setShowConfirmation(false);
-        })
+          })
     }
 
      // Reload Data
@@ -98,15 +97,15 @@ export default function BoosterFinishedOrders(props) {
                     <TableCell>{order.duoGame ? 'Duo Boost' : 'Single Boost'}</TableCell>
                     <TableCell>{parseInt((order.price / 100) * user.percentage)}&nbsp;$</TableCell>
                     <TableCell><span className="status-output paied">{order.status}</span></TableCell>
-                    <TableCell><DeleteForeverIcon className="delete-btn" onClick={() => showDeleteConfirmation(order._id)} /></TableCell>
+                    <TableCell><button className="paid-button red"  onClick={() => showDeleteConfirmation(order._id)}>Drop</button></TableCell>
                 </TableRow>
                 ))}
             </TableBody>
             </Table>
             <ConfirmModal
                 show={showConfirmation} 
-                qst="Are you sure to delete order ?"
-                title="Delete Order"
+                qst="Are you sure to drop order ?"
+                title="Drop Order"
                 onConfirm={e => deleteOrder(e)} 
                 onClose={() => {setShowConfirmation(false)}}>
             </ConfirmModal>
