@@ -1263,7 +1263,7 @@ footer > p {
   padding: 4px 10px;
   border-radius: 20px;
   color: #fff;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: bold;
 }
 
@@ -1821,7 +1821,7 @@ footer > p {
 }
 
 .loading img {
-  width: 350px;
+  width: 250px;
 }
 
 .chat-loading {
@@ -1854,11 +1854,13 @@ footer > p {
   position: absolute;
   top: 0;
   left: 0;
-  background: rgba(0,0,0,0.2);
+  background: rgba(0,0,0,0.1);
 }
 
 .loading-module img {
-  width: 150px;
+  width: 130px;
+  display: block;
+  margin-bottom: 20vh;
 }
 
 .success {
@@ -1896,6 +1898,12 @@ footer > p {
   border: 2px solid #eee;
 }
 
+.myorders-title {
+  display: block;
+  text-align: center;
+  margin: 20px auto;
+  font-size: 1.6rem;
+}
 
 /******************************************************************/
 /************************** Mobile Style **************************/

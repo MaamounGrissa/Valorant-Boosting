@@ -119,7 +119,7 @@ export default function OrderAddModal(props) {
         if (desiredRank === 0) {
             setStartRank(e.target.value);
         } else {
-            if (e.target.value < desiredRank) {
+            if (e.target.value <= desiredRank) {
                 setStartRank(e.target.value);
             }
         }
@@ -127,7 +127,7 @@ export default function OrderAddModal(props) {
 
     const handleDesiredRank = (e) => {
         e.preventDefault();
-        if (e.target.value > startRank) {
+        if (e.target.value >= startRank) {
             setDesiredRank(e.target.value);
         }
     }

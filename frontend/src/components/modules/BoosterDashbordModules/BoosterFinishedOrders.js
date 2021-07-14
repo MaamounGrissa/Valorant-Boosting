@@ -23,7 +23,7 @@ const useStyles = makeStyles({
 });
 
 
-export default function FinishedOrders(props) {
+export default function BoosterFinishedOrders(props) {
     let user, clients, finishedOrders;
     Moment.locale('en');
     const classes = useStyles();
@@ -73,6 +73,7 @@ export default function FinishedOrders(props) {
         finishedOrders = orders?.filter(order => order.status === 'Finished' && order.boosterId === userInfo._id );
         return (
         <TableContainer component={Paper}>
+            <span className="myorders-title">My Finished Orders</span>
             <Table className={classes.table} aria-label="simple table">
             <TableHead className="custom-thead">
                 <TableRow>

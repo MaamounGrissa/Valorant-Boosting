@@ -132,7 +132,7 @@ export default function AdminHome(props) {
                             <ProgressOrders 
                                 selectOrder={orderId => setSelectedOrder(orderId)} 
                                 onDrop={orderId => handleConfirmDropOrder(orderId)} 
-                                orders={progressOrders} boosters={boosters} 
+                                orders={progressOrders} boosters={boosters} clients={clients}
                                 reloadData={() => LoadData()} 
                                 selectedOrder={selectedOrder}
                                 />
@@ -174,7 +174,7 @@ export default function AdminHome(props) {
                             </div>
                         </div>
                             <div className="paper-content">
-                                <WaitingOrders 
+                                <WaitingOrders clients={clients}
                                     onEdit={boosterId => handleOpenEditBooster(boosterId)} 
                                     orders={waitingOrders} 
                                     reloadData={() => LoadData()} />

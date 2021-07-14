@@ -33,6 +33,8 @@ orderRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 // Add Order
 
 orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
+
+    const now = Date.now();
        
     const order = new Order({
             status: 'Looking for a booster',
@@ -66,7 +68,7 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
         const chat = new Chat({
             userId: req.body.userid,
             orderId: order._id,
-            message: 'Chat created at ' + dateFormat(new Date(), "DD/MM/YYYY"),
+            message: 'Chat created at ' + dateFormat(now, "dd/mm/yyyy"),
         });
 
         await chat.save();

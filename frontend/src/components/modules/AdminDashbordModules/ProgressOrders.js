@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 export default function ProgressOrders(props) {
     const classes = useStyles();
-    const { orders, boosters } = props;
+    const { orders, clients, boosters } = props;
 
     return (
       <TableContainer component={Paper}>
@@ -25,6 +25,7 @@ export default function ProgressOrders(props) {
           <TableHead className="custom-thead">
             <TableRow>
               <TableCell>Id</TableCell>
+              <TableCell>Customer</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Booster</TableCell>
               <TableCell>Status</TableCell>
@@ -39,6 +40,7 @@ export default function ProgressOrders(props) {
                 <TableCell component="th" scope="row">
                   {order._id.substring(order._id.length - 5)}
                 </TableCell>
+                <TableCell>{clients.find(user => user._id === order.userId)?.name}</TableCell>
                 <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
                 <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
                 <TableCell><span className="status-output progress">{order.status}</span></TableCell>

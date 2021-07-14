@@ -63,7 +63,7 @@ export default function RankTab(props) {
             setRank(selected);
             setSelectedImage(imageLink);
         } else {
-            if (selected < desiredRank) {
+            if (selected <= desiredRank) {
                 setRank(selected);
                 setSelectedImage(imageLink);
             }
@@ -82,7 +82,7 @@ export default function RankTab(props) {
 
     const handleDesiredRank = (e, selected, imageLink) => {
         e.preventDefault();
-        if (selected > rank) {
+        if (selected >= rank) {
             setDesiredRank(selected)
             setSelectedDesiredImage(imageLink)
         }

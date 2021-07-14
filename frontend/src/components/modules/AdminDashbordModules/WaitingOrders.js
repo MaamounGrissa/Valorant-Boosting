@@ -17,7 +17,7 @@ const useStyles = makeStyles({
 
 export default function WaitingOrders(props) {
     const classes = useStyles();
-    const { orders } = props;
+    const { orders, clients } = props;
 
     return (
       <TableContainer component={Paper}>
@@ -25,18 +25,20 @@ export default function WaitingOrders(props) {
           <TableHead className="custom-thead">
             <TableRow>
               <TableCell>Id</TableCell>
+              <TableCell>Customer</TableCell>
               <TableCell>Price</TableCell>
               <TableCell>Status</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {orders.map((row) => (
-              <TableRow key={row._id}>
+            {orders.map((order) => (
+              <TableRow key={order._id}>
                 <TableCell component="th" scope="row">
-                  {row._id.substring(row._id.length - 5)}
+                  {order._id.substring(order._id.length - 5)}
                 </TableCell>
-                <TableCell>{parseInt(row.price)}&nbsp;$</TableCell>
-                <TableCell><span className="status-output waiting">{row.status}</span></TableCell>
+                <TableCell>{clients.find(user => user._id === order.userId)?.name}</TableCell>
+                <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
+                <TableCell><span className="status-output waiting">{order.status}</span></TableCell>
               </TableRow>
             ))}
           </TableBody>

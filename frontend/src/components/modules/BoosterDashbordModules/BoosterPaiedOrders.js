@@ -42,6 +42,7 @@ export default function BoosterPaiedOrders(props) {
         paiedOrders = orders?.filter(order => order.status === 'Paied' && order.boosterId === userInfo._id );
         return (
         <TableContainer component={Paper}>
+            <span className="myorders-title">My Finished Orders</span>
             <Table className={classes.table} aria-label="simple table">
             <TableHead className="custom-thead">
                 <TableRow>

@@ -25,7 +25,7 @@ import PaiedOrders from './modules/AdminDashbordModules/PaiedOrders.js';
 import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
 import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
 import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
-import FinishedOrders from './modules/BoosterDashbordModules/FinishedOrders.js';
+import BoosterFinishedOrders from './modules/BoosterDashbordModules/BoosterFinishedOrders.js';
 import BoosterPaiedOrders from './modules/BoosterDashbordModules/BoosterPaiedOrders.js';
 
 function Copyright() {
@@ -227,7 +227,7 @@ export default function Dashbord() {
                               <MyOrders classes={classes} />
                             }/>
                             <Route path="/dashbord/myfinishedorders" exact={true} render={ (props) =>
-                              <FinishedOrders classes={classes} />
+                              <BoosterFinishedOrders classes={classes} />
                             }/>
                             <Route path="/dashbord/mypaiedorders" exact={true} render={ (props) =>
                               <BoosterPaiedOrders classes={classes} />
