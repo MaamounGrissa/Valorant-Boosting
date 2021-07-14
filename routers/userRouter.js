@@ -96,7 +96,18 @@ userRouter.post(
             percentage: req.body.percentage ? req.body.percentage : null,
         });
 
-         res.send('Booster Added');
+        user.save(function(err) {
+            if (err) {
+              if (err.name === 'MongoError' && err.code === 11000) {
+                // Duplicate username
+                return res.status(422).send({ succes: false, message: 'User already exist!' });
+              }
+              // Some other error
+              return res.status(422).send(err);
+            } else {
+                return res.send('Booster Added')
+            }
+          });
     })
 )
 

@@ -12,7 +12,7 @@ import SaveIcon from '@material-ui/icons/Save';
 export default function BoosterAddModal(props) {
     const dispatch = useDispatch();
     const boosterAdd = useSelector((state) => state.boosterAdd);
-    const { loading } = boosterAdd;
+    const { loading, error, feedback } = boosterAdd;
     const [name, setName] = useState('');
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
@@ -38,18 +38,20 @@ export default function BoosterAddModal(props) {
         }
 
         dispatch(AddBooster(name, email, password, rank, paypal, percentage)).then(() => {
-            setMyfeedback('New Booster added');
-            setName('');
-            setEmail('');
-            setPassword('');
-            setConfirmPassword('');
-            setRank('');
-            setPaypal('');
-            setPercentage('');
-            //props.onClose(e);
-        }).catch((err) => {
-            setMyfeedback(err);
-        });
+            if (error && error.message) {
+                setMyfeedback(error.message);
+            } else if (feedback) {
+                setMyfeedback(feedback);
+                setName('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                setRank('');
+                setPaypal('');
+                setPercentage('');
+                props.onClose(e);
+            }
+        })
     }
 
     if (props.showAddBooster) {
@@ -112,7 +114,11 @@ export default function BoosterAddModal(props) {
                                                 }
                                         </Button>
                                         {
-                                           myfeedback ? (
+                                            error ? (
+                                                <MessageBox variant='danger'>{error}</MessageBox>
+                                            ) : feedback ? (
+                                                <MessageBox>{feedback}</MessageBox>
+                                            ) : myfeedback ? (
                                                 <MessageBox>{myfeedback}</MessageBox>
                                             ) : errors ? (
                                                 <MessageBox variant='danger'>{errors}</MessageBox>
