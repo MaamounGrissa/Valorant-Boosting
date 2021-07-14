@@ -37,7 +37,7 @@ export default function BoosterPaiedOrders(props) {
     } else if (error ||errorOrders) {
         return ( <MessageBox variant="danger">{error}</MessageBox> );
     } else {
-        user = users?.filter(user => user._id === userInfo._id);
+        user = users?.find(user => user._id === userInfo._id);
         clients = users?.filter(user => user.rule === 'client');
         paiedOrders = orders?.filter(order => order.status === 'Paied' && order.boosterId === userInfo._id );
         return (

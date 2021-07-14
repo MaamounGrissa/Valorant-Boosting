@@ -12,7 +12,7 @@ import MonetizationOnIcon from '@material-ui/icons/MonetizationOn';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 export default function BoosterHome(props) {
-    let user, clients, watingOrders, paiedOrders;
+    let user, clients, watingOrders, finishedOrders, paiedOrders;
     const dispatch = useDispatch();
     const { classes } = props;
     const userSignin = useSelector((state) => state.userSignin);
@@ -58,7 +58,8 @@ export default function BoosterHome(props) {
         return ( <MessageBox variant="danger">{error}</MessageBox> );
     } else {
         user = users?.find(user => user._id === userInfo._id);
-        paiedOrders = orders?.filter(order => order.status === 'Paied');
+        paiedOrders = orders?.filter(order => order.status === 'Paied' && order.boosterId === user._id);
+        finishedOrders = orders?.filter(order => order.status === 'Finished' && order.boosterId === user._id);
         clients = users?.filter(user => user.rule === 'client');
         watingOrders = orders?.filter(order => order.status === 'Looking for a booster');
 
@@ -73,7 +74,7 @@ export default function BoosterHome(props) {
                             </div>
                             <div className="infos-container">
                                 <p><strong>Total Paied Orders : </strong><span>{
-                                    paiedOrders.filter(order => order.boosterId === user._id).length
+                                    paiedOrders.length
                                     }</span></p>
                                 <p><strong>Total Revenue : </strong><span>{parseInt(user.totalRevenue)}&nbsp;$</span></p>
                             </div>
@@ -84,7 +85,7 @@ export default function BoosterHome(props) {
                             </div>
                             <div className="infos-container">
                                 <p><strong>Total Finished Orders : </strong><span>{
-                                    paiedOrders.filter(order => order.boosterId === user._id).length
+                                    finishedOrders.length
                                     }</span></p>
                                 <p><strong>Payement Pending : </strong><span>{parseInt(user.payementPending)}&nbsp;$</span></p>
                             </div>

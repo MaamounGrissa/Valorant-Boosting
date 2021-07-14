@@ -25,18 +25,17 @@ const useStyles = makeStyles({
 
 export default function BoosterFinishedOrders(props) {
     let user, clients, finishedOrders;
-    Moment.locale('en');
     const classes = useStyles();
     const dispatch = useDispatch();
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
     const userList = useSelector( state => state.userList);
     const {loading, error, users} = userList;
     const orderList = useSelector( state => state.orderList);
     const {loadingOrders, errorOrders, orders} = orderList;
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState('');
-    const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo } = userSignin;
-
+    
     const showDeleteConfirmation = (boosterId) => {
       setSelectedOrder(boosterId);
       setShowConfirmation(true);
@@ -68,7 +67,7 @@ export default function BoosterFinishedOrders(props) {
     } else if (error ||errorOrders) {
         return ( <MessageBox variant="danger">{error}</MessageBox> );
     } else {
-        user = users?.filter(user => user._id === userInfo._id);
+        user = users?.find(user => user._id === userInfo._id);
         clients = users?.filter(user => user.rule === 'client');
         finishedOrders = orders?.filter(order => order.status === 'Finished' && order.boosterId === userInfo._id );
         return (
