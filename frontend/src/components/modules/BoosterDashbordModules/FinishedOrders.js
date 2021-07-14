@@ -23,8 +23,8 @@ const useStyles = makeStyles({
 });
 
 
-export default function PaiedOrders(props) {
-    let boosters, clients, paiedOrders;
+export default function FinishedOrders(props) {
+    let user, clients, finishedOrders;
     Moment.locale('en');
     const classes = useStyles();
     const dispatch = useDispatch();
@@ -34,6 +34,8 @@ export default function PaiedOrders(props) {
     const {loadingOrders, errorOrders, orders} = orderList;
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState('');
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
 
     const showDeleteConfirmation = (boosterId) => {
       setSelectedOrder(boosterId);
@@ -66,39 +68,35 @@ export default function PaiedOrders(props) {
     } else if (error ||errorOrders) {
         return ( <MessageBox variant="danger">{error}</MessageBox> );
     } else {
-        boosters = users?.filter(user => user.rule === 'booster');
+        user = users?.filter(user => user._id === userInfo._id);
         clients = users?.filter(user => user.rule === 'client');
-        paiedOrders = orders?.filter(order => order.status === 'Paied');
+        finishedOrders = orders?.filter(order => order.status === 'Finished' && order.boosterId === userInfo._id );
         return (
         <TableContainer component={Paper}>
             <Table className={classes.table} aria-label="simple table">
             <TableHead className="custom-thead">
                 <TableRow>
                 <TableCell>Id</TableCell>
-                <TableCell>Customer</TableCell>
                 <TableCell>Date</TableCell>
-                <TableCell>Price</TableCell>
-                <TableCell>Booster</TableCell>
-                <TableCell>Percentage</TableCell>
-                <TableCell>Booster price</TableCell>
-                <TableCell>Rest</TableCell>
+                <TableCell>Customer</TableCell>
+                <TableCell>Boost Type</TableCell>
+                <TableCell>Boost Queue</TableCell>
+                <TableCell>My Price</TableCell>
                 <TableCell>Status</TableCell>
                 <TableCell>Action</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
-                {paiedOrders.map((order) => (
+                {finishedOrders.map((order) => (
                 <TableRow key={order._id}>
                     <TableCell component="th" scope="row">
                     {order._id.substring(order._id.length - 5)}
                     </TableCell>
-                    <TableCell>{clients.find(b => b._id === order.userId).name}</TableCell>
                     <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
-                    <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
-                    <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
-                    <TableCell>{boosters.find(b => b._id === order.boosterId)?.percentage}</TableCell>
-                    <TableCell>{parseInt(((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage))}&nbsp;$</TableCell>
-                    <TableCell className="bold">{parseInt((order.price - ((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)))}&nbsp;$</TableCell>
+                    <TableCell>{clients.find(b => b._id === order.userId).name}</TableCell>
+                    <TableCell>{order.boostType}</TableCell>
+                    <TableCell>{order.duoGame ? 'Duo Boost' : 'Single Boost'}</TableCell>
+                    <TableCell>{parseInt((order.price / 100) * user.percentage)}&nbsp;$</TableCell>
                     <TableCell><span className="status-output paied">{order.status}</span></TableCell>
                     <TableCell><DeleteForeverIcon className="delete-btn" onClick={() => showDeleteConfirmation(order._id)} /></TableCell>
                 </TableRow>

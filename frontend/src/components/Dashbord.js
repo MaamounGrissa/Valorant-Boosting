@@ -24,6 +24,9 @@ import ProfileTab from './modules/ProfileTab.js';
 import PaiedOrders from './modules/AdminDashbordModules/PaiedOrders.js';
 import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
 import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
+import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
+import FinishedOrders from './modules/BoosterDashbordModules/FinishedOrders.js';
+import BoosterPaiedOrders from './modules/BoosterDashbordModules/BoosterPaiedOrders.js';
 
 function Copyright() {
   return (
@@ -167,7 +170,7 @@ export default function Dashbord() {
                     <MenuIcon />
                   </IconButton>
                   <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
-                    {userInfo.rule === 'admin' ? 'Admin ' : userInfo.rule === 'booster' ? 'Booster ' : ''}Dashboard
+                    {userInfo?.rule === 'admin' ? 'Admin ' : userInfo?.rule === 'booster' ? 'Booster ' : ''}Dashboard
                   </Typography>
                   <Link to='/' className='white' ><img src="/images/logo.png" alt="Logo" className="logo-style" /></Link>
                 </Toolbar>
@@ -219,6 +222,15 @@ export default function Dashbord() {
                           <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>
                               <BoosterHome fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                            }/>
+                            <Route path="/dashbord/myorders" exact={true} render={ (props) =>
+                              <MyOrders classes={classes} />
+                            }/>
+                            <Route path="/dashbord/myfinishedorders" exact={true} render={ (props) =>
+                              <FinishedOrders classes={classes} />
+                            }/>
+                            <Route path="/dashbord/mypaiedorders" exact={true} render={ (props) =>
+                              <BoosterPaiedOrders classes={classes} />
                             }/>
                             <Route path="/dashbord/profile" exact={true} render={ (props) =>
                                 <ProfileTab />

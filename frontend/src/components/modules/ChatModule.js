@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddChat, ListChat } from '../../actions/chatActions';
@@ -15,22 +16,28 @@ export default function ChatModule(props) {
     const { userInfo } = userSignin;
 
     useEffect(() => {
-       if (order) {
+       if (order || props.reloadChat) {
            dispatch(ListChat());
+           props.reloaded();
        }
-    }, [dispatch, order]);
+    }, [dispatch, order, props, props.reloadChat]);
 
     const handleSendMessage = (e) => {
         e.preventDefault();
-        if(message) {
+        if(message !== '') {
             dispatch(AddChat(userInfo._id, order, message)).then(() => {
                 dispatch(ListChat());
+                setMessage('');
             });
         }
     }
 
     if (loading) {
-        return null;
+        return (
+            <div className="chat-loading">
+                <img src="/images/loading.gif" alt="Loading" />
+            </div>
+        );
     } else if (error) {
         return ( <MessageBox variant="danger">{error}</MessageBox> );
     } else {
@@ -56,7 +63,10 @@ export default function ChatModule(props) {
                                                 alt="" />
                                         )
                                     }
-                                    <span className="chat-message">{message.message}</span>
+                                    <span className="chat-message">
+                                        {message.message}
+                                        <em>{Moment(message.createdAt).format('DD/MM/YY hh:mm')}</em>
+                                    </span>
                             </div>
                         )
                     }

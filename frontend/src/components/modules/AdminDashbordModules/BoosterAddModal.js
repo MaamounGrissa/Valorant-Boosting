@@ -46,6 +46,9 @@ export default function BoosterAddModal(props) {
             setRank('');
             setPaypal('');
             setPercentage('');
+            //props.onClose(e);
+        }).catch((err) => {
+            setMyfeedback(err);
         });
     }
 
@@ -100,7 +103,7 @@ export default function BoosterAddModal(props) {
                                                 color="primary"
                                                 className="mybtn"
                                                 startIcon={<SaveIcon />}
-                                                onClick={submitSave}>
+                                                onClick={e => submitSave(e)}>
                                                 Save&nbsp;&nbsp;
                                                 {
                                                 loading ? (

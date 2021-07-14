@@ -782,6 +782,91 @@ main > .overlay {
   background-color: #ff9155;
 }
 
+.myorders-infos {
+  padding: 20px;
+}
+
+.myorders-infos>h4 {
+  font-size: 1.3rem;
+  text-align: center;
+  margin-bottom: 15px;
+}
+.myorders-infos .flex {
+  display: flex;
+  align-items: center;
+}
+
+.myorders-infos .flex.between {
+  justify-content: space-between;
+}
+
+.bordred-container {
+  margin: 20px 0;
+  padding: 15px;
+  border: 1px dashed #eee;
+  border-radius: 10px;
+}
+
+.default-display {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.default-display h4 {
+  font-size: 1.8rem;
+}
+
+.myorders-rank {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.myorders-rank {
+ text-align: center;
+}
+
+.myorders-rank h3 span {
+  text-transform: capitalize;
+  margin-right: 5px;
+}
+
+.myorders-rank img {
+  width: 70px;
+}
+
+.mini-text {
+  font-size: 12px;
+}
+
+.account-informations {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.account-informations>div {
+  flex: 1;
+  margin: 0 2px;
+  border-radius: 10px;
+  padding: 5px;
+  border: 1px dashed #eee;
+  text-align: center;
+}
+
+.account-informations>div span {
+  font-size: 9px;
+}
+
+.account-informations>div p {
+  margin: 10px auto;
+  font-size: 14px;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+
 /******************************************************************/
 /****************************** Footer ****************************/
 /******************************************************************/
@@ -1054,6 +1139,10 @@ footer > p {
 
 }
 
+.paper-header .reload-chat  svg{
+  cursor: pointer;
+}
+
 .paper-header button {
   background: transparent;
   border: none;
@@ -1195,15 +1284,16 @@ footer > p {
 }
 
 .paid-button {
-  padding: 6px 10px;
+  padding: 5px 8px;
   cursor: pointer;
   background-color: rgb(55, 170, 55);
   border: none;
   color: #fff;
-  font-size: 15px;
+  font-size: 13px;
   font-weight: bold;
   border-radius: 20px;
   transition: all 0.5s;
+  margin-bottom: 2px;
 }
 .paid-button.red {
   background-color: rgb(192, 76, 76);
@@ -1211,6 +1301,14 @@ footer > p {
 
 .paid-button.blue {
   background-color: cornflowerblue;
+}
+
+.paid-button.green {
+  background-color: rgb(55, 170, 55);
+}
+
+.paid-button.mr {
+  margin-right: 10px;
 }
 
 .paid-button:hover {
@@ -1283,10 +1381,26 @@ footer > p {
 
 .chat-message {
   background-color: #f2ebf0;
-  padding: 5px;
-  border-radius: 30px;
+  padding: 6px 10px;
+  border-radius: 20px;
   white-space: pre-wrap;
   font-size: 14px;
+  position: relative;
+  font-family: 'Times New Roman', Times, serif;
+  min-width: 100px;
+}
+
+.chat-message em {
+  position: absolute;
+  right: 7px;
+  top: -10px;
+  font-size: 10px;
+}
+
+.message-container.reverse .chat-message em {
+  right: initial;
+  left: 7px;
+  direction: ltr;
 }
 
 .chat-action {
@@ -1710,6 +1824,27 @@ footer > p {
   width: 350px;
 }
 
+.chat-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  min-height: 230px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #fff;
+}
+
+.chat-loading img {
+  width: 150px;
+}
+
+.paper-content.chat {
+  position: relative;
+}
+
 .loading-module {
   display: flex;
   justify-content: center;
@@ -1960,45 +2095,61 @@ footer > p {
     order: 2;
   }
 
-  .product-rating span {
-    font-size: 10px;
-    margin-right: 1px;
+
+ 
+
+  .register-content {
+    width: 90%;
+    padding: 20px;
   }
 
-  .product-rating span:last-of-type {
-    margin-left: 5px;
+  .intro-container .intro-actions button {
+    font-size: 13px;
+    padding: 10px 15px;
   }
 
-  .product-rating {
-    opacity: 1;
-    transform: translate3d(0, 0, 0);
+  .ranks-container .ranks-header div h3 {
+    font-size: 1.6rem;
+    margin-bottom: 10px;
   }
 
-  .product-page {
-    padding-top: 100px;
+  .ranks-container .ranks-header div p {
+    font-size: 14px;
+    margin-bottom: 20px;
   }
 
-  .head-page {
-    padding: 180px 5% 20px;
+  .ranks .rank {
+    width: 12%;
+    padding: 2px 0 0 0;
+    margin-right: 5px;
   }
 
-  .product-page-container {
+  .divisions .division strong {
+    font-size: 18px;
+  }
+
+  .divisions .division {
+    padding: 6px 8px;
+    width: auto;
+    margin-right: 3px;
+  }
+
+  .booster-panel-infos {
     flex-direction: column;
   }
 
-  .related-container {
-    flex-wrap: wrap;
+  .booster-panel-infos .booster-infos-box {
+    width: 100%;
+    justify-content: flex-start;
+    margin-bottom: 20px;
   }
 
-  .product-page-infos, .contacts-container {
-    width: 100%;
-    flex:  initial;
+  .booster-infos-box .icon-container {
+    padding: 6px 10px;
   }
 
-  .product-page-images, .tabs-container {
-    width: 100%;
-    flex: initial;
-    padding-left: 0;
+  .infos-container p {
+    font-size: 14px;
   }
 }
 

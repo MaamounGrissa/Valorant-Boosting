@@ -39,14 +39,14 @@ function Home () {
                     in={rank}
                     transitionName="myanimation"
                     timeout={300}>
-                        <RankTab />
+                        <RankTab/>
                     </CSSTransition >
                 ) : placement ? (
                     <CSSTransition
                     in={placement}
                     transitionName="myanimation"
                     timeout={300}>
-                        <PlacementTab />
+                        <PlacementTab/>
                     </CSSTransition >
                 ) : ('')
                 }

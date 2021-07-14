@@ -17,6 +17,7 @@ import MessageBox from '../MessageBox.js';
 import ProgressOrders from './ProgressOrders.js'
 import ConfirmModal from '../ConfirmModal.js';
 import ChatModule from '../ChatModule.js'
+import CachedIcon from '@material-ui/icons/Cached';
 
 export default function AdminHome(props) {
     let boosters, clients, waitingOrders, progressOrders, finishedOrders;
@@ -32,6 +33,7 @@ export default function AdminHome(props) {
     const [showEditBooster, setShowEditBooster] = useState(false);
     const [showAddOrder, setShowAddOrder] = useState(false);
     const [showConfirmation, setShowConfirmation] = useState(false);
+    const [reloadChat, setReloadChat] = useState(false);
 
     useEffect(() => {
         dispatch(ListUsers());
@@ -142,22 +144,23 @@ export default function AdminHome(props) {
                     <Paper className={classes.paper}>
                         <div className="paper-header">
                             <div className="paper-title">Chat</div>
-                                <div className="button-container">
-                                    <select 
-                                        value={selectedOrder} 
-                                        onChange={e => setSelectedOrder(e.target.value)}
-                                        className="orders-select">
-                                        <option value={null}>Select Order</option>
-                                        {
-                                            progressOrders.map(order =>
-                                                <option key={order._id} value={order._id}> {order._id.substring(order._id.length - 5)} | {Moment(order.createdAt).format('DD/MM/YY')}</option>
-                                            )
-                                        }
-                                    </select>
+                            <div className="reload-chat"><CachedIcon onClick={e => setReloadChat(true)} /></div>
+                            <div className="button-container">
+                                <select 
+                                    value={selectedOrder} 
+                                    onChange={e => setSelectedOrder(e.target.value)}
+                                    className="orders-select">
+                                    <option value={null}>Select Order</option>
+                                    {
+                                        progressOrders.map(order =>
+                                            <option key={order._id} value={order._id}> {order._id.substring(order._id.length - 5)} | {Moment(order.createdAt).format('DD/MM/YY')}</option>
+                                        )
+                                    }
+                                </select>
                             </div>
                         </div>
-                            <div className="paper-content">
-                                <ChatModule order={selectedOrder} users={users} />
+                            <div className="paper-content chat">
+                                <ChatModule order={selectedOrder} users={users} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
                             </div>
                     </Paper>
                 </Grid>

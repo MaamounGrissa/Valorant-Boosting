@@ -63,13 +63,24 @@ export default function OrderModal(props) {
                                     <div className="flex start">
                                         <img src="/images/vlrnt.png" alt="Vlrnt" width="90" />
                                         <div>
-                                            <h3>
-                                                {ranks[order.startRank - 1]} {divisions[order.startDivision - 1]}
-                                                &nbsp;
-                                                {order.desiredRank ? 'to' : ''}
-                                                &nbsp;
-                                                {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
-                                            </h3>
+                                            {
+                                                order.boostType = "Rank Boosting" ? (
+                                                    <h3>
+                                                        {ranks[order.startRank - 1]} {divisions[order.startDivision - 1]}
+                                                        &nbsp;
+                                                        {order.desiredRank ? 'to' : ''}
+                                                        &nbsp;
+                                                        {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
+                                                    </h3>
+                                                ) : (
+                                                    <h3>
+                                                        {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
+                                                        &nbsp;
+                                                        {'Games : ' + order.games}
+                                                        &nbsp;
+                                                    </h3>
+                                                )
+                                            }
                                             <p>Valorant&nbsp;{ order.boostType }</p>
                                         </div>    
                                     </div>

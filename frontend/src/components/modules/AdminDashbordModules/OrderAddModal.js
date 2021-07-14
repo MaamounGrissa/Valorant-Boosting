@@ -105,9 +105,8 @@ export default function OrderAddModal(props) {
         "Immortal"
     ];
 
-    const handleGames = (e) => {
-        e.preventDefault();
-        setGames(e.target.value)
+    const handleGames = (e, newValue) => {
+        setGames(newValue)
     }
 
     const handleBoostType = (e, type) => {
@@ -153,11 +152,11 @@ export default function OrderAddModal(props) {
             setErrors('Enter your valorant summoner !');
             return;
         }
-        if (startRank === '') {
+        if (boostType === 'Rank Boosting' && startRank === '') {
             setErrors('Select your start rank !');
             return;
         }
-        if (startDivision === 0) {
+        if (boostType === 'Rank Boosting' && startDivision === 0) {
             setErrors('Select your start division !');
             return;
         }
@@ -215,6 +214,9 @@ export default function OrderAddModal(props) {
                 setSpecificAgents(false);
                 setPriorityOrder(false);
                 setWithStreaming(false);
+                setPrice(0);
+                setUser('');
+                props.onClose(e);
         });
     }
 
@@ -275,6 +277,7 @@ export default function OrderAddModal(props) {
                                             name: 'startrank',
                                             id: 'startrank-select',
                                         }}
+                                        disabled={boostType === 'Rank Boosting' ? false : true}
                                         >
                                          <option value={''}>Start rank</option>
                                         {
@@ -293,6 +296,7 @@ export default function OrderAddModal(props) {
                                                 name: 'startdivision',
                                                 id: 'startdivision-select',
                                             }}
+                                            disabled={boostType === 'Rank Boosting' ? false : true}
                                         >
                                          <option value={0}>Start Division</option>
                                          <option value={1}>I</option>
@@ -380,8 +384,8 @@ export default function OrderAddModal(props) {
                                         step={1}
                                         min={1}
                                         max={5} 
-                                        defaultValue={games} 
-                                        onChange={e => handleGames(e)} 
+                                        value={games} 
+                                        onChange={handleGames} 
                                         disabled={boostType === 'Placement Boosting' ? false : true}
                                         />
                                         <div className={classes.margin} />

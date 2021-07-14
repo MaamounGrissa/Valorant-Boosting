@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from "react-router-dom"
 import { withStyles } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
@@ -9,6 +11,7 @@ import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
 import VideocamIcon from '@material-ui/icons/Videocam';
 import OrderModal from './OrderModal.js'
+
 
 const OrangeSwitch = withStyles({
     switchBase: {
@@ -25,6 +28,11 @@ const OrangeSwitch = withStyles({
   })(Switch);
 
 export default function RankTab(props) {
+
+    let history = useHistory();
+
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
 
     const [order, setOrder] = useState({});
     const [showOrderModal, setShowOrderModal] = useState(false);
@@ -125,7 +133,13 @@ export default function RankTab(props) {
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
-        if (rank === 0) {
+        if (!userInfo) {
+            history.push('/signin')
+        } else if (userInfo?.rule === 'admin') {
+            setFeedback('You are an admin !');
+        } else if (userInfo?.rule === 'booster') {
+            setFeedback('You are a booster !');
+        } else if (rank === 0) {
             setFeedback('Select your start rank !');
         } else if (division === 0) {
             setFeedback('Select your start division !');

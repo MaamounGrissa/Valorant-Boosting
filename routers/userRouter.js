@@ -96,9 +96,7 @@ userRouter.post(
             percentage: req.body.percentage ? req.body.percentage : null,
         });
 
-        await user.save();
-
-        res.send('Booster Added');
+         res.send('Booster Added');
     })
 )
 

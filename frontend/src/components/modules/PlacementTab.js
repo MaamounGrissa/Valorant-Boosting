@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import { useHistory } from "react-router-dom"
+import { useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import Switch from '@material-ui/core/Switch';
@@ -65,8 +67,13 @@ const PrettoSlider = withStyles({
     track: {},
   })(Switch);
 
-export default function PlacementTab() {
+export default function PlacementTab(props) {
+
+    let history = useHistory();
     const classes = useStyles();
+
+    const userSignin = useSelector((state) => state.userSignin);
+    const { userInfo } = userSignin;
 
     const [order, setOrder] = useState({});
     const [showOrderModal, setShowOrderModal] = useState(false);
@@ -119,7 +126,6 @@ export default function PlacementTab() {
         setPlayWithBooster(false);
         setSpecificAgents(!specificAgents);
         setPrice(20);
-
     }
 
     const handlePlayWithBooster = (e) => {
@@ -145,7 +151,13 @@ export default function PlacementTab() {
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
-        if (rank === 0) {
+        if (!userInfo) {
+            history.push('/signin')
+        } else if (userInfo?.rule === 'admin') {
+            setFeedback('You are an admin !');
+        } else if (userInfo?.rule === 'booster') {
+            setFeedback('You are a booster !');
+        } else if (rank === 0) {
             setFeedback('Select your start rank !');
         } else if (division === 0) {
             setFeedback('Select your start division !');
@@ -154,8 +166,8 @@ export default function PlacementTab() {
         } else {
             setOrder({
                 boostType : 'Placement Boosting',
-                startRank : rank,
-                startDivision: division,
+                desiredRank : rank,
+                desiredDivision: division,
                 games: games,
                 server: server,
             })

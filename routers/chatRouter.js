@@ -37,6 +37,7 @@ chatRouter.post( '/add', expressAsyncHandler(async (req, res) => {
         });
         
     await chat.save();
+    res.send('Message sent !');
 }));
 
 
