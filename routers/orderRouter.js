@@ -5,6 +5,7 @@ import data from '../data.js';
 import User from '../models/userModel.js';
 import Chat from '../models/chatModel.js';
 import Order from '../models/orderModel.js';
+import Account from '../models/accountModel.js';
 
 const orderRouter = express.Router();
 
@@ -44,43 +45,60 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
     const now = Date.now();
        
     const order = new Order({
-            status: 'Looking for a booster',
+        status: 'Looking for a booster',
+        userId: req.body.userid,
+        server: req.body.server,
+        boostType: req.body.type,
+        startRank: req.body.startrank ? req.body.startrank : 0,
+        startDivision: req.body.startdivision ? req.body.startdivision : 0,
+        rankRating: req.body.rankrating ? req.body.rankrating : 0,
+        desiredRank: req.body.desiredrank,
+        desiredDivision: req.body.desireddivision,
+        games: req.body.games ? req.body.games : 0,
+        duoGame:  req.body.duogame,
+        chatOffine: req.body.chatoffline,
+        specificAgents: req.body.specificagents,
+        priorityOrder: req.body.priorityorder,
+        withStreaming: req.body.withstreaming,
+        price: req.body.price,
+        payement: req.body.payement,
+        payementFullName: req.body.payementfullname ? req.body.payementfullname : '',
+        payementBillingAdress: req.body.payementbillingadress ? req.body.payementbillingadress : '',
+        payementCity: req.body.city ? req.body.city : '',
+        payementZipCode: req.body.zipcode ? req.body.zipcode : '',
+        payementAdress: req.body.adress ? req.body.adress : '',
+    });
+
+    await order.save();
+
+    const  account = await Account.findOne({ userId : req.body.userid });
+
+    if (account) {
+        account.name = req.body.account;
+        account.password = req.body.password;
+        account.summoner = req.body.summoner;
+        await account.save();
+    } 
+    
+    if(!account) {
+        createdAccount = new Account({
             userId: req.body.userid,
-            account: req.body.account ? req.body.account : '',
-            password: req.body.password ? req.body.password : '',
-            summoner: req.body.summoner ? req.body.summoner: '',
-            server: req.body.server,
-            boostType: req.body.type,
-            startRank: req.body.startrank ? req.body.startrank : 0,
-            startDivision: req.body.startdivision ? req.body.startdivision : 0,
-            rankRating: req.body.rankrating ? req.body.rankrating : 0,
-            desiredRank: req.body.desiredrank,
-            desiredDivision: req.body.desireddivision,
-            games: req.body.games ? req.body.games : 0,
-            duoGame:  req.body.duogame,
-            chatOffine: req.body.chatoffline,
-            specificAgents: req.body.specificagents,
-            priorityOrder: req.body.priorityorder,
-            withStreaming: req.body.withstreaming,
-            price: req.body.price,
-            payement: req.body.payement,
-            payementFullName: req.body.payementfullname ? req.body.payementfullname : '',
-            payementBillingAdress: req.body.payementbillingadress ? req.body.payementbillingadress : '',
-            payementCity: req.body.city ? req.body.city : '',
-            payementZipCode: req.body.zipcode ? req.body.zipcode : '',
-            payementAdress: req.body.adress ? req.body.adress : '',
+            name : req.body.account,
+            password : req.body.password,
+            summoner : req.body.summoner,
         });
-        await order.save();
+        await createdAccount.save();
+    }
 
-        const chat = new Chat({
-            userId: req.body.userid,
-            orderId: order._id,
-            message: 'Chat created at ' + dateFormat(now, "dd/mm/yyyy"),
-        });
+    const chat = new Chat({
+        userId: req.body.userid,
+        orderId: order._id,
+        message: 'Chat created at ' + dateFormat(now, "dd/mm/yyyy"),
+    });
 
-        await chat.save();
+    await chat.save();
 
-        res.send('Order Added');
+    res.send('Order Added');
     })
 );
 

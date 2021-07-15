@@ -3,7 +3,6 @@ import Moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import { useDispatch, useSelector } from 'react-redux';
 import { AddChat, MyListChat } from '../../actions/chatActions';
-import MessageBox from './MessageBox.js';
 
 export default function ChatModule(props) {
     let myChat;
