@@ -17,6 +17,7 @@ import ChatModule from '../ChatModule.js'
 import { ChangeStatus, ListOrders } from '../../../actions/orderActions.js';
 import ConfirmModal from '../ConfirmModal.js'
 import CachedIcon from '@material-ui/icons/Cached';
+import { ListAccount } from '../../../actions/accountActions';
 
 
 export default function MyOrders(props) {
@@ -27,17 +28,22 @@ export default function MyOrders(props) {
     const { userInfo } = userSignin;
     const userList = useSelector( state => state.userList);
     const {loading, error, users} = userList;
+    const accountList = useSelector( state => state.accountList);
+    const { accounts } = accountList;
     const orderList = useSelector( state => state.orderList);
     const {loadingOrders, errorOrders, orders} = orderList;
-    const [selectedOrder, setSelectedOrder] = useState({});
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [qst, setQst] = useState('');
     const [title, setTitle] = useState('');
     const [reloadChat, setReloadChat] = useState(false);
 
+    
+
     useEffect(() => {
         dispatch(ListUsers());
         dispatch(ListOrders());
+        dispatch(ListAccount());
     }, [dispatch]);
 
     //  DROP ORDER
@@ -216,15 +222,15 @@ export default function MyOrders(props) {
                                     <div className="account-informations">
                                         <div>
                                             <span>Account</span>
-                                            <p><strong>{progressOrders.find(order => order._id === selectedOrder).account}</strong></p>
+                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId).name}</strong></p>
                                         </div>
                                         <div>
                                             <span>Password</span>
-                                            <p><strong>{progressOrders.find(order => order._id === selectedOrder).password}</strong></p>
+                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId).password}</strong></p>
                                         </div>
                                         <div>
                                             <span>Summoner Name</span>
-                                            <p><strong>{progressOrders.find(order => order._id === selectedOrder).summoner}</strong></p>
+                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId).summoner}</strong></p>
                                         </div>
                                     </div>
                                 </div>
@@ -257,7 +263,7 @@ export default function MyOrders(props) {
                             </div>
                         </div>
                         <div className="paper-content chat">
-                            <ChatModule order={selectedOrder} users={users} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
+                            <ChatModule order={selectedOrder} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
                         </div>
                     </Paper>
                 </Grid>

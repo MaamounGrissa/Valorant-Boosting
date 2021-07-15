@@ -3,7 +3,6 @@ import Moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
-import { ListUsers } from '../../../actions/userActions';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
 import Table from '@material-ui/core/Table';
@@ -33,10 +32,7 @@ export default function ClientHome(props) {
     const myList = useSelector( state => state.myList);
     const {loadingOrders, errorOrders, myOrders} = myList;
 
-    const userList = useSelector( state => state.userList);
-    const {loading, error, users} = userList;
-
-    const [selectedOrder, setSelectedOrder] = useState({});
+    const [selectedOrder, setSelectedOrder] = useState(null);
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [reloadChat, setReloadChat] = useState(false);
     const [accountName, setAccountName] = useState(null);
@@ -45,7 +41,6 @@ export default function ClientHome(props) {
 
     useEffect(() => {
         if (myId) {
-            dispatch(ListUsers());
             dispatch(MyListOrders(myId));
             dispatch(MyAccount(myId));
         }            
@@ -87,7 +82,6 @@ export default function ClientHome(props) {
     // Reload Data
 
     const LoadData = () => {
-        dispatch(ListUsers());
         dispatch(MyListOrders(myId));
         dispatch(MyAccount(myId));
         setSelectedOrder(null)
@@ -117,10 +111,10 @@ export default function ClientHome(props) {
         "81-100",
     ]
 
-    if (loading || loadingOrders || loadingAccount) {
+    if (loadingOrders || loadingAccount) {
         return ( <LoadingModule></LoadingModule> );
-    } else if (error || errorOrders || errorAccount) {
-        return ( <MessageBox variant="danger">{error || errorOrders || errorAccount}</MessageBox> );
+    } else if (errorOrders || errorAccount) {
+        return ( <MessageBox variant="danger">{errorOrders || errorAccount}</MessageBox> );
     } else {
         return (
             <Grid container spacing={3}>
@@ -288,7 +282,7 @@ export default function ClientHome(props) {
                             </div>
                         </div>
                         <div className="paper-content chat">
-                            <ChatModule order={selectedOrder} users={users} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
+                            <ChatModule order={selectedOrder} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
                         </div>
                     </Paper>
                 </Grid>

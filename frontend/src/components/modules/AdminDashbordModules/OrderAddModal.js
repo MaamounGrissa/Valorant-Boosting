@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
@@ -91,7 +91,6 @@ export default function OrderAddModal(props) {
     const [specificAgents, setSpecificAgents] = useState(false);
     const [priorityOrder, setPriorityOrder] = useState(false);
     const [withStreaming, setWithStreaming] = useState(false);
-
     const [myfeedback, setMyfeedback] = useState(null);
     const [errors, setErrors] = useState(null);
 
@@ -104,6 +103,19 @@ export default function OrderAddModal(props) {
         "Diamond",
         "Immortal"
     ];
+
+    useEffect(() => {
+      if (user) {
+        setAccount(props.accounts.find(acc => acc.userId === user)?.name || '');
+        setPassword(props.accounts.find(acc => acc.userId === user)?.password || '');
+        setSummoner(props.accounts.find(acc => acc.userId === user)?.summoner || '');
+      }
+    }, [props.accounts, user])
+
+    const handleUser = (e) => {
+        e.preventDefault();
+        setUser(e.target.value);
+    }
 
     const handleGames = (e, newValue) => {
         setGames(newValue)
@@ -240,7 +252,7 @@ export default function OrderAddModal(props) {
                                         <Select
                                         native
                                         value={user}
-                                        onChange={e => setUser(e.target.value)}
+                                        onChange={e => handleUser(e)}
                                         inputProps={{
                                             name: 'client',
                                             id: 'client-select',

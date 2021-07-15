@@ -2,7 +2,7 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
 import { accountEditReducer, accountGETReducer, accountListReducer } from './reducer/accountReducers';
 import { blogDetailsReducer, blogListReducer } from './reducer/blogReducers';
-import { chatAddReducer, chatListReducer } from './reducer/chatReducers';
+import { chatAddReducer, chatListReducer, myChatListReducer } from './reducer/chatReducers';
 import { myListReducer, orderAddReducer, orderDeleteReducer, orderListReducer, statusChangeReducer } from './reducer/orderReducers';
 import { boosterAddReducer, boosterDeleteReducer, boosterEditReducer, userEditReducer, userGetReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
@@ -32,6 +32,7 @@ const reducer = combineReducers({
 
     chatList: chatListReducer,
     chatAdd: chatAddReducer,
+    myChatList: myChatListReducer,
 
     accountList: accountListReducer,
     accountEdit: accountEditReducer,

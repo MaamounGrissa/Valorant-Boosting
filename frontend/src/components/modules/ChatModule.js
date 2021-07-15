@@ -2,22 +2,22 @@ import React, { useEffect, useState } from 'react';
 import Moment from 'moment';
 import SendIcon from '@material-ui/icons/Send';
 import { useDispatch, useSelector } from 'react-redux';
-import { AddChat, ListChat } from '../../actions/chatActions';
+import { AddChat, MyListChat } from '../../actions/chatActions';
 import MessageBox from './MessageBox.js';
 
 export default function ChatModule(props) {
     let myChat;
     const dispatch = useDispatch();
-    const { order, users } = props;
-    const chatList = useSelector( state => state.chatList);
-    const {loading, error, chat} = chatList;
+    const { order } = props;
+    const myChatList = useSelector( state => state.myChatList);
+    const {loading, error, chat} = myChatList;
     const [message, setMessage] = useState('');
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo } = userSignin;
 
     useEffect(() => {
        if (order || props.reloadChat) {
-           dispatch(ListChat());
+           dispatch(MyListChat(order));
            props.reloaded();
        }
     }, [dispatch, order, props, props.reloadChat]);
@@ -26,7 +26,7 @@ export default function ChatModule(props) {
         e.preventDefault();
         if(message !== '') {
             dispatch(AddChat(userInfo._id, order, message)).then(() => {
-                dispatch(ListChat());
+                dispatch(MyListChat(order));
                 setMessage('');
             });
         }
@@ -39,28 +39,27 @@ export default function ChatModule(props) {
             </div>
         );
     } else if (error) {
-        return ( <MessageBox variant="danger">{error}</MessageBox> );
+        return null;
     } else {
-        myChat = chat.filter(m => m.orderId === order);
-
+        myChat = chat;
         return (
             <div className="chat-module-container">
                 <div id="chat-messages" className="chat-messages">
                     {
                         myChat.map((message, index) =>
                             <div key={index} 
-                                className={users.find(u => u._id === message.userId)?.rule === 'client' ? 'message-container' : 'message-container reverse'}>
+                                className={message.userId === userInfo._id ? 'message-container' : 'message-container reverse'}>
                                     {
-                                        users.find(u => u._id === message.userId)?.photo ? (
+                                        message.userId === userInfo._id && userInfo.photo ? (
                                             <img 
-                                                title={users.find(u => u._id === message.userId)?.name}
-                                                src={users.find(u => u._id === message.userId).photo} 
-                                                alt="" />
+                                                title={userInfo.name}
+                                                src={userInfo.photo} 
+                                                alt="User" />
                                         ) : (
                                             <img 
-                                                title={users.find(u => u._id === message.userId)?.name}
+                                                title={message.userId === userInfo._id ? userInfo.name : "Booster"}
                                                 src="/images/default-profile.png" 
-                                                alt="" />
+                                                alt="User" />
                                         )
                                     }
                                     <span className="chat-message">

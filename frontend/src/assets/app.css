@@ -1686,6 +1686,12 @@ div[data=clientDrawer] > .MuiDrawer-paper .MuiListItemIcon-root {
   color: #fff !important;
 }
 
+.paused {
+  font-size: 1.1rem;
+  color: #f00;
+  font-weight: bold;
+}
+
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/

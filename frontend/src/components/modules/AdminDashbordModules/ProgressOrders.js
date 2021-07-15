@@ -38,7 +38,14 @@ export default function ProgressOrders(props) {
                 className={props.selectedOrder === order._id ? 'mytablerow active' : 'mytablerow'} 
                 onClick={() => props.selectOrder(order._id)}>
                 <TableCell component="th" scope="row">
-                  {order._id.substring(order._id.length - 5)}
+                  {
+                    order.isPaused ? (
+                      <span className="paused">Paused</span>
+                    ) : (
+                      <span>{order._id.substring(order._id.length - 5)}</span>
+                    )
+                  }
+                  
                 </TableCell>
                 <TableCell>{clients.find(user => user._id === order.userId)?.name}</TableCell>
                 <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>

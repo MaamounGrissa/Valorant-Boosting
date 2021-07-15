@@ -1,5 +1,21 @@
 import axios from 'axios';
-import { CHAT_ADD_FAIL, CHAT_ADD_REQUEST, CHAT_ADD_SUCCESS, CHAT_LIST_FAIL, CHAT_LIST_REQUEST, CHAT_LIST_SUCCESS } from "../constants/chatConstants";
+import { CHAT_ADD_FAIL, CHAT_ADD_REQUEST, CHAT_ADD_SUCCESS, CHAT_LIST_FAIL, CHAT_LIST_REQUEST, CHAT_LIST_SUCCESS, MYLIST_CHAT_FAIL, MYLIST_CHAT_REQUEST, MYLIST_CHAT_SUCCESS } from "../constants/chatConstants";
+
+export const MyListChat = (orderId) => async (dispatch) => {
+    dispatch({
+        type: MYLIST_CHAT_REQUEST, payload: {orderId}
+    });
+    try {
+        const { data } = await axios.post('/api/chat/getorderchat', {orderId});
+        dispatch({
+            type: MYLIST_CHAT_SUCCESS, payload: data 
+        });
+    } catch(error) {
+        dispatch({
+            type: MYLIST_CHAT_FAIL, payload: error.message 
+        });
+    }
+};
 
 export const ListChat = () => async (dispatch) => {
     dispatch({

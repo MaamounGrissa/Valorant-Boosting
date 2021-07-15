@@ -18,6 +18,7 @@ import ProgressOrders from './ProgressOrders.js'
 import ConfirmModal from '../ConfirmModal.js';
 import ChatModule from '../ChatModule.js'
 import CachedIcon from '@material-ui/icons/Cached';
+import { ListAccount } from '../../../actions/accountActions.js';
 
 export default function AdminHome(props) {
     let boosters, clients, waitingOrders, progressOrders, finishedOrders;
@@ -27,6 +28,8 @@ export default function AdminHome(props) {
     const {loading, error, users} = userList;
     const orderList = useSelector( state => state.orderList);
     const {loadingOrders, errorOrders, orders} = orderList;
+    const accountList = useSelector( state => state.accountList);
+    const { accounts } = accountList;
     const [selectedBooster, setSelectedBooster] = useState(null);
     const [selectedOrder, setSelectedOrder] = useState({});
     const [showAddBooster, setShowAddBooster] = useState(false);
@@ -38,6 +41,7 @@ export default function AdminHome(props) {
     useEffect(() => {
         dispatch(ListUsers());
         dispatch(ListOrders());
+        dispatch(ListAccount());
     }, [dispatch]);
 
     // BOOSTERS MODALS
@@ -92,6 +96,7 @@ export default function AdminHome(props) {
     const LoadData = () => {
         dispatch(ListUsers());
         dispatch(ListOrders());
+        dispatch(ListAccount());
         setSelectedOrder(null)
     }
 
@@ -160,7 +165,7 @@ export default function AdminHome(props) {
                             </div>
                         </div>
                             <div className="paper-content chat">
-                                <ChatModule order={selectedOrder} users={users} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
+                                <ChatModule order={selectedOrder} reloadChat={reloadChat} reloaded={e => setReloadChat(false)} />
                             </div>
                     </Paper>
                 </Grid>
@@ -179,7 +184,7 @@ export default function AdminHome(props) {
                                     orders={waitingOrders} 
                                     reloadData={() => LoadData()} />
                             </div>
-                            <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients}/>
+                            <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients} accounts={accounts}/>
                             <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
                     </Paper>
                 </Grid>

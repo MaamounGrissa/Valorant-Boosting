@@ -8,8 +8,15 @@ const chatRouter = express.Router();
 // GET ALL Chat
 
 chatRouter.get('/', expressAsyncHandler(async (req, res) => {
-    const myChat = await Chat.find({});
-    res.send(myChat);
+    const chat = await Chat.find({});
+    res.send(chat);
+}));
+
+// GET MY Chat
+
+chatRouter.post('/getorderchat', expressAsyncHandler(async (req, res) => {
+    const chat = await Chat.find({ orderId: req.body.orderId});
+    res.send(chat);
 }));
 
 // Seed Chat From Data.js
