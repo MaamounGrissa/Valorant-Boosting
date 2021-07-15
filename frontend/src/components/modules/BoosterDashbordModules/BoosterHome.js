@@ -61,7 +61,7 @@ export default function BoosterHome(props) {
         paiedOrders = orders?.filter(order => order.status === 'Paied' && order.boosterId === user._id);
         finishedOrders = orders?.filter(order => order.status === 'Finished' && order.boosterId === user._id);
         clients = users?.filter(user => user.rule === 'client');
-        watingOrders = orders?.filter(order => order.status === 'Looking for a booster');
+        watingOrders = orders?.filter(order => order.status === 'Looking for a booster' && !order.isPaused);
 
         return (
             <Grid container spacing={3}>

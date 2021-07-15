@@ -204,6 +204,33 @@ export default {
         },        
     ],
 
+    accounts: [
+        {
+            userId: "60eda31a76804221dc3c5ddb",
+            name: "",
+            password: "",
+            summoner: ""
+        },
+        {
+            userId: "60eda31b76804221dc3c5ddc",
+            name: "",
+            password: "",
+            summoner: ""
+        },
+        {
+            userId: "60eda31b76804221dc3c5ddd",
+            name: "",
+            password: "",
+            summoner: ""
+        },
+        {
+            userId: "60eda31b76804221dc3c5ddc",
+            name: "",
+            password: "",
+            summoner: ""
+        },  
+    ]
+
     
 
 }

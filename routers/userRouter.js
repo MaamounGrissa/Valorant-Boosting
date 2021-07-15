@@ -5,6 +5,7 @@ import data from '../data.js';
 import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
 import path from 'path';
+import Account from '../models/accountModel.js';
 
 const __dirname = path.dirname(import.meta.url).replace(/^file:\/\/\//, '');
 const userRouter = express.Router();
@@ -61,6 +62,7 @@ userRouter.post(
 userRouter.post(
     '/register',
     expressAsyncHandler(async (req, res) => {
+
         const user = new User({
             name: req.body.name,
             email: req.body.email,
@@ -69,6 +71,15 @@ userRouter.post(
         });
 
         const createdUser = await user.save();
+
+        const account = new Account({
+            userId: createdUser._id,
+            name: '',
+            password: '',
+            summoner: '',
+        });
+
+        account.save();
 
         res.send({
             _id: createdUser._id,
@@ -96,7 +107,7 @@ userRouter.post(
             percentage: req.body.percentage ? req.body.percentage : null,
         });
 
-        user.save(function(err) {
+        user.save( function (err) {
             if (err) {
               if (err.name === 'MongoError' && err.code === 11000) {
                 // Duplicate username
@@ -104,10 +115,21 @@ userRouter.post(
               }
               // Some other error
               return res.status(422).send(err);
-            } else {
-                return res.send('Booster Added')
             }
-          });
+        });
+
+        const account = new Account({
+            userId: user._id,
+            name: '',
+            password: '',
+            summoner: ''
+        });
+
+        account.save();
+
+        res.send('Booster Added')
+
+           
     })
 )
 
@@ -148,6 +170,14 @@ userRouter.delete('/:id', expressAsyncHandler(async (req, res) => {
     });
 
 }));
+
+// getmyprofile
+
+userRouter.post('/getmyprofile', expressAsyncHandler(async (req, res) => {
+        const user = await User.findOne({_id: req.body.id})
+        res.send(user);
+    })
+)
 
 // Profile Edit
 

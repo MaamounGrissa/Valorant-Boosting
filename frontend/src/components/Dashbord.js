@@ -17,7 +17,7 @@ import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
 import AdminMenuListItems from './modules/AdminDashbordModules/AdminMenuListItems.js';
 import BoosterMenuListItems from './modules/BoosterDashbordModules/BoosterMenuListItems';
 import ClientMenuListItems from './modules/ClientDashboadModules/ClientMenuListItems.js';
-import HomeTab from './modules/ClientDashboadModules/HomeTab.js';
+import ClientHome from './modules/ClientDashboadModules/ClientHome.js';
 import LoadingBox from './modules/LoadingBox.js';
 import ErrorPage from './modules/ErrorPage.js';
 import ProfileTab from './modules/ProfileTab.js';
@@ -155,6 +155,7 @@ export default function Dashbord() {
     } else if (error){
         return <ErrorPage msg="Login to have access to dashbord" />
     } else {
+        localStorage.setItem('myId', userInfo._id)
         return (
             <div className={classes.root}>
               <CssBaseline />
@@ -239,7 +240,7 @@ export default function Dashbord() {
                         ) : userInfo?.rule === 'client' ? (
                           <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>
-                                <HomeTab fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                                <ClientHome fixedHeightPaper={fixedHeightPaper} classes={classes} userInfo={userInfo} />
                               }/>
                               <Route path="/dashbord/profile" exact={true} render={ (props) =>
                                 <ProfileTab />

@@ -1,9 +1,10 @@
 import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunk from 'redux-thunk';
+import { accountEditReducer, accountGETReducer, accountListReducer } from './reducer/accountReducers';
 import { blogDetailsReducer, blogListReducer } from './reducer/blogReducers';
 import { chatAddReducer, chatListReducer } from './reducer/chatReducers';
-import { orderAddReducer, orderDeleteReducer, orderListReducer, statusChangeReducer } from './reducer/orderReducers';
-import { boosterAddReducer, boosterDeleteReducer, boosterEditReducer, userEditReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
+import { myListReducer, orderAddReducer, orderDeleteReducer, orderListReducer, statusChangeReducer } from './reducer/orderReducers';
+import { boosterAddReducer, boosterDeleteReducer, boosterEditReducer, userEditReducer, userGetReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
 const initialState = {
     userSignin : {
@@ -21,14 +22,20 @@ const reducer = combineReducers({
     boosterAdd: boosterAddReducer,
     boosterEdit: boosterEditReducer,
     boosterDelete: boosterDeleteReducer,
+    userGet: userGetReducer,
 
     orderList: orderListReducer,
     orderAdd: orderAddReducer,
     statusChange: statusChangeReducer,
     orderDelete: orderDeleteReducer,
+    myList: myListReducer, 
 
     chatList: chatListReducer,
     chatAdd: chatAddReducer,
+
+    accountList: accountListReducer,
+    accountEdit: accountEditReducer,
+    accountGet: accountGETReducer,
    
     blogList: blogListReducer,
     blogDetails: blogDetailsReducer,

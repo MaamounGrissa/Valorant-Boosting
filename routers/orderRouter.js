@@ -15,6 +15,13 @@ orderRouter.get('/', expressAsyncHandler(async (req, res) => {
     res.send(orders);
 }));
 
+// GET My List Orders
+
+orderRouter.post('/mylistorders', expressAsyncHandler(async (req, res) => {
+    const myOrders = await Order.find({userId: req.body.id});
+    res.send(myOrders);
+}));
+
 
 // Seed Orders From Data.js
 
@@ -87,9 +94,21 @@ orderRouter.post('/changestatus', expressAsyncHandler(async (req, res) => {
             return res.send('Order not found !');
         }
 
+        if (req.body.status === 'Pause') {
+            order.isPaused = true;
+            await order.save();
+            return res.send('Order Paused !');
+        }
+
+        if (req.body.status === 'Resume') {
+            order.isPaused = false;
+            await order.save();
+            return res.send('Order Resumed !');
+        }
+
         order.status = req.body.status;
 
-        if(req.body.status === 'In progress' && req.body.boosterId) {
+        if (req.body.status === 'In progress' && req.body.boosterId) {
             order.boosterId = req.body.boosterId
         }
 

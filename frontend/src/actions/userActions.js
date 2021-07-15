@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOOSTER_ADD_FAIL, BOOSTER_ADD_REQUEST, BOOSTER_ADD_SUCCESS, BOOSTER_DELETE_FAIL, BOOSTER_DELETE_REQUEST, BOOSTER_DELETE_SUCCESS, BOOSTER_EDIT_FAIL, BOOSTER_EDIT_REQUEST, BOOSTER_EDIT_SUCCESS, USER_EDIT_FAIL, USER_EDIT_REQUEST, USER_EDIT_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants";
+import { BOOSTER_ADD_FAIL, BOOSTER_ADD_REQUEST, BOOSTER_ADD_SUCCESS, BOOSTER_DELETE_FAIL, BOOSTER_DELETE_REQUEST, BOOSTER_DELETE_SUCCESS, BOOSTER_EDIT_FAIL, BOOSTER_EDIT_REQUEST, BOOSTER_EDIT_SUCCESS, GET_USER_FAIL, GET_USER_REQUEST, GET_USER_SUCCESS, USER_EDIT_FAIL, USER_EDIT_REQUEST, USER_EDIT_SUCCESS, USER_LIST_FAIL, USER_LIST_REQUEST, USER_LIST_SUCCESS, USER_REGISTER_FAIL, USER_REGISTER_REQUEST, USER_REGISTER_SUCCESS, USER_SIGNIN_FAIL, USER_SIGNIN_REQUEST, USER_SIGNIN_SUCCESS, USER_SIGNOUT } from "../constants/userConstants";
 
 export const register = (name, email, password) => async(dispatch) => {
     dispatch({ type: USER_REGISTER_REQUEST, payload: { name, email, password } });
@@ -79,6 +79,22 @@ export const DeleteBooster = (boosterId) => async(dispatch) => {
     } catch (error) {
         dispatch({
             type: BOOSTER_DELETE_FAIL, 
+            payload: 
+                error.response && error.response.data.message
+                    ? error.response.data.message
+                    : error.message,
+        });
+    }
+}
+
+export const MyProfile = (id) => async(dispatch) => {
+    dispatch({ type: GET_USER_REQUEST, payload: { id } });
+    try {
+        const {data} = await axios.post('/api/users/getmyprofile', {id});
+        dispatch({ type: GET_USER_SUCCESS, payload: data});
+    } catch(error) {
+        dispatch({
+            type: GET_USER_FAIL, 
             payload: 
                 error.response && error.response.data.message
                     ? error.response.data.message

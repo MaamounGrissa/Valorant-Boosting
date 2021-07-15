@@ -1,5 +1,5 @@
 import axios from "axios";
-import { CHANGE_STATUS_FAIL, CHANGE_STATUS_REQUEST, CHANGE_STATUS_SUCCESS, ORDER_ADD_FAIL, ORDER_ADD_REQUEST, ORDER_ADD_SUCCESS, ORDER_DELETE_FAIL, ORDER_DELETE_REQUEST, ORDER_DELETE_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS } from "../constants/orderConstants";
+import { CHANGE_STATUS_FAIL, CHANGE_STATUS_REQUEST, CHANGE_STATUS_SUCCESS, MY_LIST_FAIL, MY_LIST_REQUEST, MY_LIST_SUCCESS, ORDER_ADD_FAIL, ORDER_ADD_REQUEST, ORDER_ADD_SUCCESS, ORDER_DELETE_FAIL, ORDER_DELETE_REQUEST, ORDER_DELETE_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS } from "../constants/orderConstants";
 
 export const ListOrders = () => async (dispatch) => {
     dispatch({
@@ -13,6 +13,21 @@ export const ListOrders = () => async (dispatch) => {
     } catch(error) {
         dispatch({
             type: ORDER_LIST_FAIL, payload: error.message 
+        });
+    }
+};
+
+export const MyListOrders = (id) => async (dispatch) => {
+    dispatch({
+        type: MY_LIST_REQUEST, payload: { id } });
+    try {
+        const { data } = await axios.post('/api/orders/mylistorders', { id })
+        dispatch({
+            type: MY_LIST_SUCCESS, payload: data 
+        });
+    } catch(error) {
+        dispatch({
+            type: MY_LIST_FAIL, payload: error.message 
         });
     }
 };

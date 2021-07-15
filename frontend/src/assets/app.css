@@ -1307,6 +1307,10 @@ footer > p {
   background-color: rgb(55, 170, 55);
 }
 
+.paid-button.gray {
+  background-color: grey;
+}
+
 .paid-button.mr {
   margin-right: 10px;
 }
@@ -1473,6 +1477,62 @@ footer > p {
 
 .infos-container p:last-of-type {
   margin-bottom: 0;
+}
+
+.mypaper-box {
+  padding: 20px;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  background: #fff9f8 !important;
+  height: auto;
+}
+
+.account-form  {
+  display: flex;
+}
+
+.account-form form {
+  display: flex;
+}
+
+.account-form input {
+  min-width: 250px;
+  width: 30%;
+  margin-right: 10px;
+  border-radius: 10px;
+  padding: 10px 20px;
+  border: 1px solid #eee;
+}
+
+.account-form input:last-of-type {
+  margin-right: 20px;
+}
+
+.account-form input:focus {
+  outline: none;
+}
+
+.account-form button {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ff9155;
+  padding: 2px 20px;
+  color: #ff9155;
+  transition: all 0.5s;
+  background-color: #eee;
+  border-radius: 10px;
+  line-height: 25px;
+  cursor: pointer;
+}
+
+.account-form button svg {
+  margin-right: 5px;
+}
+
+.account-form button:hover {
+  background-color: #ff9155;
+  color: #fff;
 }
 /******************************************************************/
 /*************************** Frameworks ***************************/

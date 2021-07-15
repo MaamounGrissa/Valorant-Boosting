@@ -1,4 +1,17 @@
-import { CHANGE_STATUS_FAIL, CHANGE_STATUS_REQUEST, CHANGE_STATUS_SUCCESS, ORDER_ADD_FAIL, ORDER_ADD_REQUEST, ORDER_ADD_SUCCESS, ORDER_DELETE_FAIL, ORDER_DELETE_REQUEST, ORDER_DELETE_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS } from "../constants/orderConstants";
+import { CHANGE_STATUS_FAIL, CHANGE_STATUS_REQUEST, CHANGE_STATUS_SUCCESS, MY_LIST_FAIL, MY_LIST_REQUEST, MY_LIST_SUCCESS, ORDER_ADD_FAIL, ORDER_ADD_REQUEST, ORDER_ADD_SUCCESS, ORDER_DELETE_FAIL, ORDER_DELETE_REQUEST, ORDER_DELETE_SUCCESS, ORDER_LIST_FAIL, ORDER_LIST_REQUEST, ORDER_LIST_SUCCESS } from "../constants/orderConstants";
+
+export const myListReducer = (state = { loadingOrders: true, myOrders: [] }, action) => {
+    switch(action.type){
+        case MY_LIST_REQUEST:
+            return {loadingOrders: true};
+        case MY_LIST_SUCCESS:
+            return {loadingOrders: false, myOrders: action.payload};
+        case MY_LIST_FAIL:
+            return {loadingOrders: false, errorOrders: action.payload};
+        default:
+            return state;
+    }
+}
 
 export const orderListReducer = (state = { loadingOrders: true, orders: [] }, action) => {
     switch(action.type){

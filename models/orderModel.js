@@ -28,6 +28,7 @@ const orderSchema = new mongoose.Schema({
     payementCity: { type: String },
     payementZipCode: { type: String },
     payementAdress: { type: String },
+    isPaused: { type: Boolean, default: false },
 }, {
     timestamps: true
 });

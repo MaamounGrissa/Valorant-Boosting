@@ -136,7 +136,13 @@ export default function MyOrders(props) {
                                     <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                                     <TableCell>{clients.find(b => b._id === order.userId)?.name}</TableCell>
                                     <TableCell>   
-                                        <button className="paid-button green mr" onClick={() => showFinishConfirmation(order._id)}>Finish</button>
+                                        <button
+                                            title={order.isPaused ? 'Order is paused by the user' : ''}
+                                            disabled={order.isPaused ? true : false} 
+                                            className={order.isPaused ? 'paid-button gray mr' : 'paid-button green mr'} 
+                                            onClick={() => showFinishConfirmation(order._id)}>
+                                                {order.isPaused ? 'Paused' : 'Finish'}
+                                        </button>
                                         <button className="paid-button red"  onClick={() => showDeleteConfirmation(order._id)}>Drop</button>
                                     </TableCell>
                                  </TableRow>

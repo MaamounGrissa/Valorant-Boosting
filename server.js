@@ -7,6 +7,7 @@ import orderRouter from './routers/orderRouter.js';
 import chatRouter from './routers/chatRouter.js'
 import blogRouter from './routers/blogRouter.js';
 import path from 'path';
+import accountRouter from './routers/accountRouter.js';
 
 dotenv.config();
 
@@ -32,6 +33,7 @@ app.use(fileUpload());
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/chat', chatRouter);
+app.use('/api/accounts', accountRouter)
 app.use('/api/blogs', blogRouter);
 
 

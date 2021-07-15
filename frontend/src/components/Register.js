@@ -23,6 +23,7 @@ export default function Register(props) {
     useEffect(() => {
         if (userInfo) {
             props.history.push(redirect);
+            window.location.reload();
         }
     }, [props.history, redirect, userInfo]);
 
