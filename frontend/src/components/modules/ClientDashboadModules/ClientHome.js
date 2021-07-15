@@ -22,7 +22,7 @@ import { EditAccount, MyAccount } from '../../../actions/accountActions';
 
 export default function ClientHome(props) {
     const dispatch = useDispatch();
-    const { classes } = props;
+    const { classes, theme, userInfo } = props;
 
     const myId = localStorage.getItem('myId') || false;
 
@@ -116,11 +116,12 @@ export default function ClientHome(props) {
     } else if (errorOrders || errorAccount) {
         return ( <MessageBox variant="danger">{errorOrders || errorAccount}</MessageBox> );
     } else {
+        const myProgressOrders = myOrders.filter(order => order.status === "Waiting for a booster" || order.status === "In progress")
         return (
             <Grid container spacing={3}>
                 {/* Select Order */}
                 <Grid item xs={12}>
-                    <Paper className="mypaper-box" >
+                    <Paper className={theme && userInfo.rule === 'client' ? "mypaper-box" : 'normal-paper'} >
                     <div className="account-form">
                         <h3>Valorant account informations</h3>
                         <form>
@@ -146,25 +147,27 @@ export default function ClientHome(props) {
                     </Paper>
                 </Grid>
                 <Grid item xs={12} md={4}>
-                    <div className="myorder-select client">
+                    <div className={theme && userInfo.rule === 'client' ? "myorder-select client" : "myorder-select"}>
                         <h3>Select Order</h3>
                         <TableContainer component={Paper}>
                             <Table className={classes.table + 'client-table'} aria-label="simple table">
                             <TableHead className="custom-thead">
                                 <TableRow>
                                 <TableCell>Date</TableCell>
+                                <TableCell>Status</TableCell>
                                 <TableCell>Price</TableCell>
                                 <TableCell>Actions</TableCell>
                                 </TableRow>
                             </TableHead>
                             <TableBody>
                                 {
-                                    myOrders.map(order =>
+                                    myProgressOrders.map(order =>
                                         <TableRow key={order._id} 
                                             className={selectedOrder === order._id ? 'mytablerow active' : 'mytablerow'} 
                                             onClick={() => setSelectedOrder(order._id)}>
                                             <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                                             <TableCell>{order.status}</TableCell>
+                                            <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
                                             <TableCell> 
                                                 {
                                                     order.isPaused ? (
@@ -192,7 +195,7 @@ export default function ClientHome(props) {
                     </div>
                 </Grid>
                 {/* Order Informations */}
-                <Grid item xs={12} md={4} className="client-dashbord">
+                <Grid item xs={12} md={4} className={theme && userInfo.rule === 'client' ? "client-dashbord" : ''}>
                     <Paper className={classes.paper}>
                         {
                             myOrders.find(order => order._id === selectedOrder) ? (
@@ -262,7 +265,7 @@ export default function ClientHome(props) {
                     </Paper>
                 </Grid>
                 {/* Chat */}
-                <Grid item xs={12} md={4} className="client-dashbord">
+                <Grid item xs={12} md={4} className={theme && userInfo.rule === 'client' ? "client-dashbord" : ''}>
                     <Paper className={classes.paper}>
                         <div className="paper-header">
                             <div className="paper-title">Chat</div>

@@ -30,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function ProfileTab() {
+export default function ProfileTab(props) {
 
+    const { theme } = props;
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
 
@@ -97,8 +98,8 @@ export default function ProfileTab() {
         return <ErrorPage msg="Login to have access to dashbord" />
     } else {
         return (
-            <div>
-                <Grid container spacing={3}>
+            <div className={theme && userInfo.rule === 'client' ? 'client-profile' : '' }>
+                <Grid container spacing={3} >
                     <Grid item xs={12} md={6} lg={6}>
                         <form className={classes.root} noValidate autoComplete="off">
 
@@ -156,7 +157,7 @@ export default function ProfileTab() {
                 <Grid item xs={12} md={6} lg={6}>
                     <Button variant="contained"
                                 color="primary"
-                                className="mybtn"
+                                className={theme && userInfo.rule === 'client' ? "dark-btn" : "mybtn" }
                                 startIcon={<SaveIcon />}
                                 onClick={submitEdit}>
                                 Save&nbsp;&nbsp;

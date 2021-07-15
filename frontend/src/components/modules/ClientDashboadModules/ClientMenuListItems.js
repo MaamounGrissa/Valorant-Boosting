@@ -4,7 +4,7 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import DashboardIcon from '@material-ui/icons/Dashboard';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
-// import ViewListIcon from '@material-ui/icons/ViewList';
+import ViewListIcon from '@material-ui/icons/ViewList';
 import { Link } from 'react-router-dom';
 
 export default function ClientMenuListItems() {
@@ -15,18 +15,18 @@ export default function ClientMenuListItems() {
                 <ListItemIcon>
                     <DashboardIcon />
                 </ListItemIcon>
-                <ListItemText primary="Home" />
+                <ListItemText primary="Home Panel" />
             </ListItem>
         </Link>
 
-        {/* <Link to='/dashbord/myfinishedorders'>
+        <Link to='/dashbord/history'>
             <ListItem button>
                 <ListItemIcon>
                     <ViewListIcon />
                 </ListItemIcon>
-                <ListItemText primary="My Orders" />
+                <ListItemText primary="Orders History" />
             </ListItem>
-        </Link> */}
+        </Link>
 
         <Link to='/dashbord/profile'>
             <ListItem button>

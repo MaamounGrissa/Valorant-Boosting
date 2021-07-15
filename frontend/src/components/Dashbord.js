@@ -14,6 +14,8 @@ import IconButton from '@material-ui/core/IconButton';
 import Container from '@material-ui/core/Container';
 import MenuIcon from '@material-ui/icons/Menu';
 import ChevronLeftIcon from '@material-ui/icons/ChevronLeft';
+import WbSunnyIcon from '@material-ui/icons/WbSunny';
+import Brightness2Icon from '@material-ui/icons/Brightness2';
 import AdminMenuListItems from './modules/AdminDashbordModules/AdminMenuListItems.js';
 import BoosterMenuListItems from './modules/BoosterDashbordModules/BoosterMenuListItems';
 import ClientMenuListItems from './modules/ClientDashboadModules/ClientMenuListItems.js';
@@ -27,6 +29,7 @@ import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
 import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
 import BoosterFinishedOrders from './modules/BoosterDashbordModules/BoosterFinishedOrders.js';
 import BoosterPaiedOrders from './modules/BoosterDashbordModules/BoosterPaiedOrders.js';
+import OrdersHistroy from './modules/ClientDashboadModules/OrdersHistroy.js';
 
 function Copyright() {
   return (
@@ -118,7 +121,7 @@ const useStyles = makeStyles((theme) => ({
     paddingTop: theme.spacing(4),
     paddingBottom: theme.spacing(4),
     position: 'relative',
-    minHeight: '120vh'
+    minHeight: '115vh'
   },
   paper: {
     padding: theme.spacing(2),
@@ -131,6 +134,9 @@ const useStyles = makeStyles((theme) => ({
   fixedHeight: {
     height: 350,
   },
+  table: {
+    minWidth: '100%',
+  }
 }));
 
 export default function Dashbord() {
@@ -140,6 +146,8 @@ export default function Dashbord() {
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
+
+    const [theme, setTheme] = useState(true)
     
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -159,7 +167,7 @@ export default function Dashbord() {
         return (
             <div className={classes.root}>
               <CssBaseline />
-              <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} data={userInfo.rule === 'client' ? 'client' : 'others'}>
+              <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} data={theme && userInfo.rule === 'client' ? 'client' : 'others'}>
                 <Toolbar className={classes.toolbar}>
                   <IconButton
                     edge="start"
@@ -173,10 +181,25 @@ export default function Dashbord() {
                   <Typography component="h1" variant="h6" color="inherit" noWrap className={classes.title}>
                     {userInfo?.rule === 'admin' ? 'Admin ' : userInfo?.rule === 'booster' ? 'Booster ' : ''}Dashboard
                   </Typography>
-                  <Link to='/' className='white' ><img src="/images/logo.png" alt="Logo" className="logo-style" /></Link>
+                  <div className="flex-align-center">
+                    <Link to='/' className='white' ><img src="/images/logo.png" alt="Logo" className="logo-style" /></Link>
+                    {
+                      userInfo.rule === 'client' ? (
+                        <div className="flex-align-center">
+                          <WbSunnyIcon />
+                          <label class="switch">
+                            <input type="checkbox" checked={theme} onChange={e =>  setTheme(!theme)} />
+                            <span class="slider round"></span>
+                          </label>
+                          <Brightness2Icon />
+                        </div>
+                      ) : ( '' )
+                    }
+                  </div>
+                  
                 </Toolbar>
               </AppBar>
-              <Drawer data={userInfo.rule === 'client' ? 'clientDrawer' : 'others'}
+              <Drawer data={theme && userInfo.rule === 'client' ? 'clientDrawer' : 'others'}
                 variant="permanent"
                 classes={{
                   paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -199,7 +222,7 @@ export default function Dashbord() {
                   ) : ('Permission Error')
                 }
               </Drawer>
-              <main className={classes.content} data={userInfo.rule === 'client' ? 'client' : 'others'}>
+              <main className={classes.content} data={theme && userInfo.rule === 'client' ? 'client' : 'others'}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
         
@@ -240,18 +263,21 @@ export default function Dashbord() {
                         ) : userInfo?.rule === 'client' ? (
                           <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>
-                                <ClientHome fixedHeightPaper={fixedHeightPaper} classes={classes} userInfo={userInfo} />
+                                <ClientHome fixedHeightPaper={fixedHeightPaper} classes={classes} userInfo={userInfo} theme={theme} />
                               }/>
                               <Route path="/dashbord/profile" exact={true} render={ (props) =>
-                                <ProfileTab />
-                            }/>
+                                <ProfileTab theme={theme} />
+                              }/>
+                              <Route path="/dashbord/history" exact={true} render={ (props) =>
+                                <OrdersHistroy classes={classes} theme={theme} />
+                              }/>
                           </React.Fragment>
                             
                         ): ('')
                       }
                         </Switch>
                  
-                  <Box pt={4} className={userInfo.rule === 'client' ? 'client-footer' : ''}>
+                  <Box pt={4} className={theme && userInfo.rule === 'client' ? 'client-footer' : ''}>
                     <Copyright />
                   </Box>
                 </Container>

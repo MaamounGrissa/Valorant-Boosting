@@ -35,6 +35,10 @@ input:active, button:active {
   outline: none;
 }
 
+em {
+  font-size: 13px !important;
+}
+
 /******************************************************************/
 /**************************** Header ******************************/
 /******************************************************************/ 
@@ -1492,6 +1496,15 @@ footer > p {
   margin-bottom: 0;
 }
 
+.normal-paper  {
+  padding: 20px;
+  background: #fff9f8 !important;
+  display: flex;
+  overflow: hidden;
+  justify-content: center;
+  box-shadow: 0px 2px 1px -1px rgb(0 0 0 / 20%), 0px 1px 1px 0px rgb(0 0 0 / 14%), 0px 1px 3px 0px rgb(0 0 0 / 12%);
+}
+
 .mypaper-box {
   padding: 20px;
   display: flex;
@@ -1510,9 +1523,12 @@ footer > p {
 }
 
 .account-form > h3{
-  color:  #fff;
   font-size: 1.6rem;
   margin-bottom: 40px;
+}
+
+.mypaper-box .account-form > h3 {
+  color: #fff;
 }
 
 .account-form form {
@@ -1543,11 +1559,20 @@ footer > p {
   color: #fff;
 }
 
-.account-form input:focus {
+.normal-paper .account-form input {
+  color: #333;
+}
+
+.mypaper-box .account-form input:focus {
   outline: none;
   border: 1px solid #ff9155;
   background: #281b2b;
   color: #fff;
+}
+
+.normal-paper .account-form input:focus {
+  border: 1px solid #ff9155;
+  color: #333;
 }
 
 .account-form input:last-of-type {
@@ -1566,11 +1591,15 @@ footer > p {
   padding: 2px 20px;
   color: #ff9155;
   transition: all 0.5s;
-  background: #281b2b;
+  background: transparent;
   border-radius: 10px;
   line-height: 25px;
   cursor: pointer;
   width: 20%;
+}
+
+.mypaper-box .account-form button {
+  background: #281b2b;
 }
 
 .account-form button svg {
@@ -1605,7 +1634,13 @@ main[data=client] {
   border-radius: 20px;
 }
 
-
+.myorder-select > h3 {
+  color: #333;
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
 
 .myorder-select.client .custom-thead {
   background-color: hsla(0,0%,100%,0.3);
@@ -1627,6 +1662,7 @@ main[data=client] {
 .myorder-select.client h3{
   color: #fff;
   text-align: center;
+  margin-top: 0;
   margin-bottom: 20px;
   font-size: 1.6rem;
 }
@@ -1690,6 +1726,76 @@ div[data=clientDrawer] > .MuiDrawer-paper .MuiListItemIcon-root {
   font-size: 1.1rem;
   color: #f00;
   font-weight: bold;
+}
+
+.flex-align-center {
+  margin: 0 0 0 25px;
+  display: flex;
+  align-items: center;
+}
+
+.flex-align-center.j-fs {
+  justify-content: center;
+}
+
+.flex-align-center svg {
+  color: #555;
+  margin: 0 5px;
+}
+
+.rank-icon {
+  width: 50px;
+  margin-right: 10px;
+}
+
+.cap {
+  text-transform: capitalize;
+}
+
+.client-profile .MuiTypography-colorPrimary {
+  color: #fff !important;
+}
+
+.client-profile .MuiInputBase-input {
+  background: hsla(0,0%,100%,0.1);
+  color: #fff !important;
+}
+
+.client-profile .MuiOutlinedInput-notchedOutline {
+  border-color: #eee;
+}
+
+.client-profile .MuiInputBase-root {
+  color: #fff !important;
+}
+
+.client-profile .MuiFormLabel-root {
+  color: #888;
+}
+
+.dark-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ff9155 !important;
+  padding: 4px 20px !important;
+  color: #ff9155;
+  transition: all 0.5s;
+  background: transparent;
+  border-radius: 20px !important;
+  line-height: 25px;
+  cursor: pointer;
+  width: 250px;
+  background: #281b2b !important;
+}
+
+.dark-btn svg {
+  margin-right: 10px;
+}
+
+.dark-btn:hover {
+  background-color: #ff9155 !important;
+  color: #fff;
 }
 
 /******************************************************************/
@@ -2397,4 +2503,67 @@ div[data=clientDrawer] > .MuiDrawer-paper .MuiListItemIcon-root {
   background-color: #e9a88525;    /* color of the scroll thumb */
   border-radius: 20px;       /* roundness of the scroll thumb */
   border: 2px solid #e9a88525;  /* creates padding around scroll thumb */
+}
+
+/* The switch - the box around the slider */
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 56px;
+  height: 30px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* The slider */
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 22px;
+  width: 22px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #ff9155;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #ff9155;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
 }
