@@ -35,7 +35,7 @@ export default function ChatModule(props) {
     if (loading) {
         return (
             <div className="chat-loading">
-                <img src="/images/loading.gif" alt="Loading" />
+                <img src="/images/loading-36.gif" alt="Loading" />
             </div>
         );
     } else if (error) {

@@ -159,7 +159,7 @@ export default function Dashbord() {
         return (
             <div className={classes.root}>
               <CssBaseline />
-              <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)}>
+              <AppBar position="absolute" className={clsx(classes.appBar, open && classes.appBarShift)} data={userInfo.rule === 'client' ? 'client' : 'others'}>
                 <Toolbar className={classes.toolbar}>
                   <IconButton
                     edge="start"
@@ -176,7 +176,7 @@ export default function Dashbord() {
                   <Link to='/' className='white' ><img src="/images/logo.png" alt="Logo" className="logo-style" /></Link>
                 </Toolbar>
               </AppBar>
-              <Drawer
+              <Drawer data={userInfo.rule === 'client' ? 'clientDrawer' : 'others'}
                 variant="permanent"
                 classes={{
                   paper: clsx(classes.drawerPaper, !open && classes.drawerPaperClose),
@@ -199,7 +199,7 @@ export default function Dashbord() {
                   ) : ('Permission Error')
                 }
               </Drawer>
-              <main className={classes.content}>
+              <main className={classes.content} data={userInfo.rule === 'client' ? 'client' : 'others'}>
                 <div className={classes.appBarSpacer} />
                 <Container maxWidth="lg" className={classes.container}>
         
@@ -251,7 +251,7 @@ export default function Dashbord() {
                       }
                         </Switch>
                  
-                  <Box pt={4}>
+                  <Box pt={4} className={userInfo.rule === 'client' ? 'client-footer' : ''}>
                     <Copyright />
                   </Box>
                 </Container>

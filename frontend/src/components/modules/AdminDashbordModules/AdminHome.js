@@ -147,10 +147,10 @@ export default function AdminHome(props) {
                             <div className="reload-chat"><CachedIcon onClick={e => setReloadChat(true)} /></div>
                             <div className="button-container">
                                 <select 
-                                    value={selectedOrder} 
+                                    value={selectedOrder ? selectedOrder : 0} 
                                     onChange={e => setSelectedOrder(e.target.value)}
                                     className="orders-select">
-                                    <option value={null}>Select Order</option>
+                                    <option value={0}>Select Order</option>
                                     {
                                         progressOrders.map(order =>
                                             <option key={order._id} value={order._id}> {order._id.substring(order._id.length - 5)} | {Moment(order.createdAt).format('DD/MM/YY')}</option>

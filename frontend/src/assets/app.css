@@ -1294,6 +1294,8 @@ footer > p {
   border-radius: 20px;
   transition: all 0.5s;
   margin-bottom: 2px;
+  min-width: 68px;
+  text-align: center;
 }
 .paid-button.red {
   background-color: rgb(192, 76, 76);
@@ -1324,7 +1326,18 @@ footer > p {
   transition: all 0.5s;
 }
 .mytablerow:hover, .mytablerow.active {
- background-color: rgba(236, 226, 209, 0.438);
+  background-color: rgba(236, 226, 209, 0.438);
+}
+
+.myorder-select.client .mytablerow:hover, .myorder-select.client .mytablerow.active {
+  background-color: rgba(226, 191, 131, 0.418);
+}
+
+.client-dashbord .MuiPaper-root {
+  background-color: #21172488 !important;
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgb(0 0 0 / 20%) !important;
+  border-radius: 20px !important;
 }
 
 .orders-select {
@@ -1397,7 +1410,7 @@ footer > p {
 .chat-message em {
   position: absolute;
   right: 7px;
-  top: -10px;
+  top: -15px;
   font-size: 10px;
 }
 
@@ -1484,25 +1497,57 @@ footer > p {
   display: flex;
   overflow: hidden;
   justify-content: center;
-  background: #fff9f8 !important;
   height: auto;
+  background-color: #21172488 !important;
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgb(0 0 0 / 20%) !important;
+  border-radius: 20px !important;
 }
 
 .account-form  {
-  display: flex;
+  text-align: center;
+  width: 100%;
+}
+
+.account-form > h3{
+  color:  #fff;
+  font-size: 1.6rem;
+  margin-bottom: 40px;
 }
 
 .account-form form {
   display: flex;
+  width: 100%;
+}
+
+.client-account-formgroup {
+  width: 24%;
+  margin-right: 2%;
+  position: relative;
+}
+
+.client-account-formgroup span {
+  position: absolute;
+  top: -20px;
+  left: 10px;
+  font-size: 14px;
+  color: #999;
 }
 
 .account-form input {
-  min-width: 250px;
-  width: 30%;
-  margin-right: 10px;
+  width: 100%;
   border-radius: 10px;
   padding: 10px 20px;
   border: 1px solid #eee;
+  background-color: hsla(0,0%,100%,0.1);
+  color: #fff;
+}
+
+.account-form input:focus {
+  outline: none;
+  border: 1px solid #ff9155;
+  background: #281b2b;
+  color: #fff;
 }
 
 .account-form input:last-of-type {
@@ -1516,24 +1561,131 @@ footer > p {
 .account-form button {
   display: flex;
   align-items: center;
+  justify-content: center;
   border: 1px solid #ff9155;
   padding: 2px 20px;
   color: #ff9155;
   transition: all 0.5s;
-  background-color: #eee;
+  background: #281b2b;
   border-radius: 10px;
   line-height: 25px;
   cursor: pointer;
+  width: 20%;
 }
 
 .account-form button svg {
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 .account-form button:hover {
   background-color: #ff9155;
   color: #fff;
 }
+
+header[data=client] {
+  background-color: #232529 !important;
+}
+
+header[data=client] h1 {
+  color: #fff !important;
+}
+
+main[data=client] {
+  background-image: url('./main-bg.gif');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center center;
+}
+
+.myorder-select.client {
+  background-color: #21172488 !important;
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgb(0 0 0 / 20%) !important;
+  padding: 20px 0;
+  border-radius: 20px;
+}
+
+
+
+.myorder-select.client .custom-thead {
+  background-color: hsla(0,0%,100%,0.3);
+}
+
+.myorder-select.client .custom-thead .MuiTableCell-head {
+  color: #fff;
+  font-weight: bold;
+}
+
+.myorder-select.client .MuiPaper-root {
+  background-color: transparent;
+}
+
+.myorder-select.client .MuiTableCell-body {
+  color: #fff;
+}
+
+.myorder-select.client h3{
+  color: #fff;
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+
+.client-dashbord .paper-title {
+  color: #fff;
+}
+
+.client-dashbord .chat-messages {
+  background-color: hsla(0,0%,100%,0.3);
+}
+
+.client-dashbord .orders-select {
+  border-radius: 10px;
+  background-color: hsla(0,0%,100%,0.1);
+  box-shadow: 0 10px 8px -5px rgb(0 0 0 / 20%);
+  color: #888;
+  transition: all 0.5s;
+  cursor: pointer;
+  line-height: 20px;
+}
+
+.client-dashbord .orders-select:focus {
+    outline: none;
+    border: 1px solid #ff9155;
+    background: #281b2b;
+    color: #fff;
+}
+
+.client-dashbord .chat-action textarea {
+  background-color: hsla(0,0%,100%,0.1);
+  box-shadow: 0 10px 8px -5px rgb(0 0 0 / 20%);
+  color: #fff;
+  transition: all 0.5s;
+}
+
+.client-dashbord .chat-action textarea:focus {
+  outline: none;
+    border: 1px solid #ff9155;
+    background: #281b2b;
+    color: #fff;
+}
+
+.client-dashbord .chat-message {
+  background-color: hsla(0,0%,100%,0.3);
+}
+
+div[data=clientDrawer] > .MuiDrawer-paper {
+   background-color: #232529;
+}
+
+div[data=clientDrawer] > .MuiDrawer-paper .MuiListItemIcon-root {
+  color: #fff;
+}
+
+.client-footer > p {
+  color: #fff !important;
+}
+
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/
@@ -1894,7 +2046,7 @@ footer > p {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.24);
 }
 
 .chat-loading img {
@@ -2225,4 +2377,18 @@ footer > p {
   .MuiContainer-maxWidthLg {
       max-width: 100% !important;
   }
+}
+
+*::-webkit-scrollbar {
+  width: 6px;               /* width of the entire scrollbar */
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;        /* color of the tracking area */
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #e9a88525;    /* color of the scroll thumb */
+  border-radius: 20px;       /* roundness of the scroll thumb */
+  border: 2px solid #e9a88525;  /* creates padding around scroll thumb */
 }

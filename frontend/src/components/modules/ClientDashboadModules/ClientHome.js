@@ -128,13 +128,24 @@ export default function ClientHome(props) {
                 <Grid item xs={12}>
                     <Paper className="mypaper-box" >
                     <div className="account-form">
+                        <h3>Valorant account informations</h3>
                         <form>
-                            <input type="text" placeholder="Account name" 
+                            <div className="client-account-formgroup">
+                                <span>Account name</span>
+                                <input type="text" placeholder="Account name" 
                                 value={accountName ? accountName : account.name} onChange={e => setAccountName(e.target.value)} />
-                            <input type="text" placeholder="Account password" 
+                            </div>
+                            <div className="client-account-formgroup">
+                                <span>Account password</span>
+                                <input type="text" placeholder="Account password" 
                                 value={accountPassword ? accountPassword : account.password} onChange={e => setAccountPassword(e.target.value)} />
-                            <input type="text" placeholder="Summoner name" 
+                            </div>
+                            <div className="client-account-formgroup">
+                                <span>Summoner name</span>
+                                <input type="text" placeholder="Summoner name" 
                                 value={summonerName ? summonerName : account.summoner} onChange={e => setSummonerName(e.target.value)} />
+                            </div>
+                            
                             <button type="submit" onClick={e => saveAccount(e)}><SaveIcon /> Save</button> 
                         </form>
                     </div>
@@ -142,8 +153,9 @@ export default function ClientHome(props) {
                 </Grid>
                 <Grid item xs={12} md={4}>
                     <div className="myorder-select client">
+                        <h3>Select Order</h3>
                         <TableContainer component={Paper}>
-                            <Table className={classes.table} aria-label="simple table">
+                            <Table className={classes.table + 'client-table'} aria-label="simple table">
                             <TableHead className="custom-thead">
                                 <TableRow>
                                 <TableCell>Date</TableCell>
@@ -186,7 +198,7 @@ export default function ClientHome(props) {
                     </div>
                 </Grid>
                 {/* Order Informations */}
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={4} className="client-dashbord">
                     <Paper className={classes.paper}>
                         {
                             myOrders.find(order => order._id === selectedOrder) ? (
@@ -256,17 +268,17 @@ export default function ClientHome(props) {
                     </Paper>
                 </Grid>
                 {/* Chat */}
-                <Grid item xs={12} md={4}>
+                <Grid item xs={12} md={4} className="client-dashbord">
                     <Paper className={classes.paper}>
                         <div className="paper-header">
                             <div className="paper-title">Chat</div>
                             <div className="reload-chat"><CachedIcon onClick={e => setReloadChat(true)} /></div>
                             <div className="button-container">
                                 <select 
-                                    value={selectedOrder} 
+                                    value={selectedOrder ? selectedOrder : 0} 
                                     onChange={e => setSelectedOrder(e.target.value)}
                                     className="orders-select">
-                                    <option value={null}>Select Order</option>
+                                    <option value={0}>Select Order</option>
                                     {
                                         myOrders.map(order =>
                                             <option key={order._id} value={order._id}> {order._id.substring(order._id.length - 5)} | {Moment(order.createdAt).format('DD/MM/YY')}</option>
