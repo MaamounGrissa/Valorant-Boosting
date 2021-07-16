@@ -1732,9 +1732,13 @@ div[data=clientDrawer] .MuiListItemText-primary {
 }
 
 .flex-align-center {
-  margin: 0 0 0 25px;
+  margin: 0 0 0 20px;
   display: flex;
   align-items: center;
+}
+
+.flex-align-center.no-m {
+  margin: 0;
 }
 
 .flex-align-center.j-fs {
@@ -1801,6 +1805,20 @@ div[data=clientDrawer] .MuiListItemText-primary {
   color: #fff;
 }
 
+.nowrap svg {
+  font-size: 20px;
+  margin: 0 5px;
+}
+
+.nowrap {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text-center {
+  text-align: center !important;
+}
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/
