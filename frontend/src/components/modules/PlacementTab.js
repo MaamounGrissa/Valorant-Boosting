@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import { useHistory } from "react-router-dom"
 import { useSelector } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
@@ -12,7 +12,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
 import VideocamIcon from '@material-ui/icons/Videocam';
-import OrderModal from './OrderModal.js'
+import OrderModal from './OrderModal.js';
+import NumberFormat from 'react-number-format';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -149,6 +150,50 @@ export default function PlacementTab(props) {
         setTime('2-3');
     }
 
+    const calculatePrice = useCallback(() => {
+        const MyVariable = 10.3;
+        let GeneratedPrice = 0;
+    
+        for (let index = 1; index <= rank; index++) {
+            let rankDificulty = index * 1.4;
+
+            if (rank === 1) {
+                GeneratedPrice = ((MyVariable + rankDificulty) * division);
+            } else {
+                if (index === rank) {
+                    GeneratedPrice += ((MyVariable + rankDificulty) * (division)) ;
+                } else {
+                    GeneratedPrice += (MyVariable + rankDificulty) * 3;
+                }
+                
+            }
+        }
+
+        let optionPrice = GeneratedPrice;
+
+        if (playWithBooster) {
+            optionPrice += ((GeneratedPrice / 100)  * 40);
+        }
+        if (priorityOrder) {
+            optionPrice += ((GeneratedPrice / 100)  * 20);
+        }
+        if (withStreaming) {
+            optionPrice += ((GeneratedPrice / 100)  * 20);
+        }
+
+        if (optionPrice > 0) {
+            GeneratedPrice = optionPrice;
+        }
+
+        return GeneratedPrice;
+    }, [division, playWithBooster, priorityOrder, rank, withStreaming]);
+
+    useEffect(() => {
+        if (rank > 0 && division > 0) {
+            setPrice(calculatePrice);
+        }
+    }, [calculatePrice, division, rank])
+
     const handleShowOrderModal = (e) => {
         e.preventDefault();
         if (!userInfo) {
@@ -170,6 +215,7 @@ export default function PlacementTab(props) {
                 desiredDivision: division,
                 games: games,
                 server: server,
+                price: price.toFixed(2)
             })
             setShowOrderModal(true);
         }
@@ -328,7 +374,7 @@ export default function PlacementTab(props) {
                         
                         </div>
                         <div className="checkout-price">
-                            {price}&nbsp;$
+                        <NumberFormat value={price.toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                         </div>
                         <div className="options-submit">
                             <button onClick={e => handleShowOrderModal(e)} >Boost Now</button>

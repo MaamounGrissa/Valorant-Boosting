@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Typography from '@material-ui/core/Typography';
 import FormControl from '@material-ui/core/FormControl';
@@ -104,13 +104,6 @@ export default function OrderAddModal(props) {
         "Immortal"
     ];
 
-    useEffect(() => {
-      if (user) {
-        setAccount(props.accounts.find(acc => acc.userId === user)?.name || '');
-        setPassword(props.accounts.find(acc => acc.userId === user)?.password || '');
-        setSummoner(props.accounts.find(acc => acc.userId === user)?.summoner || '');
-      }
-    }, [props.accounts, user])
 
     const handleUser = (e) => {
         e.preventDefault();
@@ -124,6 +117,10 @@ export default function OrderAddModal(props) {
     const handleBoostType = (e, type) => {
         e.preventDefault();
         setBoostType(type)
+        if (type === 'Placement Boost')
+        setStartRank(0);
+        setStartDivision(0);
+        setRankRating(0);
     }
 
     const handleStartRank = (e) => {
@@ -135,14 +132,110 @@ export default function OrderAddModal(props) {
                 setStartRank(e.target.value);
             }
         }
+        if (startRank === desiredRank && startDivision > 0 && desiredDivision > 0) {
+            if (startDivision >= desiredDivision) {
+                setDesiredDivision(startDivision + 1)
+            }
+        }
     }
 
     const handleDesiredRank = (e) => {
         e.preventDefault();
-        if (e.target.value >= startRank) {
+        if (boostType === 'Placement Boosting') {
             setDesiredRank(e.target.value);
+        } else {
+            if (boostType === 'Rank Boosting' && e.target.value >= startRank) {
+                setDesiredRank(e.target.value);
+            }
+            if (boostType === 'Rank Boosting' && startRank === desiredRank && startDivision > 0 && desiredDivision > 0) {
+                if (startDivision >= desiredDivision) {
+                    setDesiredDivision(startDivision + 1);
+                }
+            }
         }
     }
+
+    const handleStartDivision = (e) => {
+        e.preventDefault();
+        if (startRank === desiredRank) {
+            if (desiredDivision > 0 && e.target.value < desiredDivision) {
+                setStartDivision(e.target.value);
+            }
+        } else {
+            setStartDivision(e.target.value);
+        }
+    }
+
+    const handleDesiredDivision = (e) => {
+        e.preventDefault();
+        if (boostType === 'Rank Boosting' && startRank === desiredRank) {
+            if (e.target.value > startDivision) {
+                setDesiredDivision(e.target.value);
+            }
+        } else {
+            setDesiredDivision(e.target.value);
+        }
+
+        console.log(desiredDivision);
+    }
+
+    const calculatePrice = useCallback(() => {
+        const MyVariable = 10.3;
+        let GeneratedPrice = 0;
+
+        if (boostType === 'Rank Boosting') {
+            for (let index = startRank; index <= desiredRank; index++) {
+                let rankDificulty = index * 1.4;
+                let rankRatingCalc = (((rankRating / 10) - 1) * rankDificulty) / 2;
+    
+                if (startRank === desiredRank) {
+                    GeneratedPrice = ((MyVariable + rankDificulty) * (desiredDivision - startDivision)) - rankRatingCalc;
+                } else {
+                    if (index === startRank) {
+                        GeneratedPrice += ((MyVariable + rankDificulty) * (3 - startDivision)) - rankRatingCalc ;
+                    } else if (index === desiredRank) {
+                        GeneratedPrice += (MyVariable + rankDificulty) * desiredDivision;
+                    } else {
+                        GeneratedPrice += (MyVariable + rankDificulty) * 3;
+                    }
+                    
+                }
+            }
+    
+        } else {
+            for (let index = 1; index <= desiredRank; index++) {
+                let rankDificulty = index * 1.4;
+    
+                if (desiredRank === 1) {
+                    GeneratedPrice = ((MyVariable + rankDificulty) * desiredDivision);
+                } else {
+                    if (index === desiredRank) {
+                        GeneratedPrice += ((MyVariable + rankDificulty) * (desiredDivision)) ;
+                    } else {
+                        GeneratedPrice += (MyVariable + rankDificulty) * 3;
+                    }
+                }
+            }
+        }
+
+        let optionPrice = GeneratedPrice;
+    
+        if (duoGame) {
+            optionPrice += ((GeneratedPrice / 100)  * 40);
+        }
+        if (priorityOrder) {
+            optionPrice += ((GeneratedPrice / 100)  * 20);
+        }
+        if (withStreaming) {
+            optionPrice += ((GeneratedPrice / 100)  * 20);
+        }
+        if (optionPrice > 0) {
+            GeneratedPrice = optionPrice;
+        }
+        
+        return GeneratedPrice;
+        
+    }, [boostType, duoGame, priorityOrder, withStreaming, startRank, desiredRank, rankRating, desiredDivision, startDivision]);
 
 
     const submitSave = (e) => {
@@ -232,6 +325,22 @@ export default function OrderAddModal(props) {
         });
     }
 
+    useEffect(() => {
+        if (user) {
+            setAccount(props.accounts.find(acc => acc.userId === user)?.name || '');
+            setPassword(props.accounts.find(acc => acc.userId === user)?.password || '');
+            setSummoner(props.accounts.find(acc => acc.userId === user)?.summoner || '');
+        }
+        if (boostType === 'Rank Boosting' && startRank > 0 && desiredRank > 0 && startDivision > 0 && desiredDivision > 0 && rankRating > 0) {
+            setPrice(calculatePrice);
+        }
+
+        if (boostType === 'Placement Boosting' && desiredRank > 0 && desiredDivision > 0 ) {
+            setPrice(calculatePrice);
+        }
+    }, [boostType, calculatePrice, desiredDivision, desiredRank, props.accounts, rankRating, startDivision, startRank, user])
+
+
     if (props.showAddOrder) {
         return (
             <div className="modal-container show">
@@ -303,7 +412,7 @@ export default function OrderAddModal(props) {
                                         <Select
                                             native
                                             value={startDivision}
-                                            onChange={e => setStartDivision(e.target.value)}
+                                            onChange={e => handleStartDivision(e)}
                                             inputProps={{
                                                 name: 'startdivision',
                                                 id: 'startdivision-select',
@@ -376,7 +485,7 @@ export default function OrderAddModal(props) {
                                         <Select
                                             native
                                             value={desiredDivision}
-                                            onChange={e => setDesiredDivision(e.target.value)}
+                                            onChange={e => handleDesiredDivision(e)}
                                             inputProps={{
                                                 name: 'desireddivision',
                                                 id: 'desireddivision-select',
@@ -403,7 +512,9 @@ export default function OrderAddModal(props) {
                                         <div className={classes.margin} />
                                     </div>
 
-                                    <TextField onChange={e => setPrice(e.target.value)} value={price} className="group4-input" type="number" label="Price" variant="outlined"  />
+                                    <TextField onChange={e => setPrice(e.target.value)} 
+                                        value={price.toFixed(2)} 
+                                        className="group4-input" type="text" label="Price" variant="outlined"  />
 
                                     <div className="switch-container">
                                         <OrangeSwitch

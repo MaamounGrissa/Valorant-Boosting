@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useHistory } from "react-router-dom"
 import { withStyles } from '@material-ui/core/styles';
@@ -10,7 +10,8 @@ import PeopleIcon from '@material-ui/icons/People';
 import PersonAddIcon from '@material-ui/icons/PersonAdd';
 import FlashOnIcon from '@material-ui/icons/FlashOn';
 import VideocamIcon from '@material-ui/icons/Videocam';
-import OrderModal from './OrderModal.js'
+import OrderModal from './OrderModal.js';
+import NumberFormat from 'react-number-format';
 
 
 const OrangeSwitch = withStyles({
@@ -57,6 +58,16 @@ export default function RankTab(props) {
     const [time, setTime] = useState('0-1');
     const [feedback, setFeedback] = useState(null);
 
+    const ranks = [
+        "Iron",
+        "Bronze",
+        "Silver",
+        "Gold",
+        "Platinum",
+        "Diamond",
+        "Immortal"
+    ];
+
     const handleRank = (e, selected, imageLink) => {
         e.preventDefault();
         if (desiredRank === 0) {
@@ -68,11 +79,23 @@ export default function RankTab(props) {
                 setSelectedImage(imageLink);
             }
         }
+        if (rank === desiredRank && division > 0 && desiredDivision > 0) {
+            if (division >= desiredDivision) {
+                setDesiredDivision(division + 1)
+            }
+        }
     }
 
     const handleDivision = (e, selected) => {
         e.preventDefault();
-        setDivision(selected)
+        if (rank === desiredRank) {
+            if (selected < desiredDivision) {
+                setDivision(selected);
+            }
+        } else {
+            setDivision(selected);
+        }
+
     }
 
     const handleChangeRatingAmount = (e) => {
@@ -86,11 +109,23 @@ export default function RankTab(props) {
             setDesiredRank(selected)
             setSelectedDesiredImage(imageLink)
         }
+        if (rank === desiredRank && division > 0 && desiredDivision > 0) {
+            if (division >= desiredDivision) {
+                setDesiredDivision(division + 1)
+            }
+        }
     }
 
     const handleDesiredDivision = (e, selected) => {
         e.preventDefault();
-        setDesiredDivision(selected)
+        if (rank === desiredRank) {
+            if (selected > division) {
+                setDesiredDivision(selected);
+            }
+        } else {
+            setDesiredDivision(selected);
+        }
+        
     }
 
     const handleServer = (e, details) => {
@@ -107,7 +142,6 @@ export default function RankTab(props) {
         e.preventDefault();
         setPlayWithBooster(false);
         setSpecificAgents(!specificAgents);
-        setPrice(20);
 
     }
 
@@ -130,6 +164,53 @@ export default function RankTab(props) {
         setWithStreaming(!withStreaming);
         setTime('2-3');
     } 
+
+    const calculatePrice = useCallback(() => {
+        const MyVariable = 10.3;
+        let GeneratedPrice = 0;
+    
+        for (let index = rank; index <= desiredRank; index++) {
+            let rankDificulty = index * 1.4;
+            let rankRating = (((ratingAmount / 10) - 1) * rankDificulty) / 2;
+
+            if (rank === desiredRank) {
+                GeneratedPrice = ((MyVariable + rankDificulty) * (desiredDivision - division)) - rankRating;
+            } else {
+                if (index === rank) {
+                    GeneratedPrice += ((MyVariable + rankDificulty) * (3 - division)) - rankRating ;
+                } else if (index === desiredRank) {
+                    GeneratedPrice += (MyVariable + rankDificulty) * desiredDivision;
+                } else {
+                    GeneratedPrice += (MyVariable + rankDificulty) * 3;
+                }
+                
+            }
+        }
+
+        let optionPrice = GeneratedPrice;
+
+        if (playWithBooster) {
+            optionPrice += ((GeneratedPrice / 100)  * 40);
+        }
+        if (priorityOrder) {
+            optionPrice += ((GeneratedPrice / 100)  * 20);
+        }
+        if (withStreaming) {
+            optionPrice += ((GeneratedPrice / 100)  * 20);
+        }
+
+        if (optionPrice > 0) {
+            GeneratedPrice = optionPrice;
+        }
+
+        return GeneratedPrice;
+    }, [desiredDivision, desiredRank, division, playWithBooster, priorityOrder, rank, ratingAmount, withStreaming]);
+
+    useEffect(() => {
+        if (rank > 0 && desiredRank > 0 && division > 0 && desiredDivision > 0 && ratingAmount > 0) {
+            setPrice(calculatePrice);
+        }
+    }, [calculatePrice, desiredDivision, desiredRank, division, rank, ratingAmount])
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
@@ -157,21 +238,12 @@ export default function RankTab(props) {
                 ratingAmount: ratingAmount,
                 desiredRank: desiredRank,
                 desiredDivision: desiredDivision,
-                server: server
+                server: server,
+                price: price.toFixed(2)
             })
             setShowOrderModal(true);
         }
     }
-
-    const ranks = [
-        "Iron",
-        "Bronze",
-        "Silver",
-        "Gold",
-        "Platinum",
-        "Diamond",
-        "Immortal"
-    ];
 
     return (
         <Grid container spacing={5}>
@@ -367,7 +439,7 @@ export default function RankTab(props) {
                         
                         </div>
                         <div className="checkout-price">
-                            {price}&nbsp;$
+                            <NumberFormat value={price.toFixed(2)} displayType={'text'} thousandSeparator={true} prefix={'$'} />
                         </div>
                         <div className="options-submit">
                             <button onClick={e => handleShowOrderModal(e)} >Boost Now</button>

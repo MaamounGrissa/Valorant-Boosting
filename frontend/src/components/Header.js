@@ -64,12 +64,12 @@ export default function Header(props) {
                 </div>
               </Link>
               <nav className="menu-container">
-                <ul>
+                {/* <ul>
                   <li><Link to="/">Home</Link></li>
                   <li><a href="/about">About Us</a></li>
                   <li><a href="/blog">FAQ</a></li>
                   <li><a href="/home">Contact</a></li>
-                </ul>
+                </ul> */}
               </nav>
               <button className="mobile-menu">
                 <svg xmlns="http://www.w3.org/2000/svg" className="mobile-menu-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">

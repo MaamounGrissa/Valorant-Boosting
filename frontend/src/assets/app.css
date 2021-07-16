@@ -1288,7 +1288,7 @@ footer > p {
 }
 
 .paid-button {
-  padding: 5px 8px;
+  padding: 5px 7px;
   cursor: pointer;
   background-color: rgb(55, 170, 55);
   border: none;
@@ -1298,7 +1298,7 @@ footer > p {
   border-radius: 20px;
   transition: all 0.5s;
   margin-bottom: 2px;
-  min-width: 68px;
+  min-width: 62px;
   text-align: center;
 }
 .paid-button.red {
@@ -2503,6 +2503,10 @@ div[data=clientDrawer] .MuiListItemText-primary {
 
   .infos-container p {
     font-size: 14px;
+  }
+
+  .MuiGrid-spacing-xs-5 > .MuiGrid-item {
+    padding: 15px;
   }
 }
 

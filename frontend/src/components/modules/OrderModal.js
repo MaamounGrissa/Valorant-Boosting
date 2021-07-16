@@ -15,9 +15,6 @@ export default function OrderModal(props) {
     const [zipCode, setZipCode] = useState('');
     const [adress, setAdress] = useState('')
     const [checkTerms, setCheckTerms] = useState(true);
-    const [account, setAccount] = useState('');
-    const [password, setPassword] = useState('');
-    const [summoner, setSummoner] = useState('');
 
     const ranks = [
         "Iron",
@@ -64,7 +61,7 @@ export default function OrderModal(props) {
                                         <img src="/images/vlrnt.png" alt="Vlrnt" width="90" />
                                         <div>
                                             {
-                                                order.boostType = "Rank Boosting" ? (
+                                                order.boostType === "Rank Boosting" ? (
                                                     <h3>
                                                         {ranks[order.startRank - 1]} {divisions[order.startDivision - 1]}
                                                         &nbsp;
@@ -83,11 +80,6 @@ export default function OrderModal(props) {
                                             }
                                             <p>Valorant&nbsp;{ order.boostType }</p>
                                         </div>    
-                                    </div>
-                                    <div className="user-infos">
-                                        <input onChange={e => setAccount(e.target.value)} value={account} placeholder="Valorant account" type="text" name="accountname" />
-                                        <input onChange={e => setPassword(e.target.value)} value={password} placeholder="Account password" type="text" name="accountpassword" />
-                                        <input onChange={e => setSummoner(e.target.value)} value={summoner} placeholder="Summoner name" type="text" name="accountsummoner" />
                                     </div>
                                 </div>
                             </div>
