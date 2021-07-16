@@ -117,10 +117,11 @@ export default function OrderAddModal(props) {
     const handleBoostType = (e, type) => {
         e.preventDefault();
         setBoostType(type)
-        if (type === 'Placement Boost')
-        setStartRank(0);
-        setStartDivision(0);
-        setRankRating(0);
+        if (type === 'Placement Boost') {
+            setStartRank(0);
+            setStartDivision(0);
+            setRankRating(0);
+        }
     }
 
     const handleStartRank = (e) => {
@@ -175,8 +176,6 @@ export default function OrderAddModal(props) {
         } else {
             setDesiredDivision(e.target.value);
         }
-
-        console.log(desiredDivision);
     }
 
     const calculatePrice = useCallback(() => {

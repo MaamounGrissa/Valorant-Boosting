@@ -227,15 +227,15 @@ export default function MyOrders(props) {
                                     <div className="account-informations">
                                         <div>
                                             <span>Account</span>
-                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId).name}</strong></p>
+                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId)?.name}</strong></p>
                                         </div>
                                         <div>
                                             <span>Password</span>
-                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId).password}</strong></p>
+                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId)?.password}</strong></p>
                                         </div>
                                         <div>
                                             <span>Summoner Name</span>
-                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId).summoner}</strong></p>
+                                            <p><strong>{accounts.find(acc => acc.userId === progressOrders.find(order => order._id === selectedOrder).userId)?.summoner}</strong></p>
                                         </div>
                                     </div>
                                 </div>
