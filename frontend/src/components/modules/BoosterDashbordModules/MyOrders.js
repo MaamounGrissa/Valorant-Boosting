@@ -119,7 +119,8 @@ export default function MyOrders(props) {
     } else {
         progressOrders = orders?.filter(order => order.status === 'In progress' && order.boosterId === userInfo._id);
         clients = users?.filter(user => user.rule === 'client');
-
+        const myId = localStorage.getItem('myId') || false;
+        const user = users?.find(u => u._id === myId);
         return (
             <Grid container spacing={3}>
                 {/* Select Order */}
@@ -164,7 +165,11 @@ export default function MyOrders(props) {
                         {
                             progressOrders.find(order => order._id === selectedOrder) ? (
                                 <div className="myorders-infos">
-                                    <h4>{progressOrders.find(order => order._id === selectedOrder).boostType}</h4>
+                                    <h4>
+                                        {progressOrders.find(order => order._id === selectedOrder).boostType}
+                                        &nbsp;for&nbsp;
+                                        {parseInt((progressOrders.find(order => order._id === selectedOrder).price / 100) * user.percentage)}&nbsp;$
+                                    </h4>
                                     {
                                         progressOrders.find(order => order._id === selectedOrder).boostType === 'Rank Boosting' ? (
                                             <div className="myorders-rank">
