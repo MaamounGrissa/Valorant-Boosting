@@ -27,9 +27,8 @@ import PaiedOrders from './modules/AdminDashbordModules/PaiedOrders.js';
 import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
 import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
 import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
-import BoosterFinishedOrders from './modules/BoosterDashbordModules/BoosterFinishedOrders.js';
-import BoosterPaiedOrders from './modules/BoosterDashbordModules/BoosterPaiedOrders.js';
 import OrdersHistroy from './modules/ClientDashboadModules/OrdersHistroy.js';
+import CompletedOrders from './modules/BoosterDashbordModules/CompletedOrders.js';
 
 function Copyright() {
   return (
@@ -250,11 +249,8 @@ export default function Dashbord() {
                             <Route path="/dashbord/myorders" exact={true} render={ (props) =>
                               <MyOrders classes={classes} />
                             }/>
-                            <Route path="/dashbord/myfinishedorders" exact={true} render={ (props) =>
-                              <BoosterFinishedOrders classes={classes} />
-                            }/>
-                            <Route path="/dashbord/mypaiedorders" exact={true} render={ (props) =>
-                              <BoosterPaiedOrders classes={classes} />
+                            <Route path="/dashbord/completedorders" exact={true} render={ (props) =>
+                              <CompletedOrders classes={classes} />
                             }/>
                             <Route path="/dashbord/profile" exact={true} render={ (props) =>
                                 <ProfileTab />

@@ -6,7 +6,6 @@ import DashboardIcon from '@material-ui/icons/Dashboard';
 import { Link } from 'react-router-dom';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import CloudDoneIcon from '@material-ui/icons/CloudDone';
-import BookmarksIcon from '@material-ui/icons/Bookmarks';
 import BusinessCenterIcon from '@material-ui/icons/BusinessCenter';
 
 export default function BoosterMenuListItems() {
@@ -30,21 +29,12 @@ export default function BoosterMenuListItems() {
             </ListItem>
         </Link>
 
-        <Link to='/dashbord/myfinishedorders'>
-            <ListItem button>
-                <ListItemIcon>
-                    <BookmarksIcon />
-                </ListItemIcon>
-                <ListItemText primary="Finished orders" />
-            </ListItem>
-        </Link>
-
-        <Link to='/dashbord/mypaiedorders'>
+        <Link to='/dashbord/completedorders'>
             <ListItem button>
                 <ListItemIcon>
                     <CloudDoneIcon />
                 </ListItemIcon>
-                <ListItemText primary="Paied orders" />
+                <ListItemText primary="Completed orders" />
             </ListItem>
         </Link>
 

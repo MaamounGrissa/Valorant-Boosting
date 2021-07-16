@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -9,11 +9,10 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChangeStatus, ListOrders } from '../../../actions/orderActions.js';
 import { ListUsers } from '../../../actions/userActions.js';
 import LoadingModule from '../LoadingModule.js';
 import MessageBox from '../MessageBox.js';
-import ConfirmModal from '../ConfirmModal.js';
+import { ListOrders } from '../../../actions/orderActions.js';
 
 const useStyles = makeStyles({
   table: {
@@ -32,28 +31,7 @@ export default function BoosterFinishedOrders(props) {
     const {loading, error, users} = userList;
     const orderList = useSelector( state => state.orderList);
     const {loadingOrders, errorOrders, orders} = orderList;
-    const [showConfirmation, setShowConfirmation] = useState(false);
-    const [selectedOrder, setSelectedOrder] = useState('');
-    
-    const showDeleteConfirmation = (boosterId) => {
-      setSelectedOrder(boosterId);
-      setShowConfirmation(true);
-    }
 
-    const deleteOrder = (e) => {
-        e.preventDefault();
-        dispatch(ChangeStatus(selectedOrder, 'Looking for a booster', '')).then(() => {
-            LoadData();
-            setShowConfirmation(false);
-          })
-    }
-
-     // Reload Data
-
-     const LoadData = () => {
-        dispatch(ListUsers());
-        dispatch(ListOrders());
-    }
 
     useEffect(() => {
         dispatch(ListUsers());
@@ -82,7 +60,6 @@ export default function BoosterFinishedOrders(props) {
                 <TableCell>Boost Queue</TableCell>
                 <TableCell>My Price</TableCell>
                 <TableCell>Status</TableCell>
-                <TableCell>Action</TableCell>
                 </TableRow>
             </TableHead>
             <TableBody>
@@ -97,18 +74,10 @@ export default function BoosterFinishedOrders(props) {
                     <TableCell>{order.duoGame ? 'Duo Boost' : 'Single Boost'}</TableCell>
                     <TableCell>{parseInt((order.price / 100) * user.percentage)}&nbsp;$</TableCell>
                     <TableCell><span className="status-output paied">{order.status}</span></TableCell>
-                    <TableCell><button className="paid-button red"  onClick={() => showDeleteConfirmation(order._id)}>Drop</button></TableCell>
                 </TableRow>
                 ))}
             </TableBody>
             </Table>
-            <ConfirmModal
-                show={showConfirmation} 
-                qst="Are you sure to drop order ?"
-                title="Drop Order"
-                onConfirm={e => deleteOrder(e)} 
-                onClose={() => {setShowConfirmation(false)}}>
-            </ConfirmModal>
         </TableContainer>
         );
     }

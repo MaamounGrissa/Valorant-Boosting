@@ -1718,6 +1718,9 @@ div[data=clientDrawer] > .MuiDrawer-paper .MuiListItemIcon-root {
   color: #fff;
 }
 
+div[data=clientDrawer] .MuiListItemText-primary {
+  color: #fff;
+}
 .client-footer > p {
   color: #fff !important;
 }
