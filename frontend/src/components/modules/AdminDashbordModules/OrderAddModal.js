@@ -233,7 +233,7 @@ export default function OrderAddModal(props) {
             GeneratedPrice = optionPrice;
         }
         
-        return GeneratedPrice;
+        return GeneratedPrice.toFixed(2);
         
     }, [props.setting, boostType, duoGame, priorityOrder, withStreaming, startRank, desiredRank, rankRating, desiredDivision, startDivision]);
 
@@ -243,18 +243,6 @@ export default function OrderAddModal(props) {
 
         if (user === '') {
             setErrors('Select user !');
-            return;
-        }
-        if (!duoGame && account === '') {
-            setErrors('Enter your valorant account !');
-            return;
-        }
-        if (!duoGame && password === '') {
-            setErrors('Enter your valorant password !');
-            return;
-        }
-        if (!duoGame && summoner === '') {
-            setErrors('Enter your valorant summoner !');
             return;
         }
         if (boostType === 'Rank Boosting' && startRank === '') {
@@ -300,7 +288,7 @@ export default function OrderAddModal(props) {
             specificAgents, 
             priorityOrder, 
             withStreaming, 
-            price
+            price,
             )).then(() => {
                 setMyfeedback('New Order added');
                 setDuoGame(false);
@@ -513,7 +501,7 @@ export default function OrderAddModal(props) {
                                     </div>
 
                                     <TextField onChange={e => setPrice(e.target.value)} 
-                                        value={price.toFixed(2)} 
+                                        value={price} 
                                         className="group4-input" type="text" label="Price" variant="outlined"  />
 
                                     <div className="switch-container">

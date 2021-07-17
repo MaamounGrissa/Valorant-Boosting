@@ -43,11 +43,13 @@ export default function BoosterAddModal(props) {
                 setEmail('');
                 setPassword('');
                 setConfirmPassword('');
-                setRank('');
+                setRank('Challenger I');
                 setPaypal('');
                 setPercentage('');
-                props.onClose(e);
-        })
+                // props.onClose(e);
+        }).catch((err) => {
+            setErrors(err);
+        });
     }
 
     if (props.showAddBooster) {

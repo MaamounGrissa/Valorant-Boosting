@@ -49,24 +49,20 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
         userId: req.body.userid,
         server: req.body.server,
         boostType: req.body.type,
-        startRank: req.body.startrank ? req.body.startrank : 0,
-        startDivision: req.body.startdivision ? req.body.startdivision : 0,
-        rankRating: req.body.rankrating ? req.body.rankrating : 0,
+        startRank: req.body.startrank || 0,
+        startDivision: req.body.startdivision || 0,
+        rankRating: req.body.rankrating || 0,
         desiredRank: req.body.desiredrank,
         desiredDivision: req.body.desireddivision,
-        games: req.body.games ? req.body.games : 0,
+        games: req.body.games || 0,
         duoGame:  req.body.duogame,
         chatOffine: req.body.chatoffline,
         specificAgents: req.body.specificagents,
         priorityOrder: req.body.priorityorder,
         withStreaming: req.body.withstreaming,
         price: req.body.price,
-        payement: req.body.payement,
-        payementFullName: req.body.payementfullname ? req.body.payementfullname : '',
-        payementBillingAdress: req.body.payementbillingadress ? req.body.payementbillingadress : '',
-        payementCity: req.body.city ? req.body.city : '',
-        payementZipCode: req.body.zipcode ? req.body.zipcode : '',
-        payementAdress: req.body.adress ? req.body.adress : '',
+        payement: req.body.payement || false,
+        isPaused: false,
     });
 
     await order.save();
@@ -74,13 +70,13 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
     const  account = await Account.findOne({ userId : req.body.userid });
 
     if (account) {
-        account.name = req.body.account;
-        account.password = req.body.password;
-        account.summoner = req.body.summoner;
-        await account.save();
-    } 
-    
-    if(!account) {
+        if(!req.body.payement) {
+            account.name = req.body.account;
+            account.password = req.body.password;
+            account.summoner = req.body.summoner;
+            await account.save();
+        }
+    } else {
         createdAccount = new Account({
             userId: req.body.userid,
             name : req.body.account,

@@ -80,7 +80,7 @@ export default function ProgressOrdersBooster(props) {
                     </span>
                   </span>
                 </TableCell>
-                <TableCell>{parseInt((order.price / 100) * user.percentage)}&nbsp;$</TableCell>
+                <TableCell>{((order.price / 100) * user.percentage).toFixed(2)}&nbsp;$</TableCell>
                 <TableCell><button className="paid-button blue" onClick={() => props.onTake(order._id) }>Take</button></TableCell>
               </TableRow>
             ))}

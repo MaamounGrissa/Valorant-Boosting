@@ -76,9 +76,9 @@ export default function PaiedOrders(props) {
                 <TableRow>
                 <TableCell>Date</TableCell>
                 <TableCell>Customer</TableCell>
-                <TableCell>Price</TableCell>
                 <TableCell>Booster</TableCell>
                 <TableCell>Percentage</TableCell>
+                <TableCell>Price</TableCell>
                 <TableCell>Booster price</TableCell>
                 <TableCell>Rest</TableCell>
                 <TableCell>Status</TableCell>
@@ -90,11 +90,11 @@ export default function PaiedOrders(props) {
                 <TableRow key={order._id}>
                     <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                     <TableCell>{clients.find(b => b._id === order.userId).name}</TableCell>
-                    <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
                     <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
                     <TableCell>{boosters.find(b => b._id === order.boosterId)?.percentage}</TableCell>
-                    <TableCell>{parseInt(((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage))}&nbsp;$</TableCell>
-                    <TableCell className="bold">{parseInt((order.price - ((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)))}&nbsp;$</TableCell>
+                    <TableCell>{order.price.toFixed(2)}&nbsp;$</TableCell>
+                    <TableCell>{(((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)).toFixed(2)}&nbsp;$</TableCell>
+                    <TableCell className="bold">{((order.price - ((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage))).toFixed(2)}&nbsp;$</TableCell>
                     <TableCell><span className="status-output paied">{order.status}</span></TableCell>
                     <TableCell><DeleteForeverIcon className="delete-btn" onClick={() => showDeleteConfirmation(order._id)} /></TableCell>
                 </TableRow>

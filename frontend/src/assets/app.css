@@ -658,15 +658,17 @@ main > .overlay {
 .order-modal-content {
   padding: 20px;
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
+  max-height: 100%;
+  overflow-y: auto;
 }
 
 .order-modal-content .modal-col {
-  width: 48%;
+  width: 49%;
 }
 
 .order-details {
-  margin-bottom: 55px;
+  margin-bottom: 83px;
 }
 
 .order-block-content input, .order-block-content select {
@@ -757,15 +759,21 @@ main > .overlay {
   font-size: 12px;
 }
 
-.order-block-content .order-submit {
+.paypal-container {
+  height: 330px;
+  overflow-y: auto;
+}
+
+.order-submit {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
 .order-block-content .order-submit .price {
-  margin-right: 20px;
-  font-size: 1.8rem;
+  margin-left: 20px;
+  font-size: 2rem;
+  font-family: Verdana, sans-serif;
 }
 
 .order-block-content .order-submit button {
@@ -2091,6 +2099,7 @@ div[data=clientDrawer] .MuiListItemText-primary {
 .modal-box.order-modal {
   background-color: #16081a;
 }
+
 
 .modal-box.confirmation-box {
   width: 35%;

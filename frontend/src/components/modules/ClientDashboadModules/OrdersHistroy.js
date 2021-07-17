@@ -108,7 +108,7 @@ export default function ClientHome(props) {
                                                     <span>&nbsp;{divisions[order.desiredDivision - 1]}</span>
                                                 </span>
                                             </TableCell>
-                                            <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
+                                            <TableCell>{order.price.toFixed(2)}&nbsp;$</TableCell>
 
                                         </TableRow>
                                     )

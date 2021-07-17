@@ -37,7 +37,9 @@ app.use('/api/chat', chatRouter);
 app.use('/api/accounts', accountRouter);
 app.use('/api/setting', settingRouter);
 app.use('/api/blogs', blogRouter);
-
+app.get('/api/config/paypal', (req, res) => {
+    res.send(process.env.PAYPAL_CLIENT_ID || 'sb');
+})
 
 /* 
 app.get('/', (req, res) => {

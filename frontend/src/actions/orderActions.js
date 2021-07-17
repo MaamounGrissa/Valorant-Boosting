@@ -52,7 +52,8 @@ export const AddOrder = (
     specificagents, 
     priorityorder, 
     withstreaming, 
-    price
+    price,
+    payement,
 ) => async(dispatch) => {
     dispatch({ type: ORDER_ADD_REQUEST, payload: { 
         userid, 
@@ -72,7 +73,8 @@ export const AddOrder = (
         specificagents, 
         priorityorder, 
         withstreaming, 
-        price
+        price,
+        payement,
      } });
     try {
         const {data} = await axios.post('/api/orders/add', {
@@ -93,7 +95,8 @@ export const AddOrder = (
             specificagents, 
             priorityorder, 
             withstreaming, 
-            price
+            price,
+            payement,
         });
         dispatch({ type: ORDER_ADD_SUCCESS, payload: data});
     } catch(error) {

@@ -24,7 +24,8 @@
     "moment": "^2.29.1",
     "mongoose": "^5.12.13",
     "path": "^0.12.7",
-    "react-number-format": "^4.6.4"
+    "react-number-format": "^4.6.4",
+    "react-paypal-button-v2": "^2.6.3"
   },
   "devDependencies": {
     "eslint": "^7.28.0",

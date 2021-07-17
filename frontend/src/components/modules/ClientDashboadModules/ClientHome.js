@@ -167,7 +167,7 @@ export default function ClientHome(props) {
                                             onClick={() => setSelectedOrder(order._id)}>
                                             <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                                             <TableCell>{order.status}</TableCell>
-                                            <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
+                                            <TableCell>{order.price.toFixed(2)}&nbsp;$</TableCell>
                                             <TableCell> 
                                                 {
                                                     order.isPaused ? (

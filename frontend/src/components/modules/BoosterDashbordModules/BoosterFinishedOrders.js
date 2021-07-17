@@ -72,7 +72,7 @@ export default function BoosterFinishedOrders(props) {
                     <TableCell>{clients.find(b => b._id === order.userId).name}</TableCell>
                     <TableCell>{order.boostType}</TableCell>
                     <TableCell>{order.duoGame ? 'Duo Boost' : 'Single Boost'}</TableCell>
-                    <TableCell>{parseInt((order.price / 100) * user.percentage)}&nbsp;$</TableCell>
+                    <TableCell>{((order.price / 100) * user.percentage).toFixed(2)}&nbsp;$</TableCell>
                     <TableCell><span className="status-output paied">{order.status}</span></TableCell>
                 </TableRow>
                 ))}

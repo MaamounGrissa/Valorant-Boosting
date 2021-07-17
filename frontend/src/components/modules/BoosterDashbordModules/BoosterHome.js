@@ -76,7 +76,7 @@ export default function BoosterHome(props) {
                                 <p><strong>Total Paied Orders : </strong><span>{
                                     paiedOrders.length
                                     }</span></p>
-                                <p><strong>Total Revenue : </strong><span>{parseInt(user.totalRevenue)}&nbsp;$</span></p>
+                                <p><strong>Total Revenue : </strong><span>{user.totalRevenue.toFixed(2)}&nbsp;$</span></p>
                             </div>
                         </div>
                         <div className="booster-infos-box">
@@ -87,7 +87,7 @@ export default function BoosterHome(props) {
                                 <p><strong>Total Finished Orders : </strong><span>{
                                     finishedOrders.length
                                     }</span></p>
-                                <p><strong>Payement Pending : </strong><span>{parseInt(user.payementPending)}&nbsp;$</span></p>
+                                <p><strong>Payement Pending : </strong><span>{user.payementPending.toFixed(2)}&nbsp;$</span></p>
                             </div>
                         </div>
                     </div>

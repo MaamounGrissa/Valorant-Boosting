@@ -168,7 +168,7 @@ export default function MyOrders(props) {
                                     <h4>
                                         {progressOrders.find(order => order._id === selectedOrder).boostType}
                                         &nbsp;for&nbsp;
-                                        {parseInt((progressOrders.find(order => order._id === selectedOrder).price / 100) * user.percentage)}&nbsp;$
+                                        {((progressOrders.find(order => order._id === selectedOrder).price / 100) * user.percentage).toFixed(2)}&nbsp;$
                                     </h4>
                                     {
                                         progressOrders.find(order => order._id === selectedOrder).boostType === 'Rank Boosting' ? (

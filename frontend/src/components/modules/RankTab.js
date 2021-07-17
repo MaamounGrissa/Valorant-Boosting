@@ -238,7 +238,12 @@ export default function RankTab(props) {
                 desiredRank: desiredRank,
                 desiredDivision: desiredDivision,
                 server: server,
-                price: price.toFixed(2)
+                price: price.toFixed(2),
+                chatOffline: chatOffline,
+                duoGame: playWithBooster,
+                specificAgents : specificAgents,
+                priorityOrder : priorityOrder,
+                withStreaming: withStreaming,
             })
             setShowOrderModal(true);
         }

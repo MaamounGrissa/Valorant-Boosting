@@ -20,11 +20,6 @@ const orderSchema = new mongoose.Schema({
     withStreaming: { type: Boolean },
     price: { type: Number },
     payement: { type: String },
-    payementFullName: { type: String },
-    payementBillingAdress: { type: String },
-    payementCity: { type: String },
-    payementZipCode: { type: String },
-    payementAdress: { type: String },
     isPaused: { type: Boolean, default: false },
 }, {
     timestamps: true

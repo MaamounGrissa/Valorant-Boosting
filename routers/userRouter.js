@@ -117,19 +117,19 @@ userRouter.post(
               // Some other error
               return res.status(422).send(err);
             }
+
+            const account = new Account({
+                userId: user._id,
+                name: '',
+                password: '',
+                summoner: ''
+            });
+    
+            account.save();
+    
+            res.send('Booster Added')
+
         });
-
-        const account = new Account({
-            userId: user._id,
-            name: '',
-            password: '',
-            summoner: ''
-        });
-
-        account.save();
-
-        res.send('Booster Added')
-
            
     })
 )
