@@ -74,9 +74,8 @@ export default function PaiedOrders(props) {
             <Table className={classes.table} aria-label="simple table">
             <TableHead className="custom-thead">
                 <TableRow>
-                <TableCell>Id</TableCell>
-                <TableCell>Customer</TableCell>
                 <TableCell>Date</TableCell>
+                <TableCell>Customer</TableCell>
                 <TableCell>Price</TableCell>
                 <TableCell>Booster</TableCell>
                 <TableCell>Percentage</TableCell>
@@ -89,11 +88,8 @@ export default function PaiedOrders(props) {
             <TableBody>
                 {paiedOrders.map((order) => (
                 <TableRow key={order._id}>
-                    <TableCell component="th" scope="row">
-                    {order._id.substring(order._id.length - 5)}
-                    </TableCell>
-                    <TableCell>{clients.find(b => b._id === order.userId).name}</TableCell>
                     <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
+                    <TableCell>{clients.find(b => b._id === order.userId).name}</TableCell>
                     <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
                     <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
                     <TableCell>{boosters.find(b => b._id === order.boosterId)?.percentage}</TableCell>

@@ -23,7 +23,7 @@ export default function FinishedOrders(props) {
     Moment.locale('en');
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { orders, boosters } = props;
+    const { orders, users } = props;
     const [showConfirmation, setShowConfirmation] = useState(false);
     const [selectedOrder, setSelectedOrder] = useState('');
 
@@ -46,12 +46,12 @@ export default function FinishedOrders(props) {
         <Table className={classes.table} aria-label="simple table">
           <TableHead className="custom-thead">
             <TableRow>
-              <TableCell>Id</TableCell>
+              <TableCell>Date</TableCell>
               <TableCell>Boost</TableCell>
               <TableCell>Queue</TableCell>
-              <TableCell>Date</TableCell>
+              
               <TableCell>Price</TableCell>
-              <TableCell>Summoner</TableCell>
+              <TableCell>Customer</TableCell>
               <TableCell>Booster</TableCell>
               <TableCell>Booster price</TableCell>
               <TableCell>Booster paypal</TableCell>
@@ -61,17 +61,14 @@ export default function FinishedOrders(props) {
           <TableBody>
             {orders.map((order) => (
               <TableRow key={order._id}>
-                <TableCell component="th" scope="row">
-                  {order._id.substring(order._id.length - 5)}
-                </TableCell>
+                <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                 <TableCell>{order.boostType}</TableCell>
                 <TableCell>{order.duoGame ? 'Duo Boost' : 'Solo Boost'}</TableCell>
-                <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                 <TableCell>{order.price}&nbsp;$</TableCell>
-                <TableCell>{order.summoner}</TableCell>
-                <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
-                <TableCell>{parseInt((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage)}&nbsp;$</TableCell>
-                <TableCell>{boosters.find(b => b._id === order.boosterId)?.paypal}</TableCell>
+                <TableCell>{users.find(c => c._id === order.userId)?.name}</TableCell>
+                <TableCell>{users.find(b => b._id === order.boosterId)?.name}</TableCell>
+                <TableCell>{((order.price / 100) * users.find(b => b._id === order.boosterId)?.percentage).toFixed(2)}&nbsp;$</TableCell>
+                <TableCell>{users.find(b => b._id === order.boosterId)?.paypal}</TableCell>
                 <TableCell><button className="paid-button" onClick={e => showChangeStatusConfirmation(e, order._id) }>Paid</button></TableCell>
               </TableRow>
             ))}

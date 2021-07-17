@@ -229,6 +229,17 @@ export default {
             password: "",
             summoner: ""
         },  
+    ],
+
+    setting: [
+        {
+            name: 'division-price',
+            value: '10.3'
+        },
+        {
+            name: 'difficulty-coef',
+            value: '1.4'
+        }
     ]
 
     

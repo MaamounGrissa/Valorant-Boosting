@@ -6,6 +6,7 @@ import User from '../models/userModel.js';
 import { generateToken } from '../utils.js';
 import path from 'path';
 import Account from '../models/accountModel.js';
+import Order from '../models/orderModel.js';
 
 const __dirname = path.dirname(import.meta.url).replace(/^file:\/\/\//, '');
 const userRouter = express.Router();
@@ -166,8 +167,17 @@ userRouter.delete('/:id', expressAsyncHandler(async (req, res) => {
             if (err) {
                 return res.status(500).send(err);
             }
-            res.send('Booster Deleted');
     });
+
+    await Order.updateMany({ boosterId : req.params.id}, { boosterId : '', status : 'Looking for a booster' });
+    /* if (orders) {
+        orders.forEach(order => {
+            order.boosterId = '';
+            order.status = 'Looking for a booster';
+        });
+        orders.u();
+    } */
+    res.send('Booster Deleted');
 
 }));
 

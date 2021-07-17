@@ -38,9 +38,6 @@ export default function BoosterAddModal(props) {
         }
 
         dispatch(AddBooster(name, email, password, rank, paypal, percentage)).then(() => {
-            if (error && error.message) {
-                setMyfeedback(error.message);
-            } else if (feedback) {
                 setMyfeedback(feedback);
                 setName('');
                 setEmail('');
@@ -50,7 +47,6 @@ export default function BoosterAddModal(props) {
                 setPaypal('');
                 setPercentage('');
                 props.onClose(e);
-            }
         })
     }
 

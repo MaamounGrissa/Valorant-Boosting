@@ -26,8 +26,8 @@ export default function ProgressOrders(props) {
             <TableRow>
               <TableCell>Id</TableCell>
               <TableCell>Customer</TableCell>
-              <TableCell>Price</TableCell>
               <TableCell>Booster</TableCell>
+              <TableCell>Price</TableCell>
               <TableCell>Status</TableCell>
               <TableCell>Action</TableCell>
             </TableRow>
@@ -48,8 +48,8 @@ export default function ProgressOrders(props) {
                   
                 </TableCell>
                 <TableCell>{clients.find(user => user._id === order.userId)?.name}</TableCell>
-                <TableCell>{parseInt(order.price)}&nbsp;$</TableCell>
                 <TableCell>{boosters.find(b => b._id === order.boosterId)?.name}</TableCell>
+                <TableCell>{((order.price / 100) * boosters.find(b => b._id === order.boosterId)?.percentage).toFixed(2)}&nbsp;$</TableCell>
                 <TableCell><span className="status-output progress">{order.status}</span></TableCell>
                 <TableCell><button className="paid-button red" onClick={() => props.onDrop(order._id) }>Drop</button></TableCell>
               </TableRow>

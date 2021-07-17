@@ -4,6 +4,7 @@ import { accountEditReducer, accountGETReducer, accountListReducer } from './red
 import { blogDetailsReducer, blogListReducer } from './reducer/blogReducers';
 import { chatAddReducer, chatListReducer, myChatListReducer } from './reducer/chatReducers';
 import { myListReducer, orderAddReducer, orderDeleteReducer, orderListReducer, statusChangeReducer } from './reducer/orderReducers';
+import { settingEditReducer, settingListReducer } from './reducer/settingReducers';
 import { boosterAddReducer, boosterDeleteReducer, boosterEditReducer, userEditReducer, userGetReducer, userListReducer, userRegisterReducer, userSigninReducer } from './reducer/userReducers';
 
 const initialState = {
@@ -40,6 +41,9 @@ const reducer = combineReducers({
    
     blogList: blogListReducer,
     blogDetails: blogDetailsReducer,
+
+    settingList: settingListReducer,
+    settingEdit: settingEditReducer,
 
 })
 

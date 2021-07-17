@@ -23,7 +23,7 @@ import { ListAccount } from '../../../actions/accountActions.js';
 export default function AdminHome(props) {
     let boosters, clients, waitingOrders, progressOrders, finishedOrders;
     const dispatch = useDispatch();
-    const { classes } = props;
+    const { classes, setting } = props;
     const userList = useSelector( state => state.userList);
     const {loading, error, users} = userList;
     const orderList = useSelector( state => state.orderList);
@@ -109,7 +109,7 @@ export default function AdminHome(props) {
         clients = users?.filter(user => user.rule === 'client');
         waitingOrders = orders?.filter(order => order.status === 'Looking for a booster');
         finishedOrders = orders?.filter(order => order.status === 'Finished');
-        progressOrders = orders?.filter(order => order.status === 'In progress')
+        progressOrders = orders?.filter(order => order.status === 'In progress');
 
         return (
             <Grid container spacing={3}>
@@ -122,7 +122,7 @@ export default function AdminHome(props) {
                         <div className="paper-content">
                             <FinishedOrders 
                                 orders={finishedOrders} 
-                                boosters={boosters} 
+                                users={users} 
                                 reloadData={() => LoadData()} />
                         </div>
                     </Paper>
@@ -184,7 +184,7 @@ export default function AdminHome(props) {
                                     orders={waitingOrders} 
                                     reloadData={() => LoadData()} />
                             </div>
-                            <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients} accounts={accounts}/>
+                            <OrderAddModal onClose={e => handleCloseAddOrder(e)} showAddOrder={showAddOrder} clients={clients} accounts={accounts} setting={setting} />
                             <BoosterEditModal onClose={e => handleCloseEditBooster(e)} showEditBooster={showEditBooster} booster={selectedBooster} />
                     </Paper>
                 </Grid>

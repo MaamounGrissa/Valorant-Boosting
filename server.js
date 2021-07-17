@@ -2,12 +2,13 @@ import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import fileUpload from 'express-fileupload';
+import path from 'path';
 import userRouter from './routers/userRouter.js';
 import orderRouter from './routers/orderRouter.js';
 import chatRouter from './routers/chatRouter.js'
 import blogRouter from './routers/blogRouter.js';
-import path from 'path';
 import accountRouter from './routers/accountRouter.js';
+import settingRouter from './routers/settingRouter.js';
 
 dotenv.config();
 
@@ -33,7 +34,8 @@ app.use(fileUpload());
 app.use('/api/users', userRouter);
 app.use('/api/orders', orderRouter);
 app.use('/api/chat', chatRouter);
-app.use('/api/accounts', accountRouter)
+app.use('/api/accounts', accountRouter);
+app.use('/api/setting', settingRouter);
 app.use('/api/blogs', blogRouter);
 
 

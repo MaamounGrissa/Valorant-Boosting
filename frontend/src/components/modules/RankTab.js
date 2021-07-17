@@ -55,7 +55,6 @@ export default function RankTab(props) {
     const [withStreaming, setWithStreaming] = useState(false);
 
     const [price, setPrice] = useState(0);
-    const [time, setTime] = useState('0-1');
     const [feedback, setFeedback] = useState(null);
 
     const ranks = [
@@ -162,15 +161,15 @@ export default function RankTab(props) {
         e.preventDefault();
         setPlayWithBooster(false);
         setWithStreaming(!withStreaming);
-        setTime('2-3');
     } 
 
     const calculatePrice = useCallback(() => {
-        const MyVariable = 10.3;
+        const MyVariable = parseFloat(props.setting?.find(s => s.name === 'division-price').value) || 10.3;
+        const MyDiffCoef = parseFloat(props.setting?.find(s => s.name === 'difficulty-coef').value) || 1.4;
         let GeneratedPrice = 0;
     
         for (let index = rank; index <= desiredRank; index++) {
-            let rankDificulty = index * 1.4;
+            let rankDificulty = index * MyDiffCoef;
             let rankRating = (((ratingAmount / 10) - 1) * rankDificulty) / 2;
 
             if (rank === desiredRank) {
@@ -204,7 +203,7 @@ export default function RankTab(props) {
         }
 
         return GeneratedPrice;
-    }, [desiredDivision, desiredRank, division, playWithBooster, priorityOrder, rank, ratingAmount, withStreaming]);
+    }, [desiredDivision, desiredRank, division, playWithBooster, priorityOrder, props.setting, rank, ratingAmount, withStreaming]);
 
     useEffect(() => {
         if (rank > 0 && desiredRank > 0 && division > 0 && desiredDivision > 0 && ratingAmount > 0) {
@@ -443,7 +442,7 @@ export default function RankTab(props) {
                         </div>
                         <div className="options-submit">
                             <button onClick={e => handleShowOrderModal(e)} >Boost Now</button>
-                            <p>Approximate completion time: {time} days</p>
+                            <p>Approximate completion time: 0-5 days</p>
                             {
                                 feedback ? (
                                     <p id="feedback">{feedback}</p>

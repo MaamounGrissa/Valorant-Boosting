@@ -116,7 +116,7 @@ export default function ClientHome(props) {
     } else if (errorOrders || errorAccount) {
         return ( <MessageBox variant="danger">{errorOrders || errorAccount}</MessageBox> );
     } else {
-        const myProgressOrders = myOrders.filter(order => order.status === "Waiting for a booster" || order.status === "In progress")
+        const myProgressOrders = myOrders.filter(order => order.status === "Looking for a booster" || order.status === "In progress")
         return (
             <Grid container spacing={3}>
                 {/* Select Order */}

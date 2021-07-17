@@ -179,12 +179,13 @@ export default function OrderAddModal(props) {
     }
 
     const calculatePrice = useCallback(() => {
-        const MyVariable = 10.3;
+        const MyVariable = parseFloat(props.setting?.find(s => s.name === 'division-price').value) || 10.3;
+        const MyDiffCoef = parseFloat(props.setting?.find(s => s.name === 'difficulty-coef').value) || 1.4;
         let GeneratedPrice = 0;
 
         if (boostType === 'Rank Boosting') {
             for (let index = startRank; index <= desiredRank; index++) {
-                let rankDificulty = index * 1.4;
+                let rankDificulty = index * MyDiffCoef;
                 let rankRatingCalc = (((rankRating / 10) - 1) * rankDificulty) / 2;
     
                 if (startRank === desiredRank) {
@@ -203,7 +204,7 @@ export default function OrderAddModal(props) {
     
         } else {
             for (let index = 1; index <= desiredRank; index++) {
-                let rankDificulty = index * 1.4;
+                let rankDificulty = index * MyDiffCoef;
     
                 if (desiredRank === 1) {
                     GeneratedPrice = ((MyVariable + rankDificulty) * desiredDivision);
@@ -234,7 +235,7 @@ export default function OrderAddModal(props) {
         
         return GeneratedPrice;
         
-    }, [boostType, duoGame, priorityOrder, withStreaming, startRank, desiredRank, rankRating, desiredDivision, startDivision]);
+    }, [props.setting, boostType, duoGame, priorityOrder, withStreaming, startRank, desiredRank, rankRating, desiredDivision, startDivision]);
 
 
     const submitSave = (e) => {

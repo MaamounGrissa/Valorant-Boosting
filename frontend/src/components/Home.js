@@ -1,13 +1,20 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RankTab from './modules/RankTab.js';
 import PlacementTab from './modules/PlacementTab.js';
+import { useDispatch, useSelector } from 'react-redux';
+import { ListSetting } from '../actions/settingActions.js';
 
 
 function Home () {
 
+    const dispatch = useDispatch();
+
     const [rank, setRank] = useState(true);
     const [placement, setPlacement] = useState(false);
+
+    const settingList = useSelector((state) => state.settingList);
+    const { setting } = settingList;
 
     const handleRank = (e) => {
         e.preventDefault();
@@ -20,6 +27,10 @@ function Home () {
         setRank(false);
         setPlacement(true);
     }
+
+    useEffect(() => {
+        dispatch(ListSetting());
+    }, [dispatch])
 
     return (
         <div className="intro-container">
@@ -39,14 +50,14 @@ function Home () {
                     in={rank}
                     transitionName="myanimation"
                     timeout={300}>
-                        <RankTab/>
+                        <RankTab setting={setting} />
                     </CSSTransition >
                 ) : placement ? (
                     <CSSTransition
                     in={placement}
                     transitionName="myanimation"
                     timeout={300}>
-                        <PlacementTab/>
+                        <PlacementTab setting={setting} />
                     </CSSTransition >
                 ) : ('')
                 }

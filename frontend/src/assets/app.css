@@ -1819,6 +1819,102 @@ div[data=clientDrawer] .MuiListItemText-primary {
 .text-center {
   text-align: center !important;
 }
+
+#setting-button {
+  color: #ff9155;
+  font-size: 35px;
+  cursor: pointer;
+  margin-left: 20px;
+  transition: all 0.5s;
+}
+
+#setting-button:hover {
+  transform: scale(1.2);
+}
+
+.setting-container {
+  width: 300px;
+  background-color: #ebc690;
+  box-shadow: 0 5px 30px rgb(0 0 0 / 20%);
+  border-radius: 20px;
+  padding: 20px;
+  position: fixed;
+  z-index: 999;
+  top: 80px;
+  right: 20px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.5s;
+  z-index: -1;
+}
+
+.setting-container.show {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 999;
+}
+
+.setting-container form {
+  width: 100%;
+}
+
+.setting-container .flex-align-center {
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.setting-container h3 {
+  font-size: 1.6rem;
+  text-align: right;
+  margin-bottom: 20px;
+  color: #ff9155;
+  font-weight: bold;
+}
+
+.setting-container input {
+  display: block;
+  background: #fff;
+  color: #222;
+  width: 50%;
+  border-radius: 20px;
+  padding: 5px 15px;
+  border: 1px solid #eee;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.setting-container button {
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0 0 auto;
+  border: 1px solid #ff9155;
+  transition: all 0.5s;
+  cursor: pointer;
+  padding: 6px 40px;
+  background: #eee;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.setting-container button:hover {
+ background: #ff9155;
+ color: #fff;
+}
+
+.setting-container button svg {
+  margin-right: 5px;
+}
+
+.setting-container button img {
+  margin-left: 5px;
+}
+
+.setting-container label {
+  margin-right: 5px;
+  font-size: 14px;
+  font-weight: bold;
+}
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/
@@ -2217,7 +2313,7 @@ div[data=clientDrawer] .MuiListItemText-primary {
 }
 
 .alert {
-  padding: 0.5rem;
+  padding: 0.4rem;
   margin: 1rem 2rem;
   border: 0.1rem solid transparent;
   border-radius: 0.5rem;

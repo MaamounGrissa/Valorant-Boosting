@@ -1,5 +1,5 @@
-import React, { useState} from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState} from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, Link } from 'react-router-dom';
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -29,6 +29,9 @@ import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
 import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
 import OrdersHistroy from './modules/ClientDashboadModules/OrdersHistroy.js';
 import CompletedOrders from './modules/BoosterDashbordModules/CompletedOrders.js';
+import SettingsIcon from '@material-ui/icons/Settings';
+import { EditSetting, ListSetting } from '../actions/settingActions.js';
+import MessageBox from './modules/MessageBox.js';
 
 function Copyright() {
   return (
@@ -37,7 +40,7 @@ function Copyright() {
       Valorant Boosting
       {' '}
       {new Date().getFullYear()}
-      {'.'}
+      {'. Created by Maamoun Grissa'}
     </Typography>
   );
 }
@@ -140,13 +143,24 @@ const useStyles = makeStyles((theme) => ({
 
 export default function Dashbord() {
 
+    const dispatch = useDispatch();
     const classes = useStyles();  
     const [open, setOpen] = useState(false);
+    const [showSetting, setShowSetting] = useState(false);
 
     const userSignin = useSelector((state) => state.userSignin);
     const { userInfo, loading, error } = userSignin;
 
-    const [theme, setTheme] = useState(true)
+    const settingList = useSelector((state) => state.settingList);
+    const { setting } = settingList;
+
+    const settingEdit = useSelector((state) => state.settingEdit);
+    const { feedback, loadingSetting, errorSetting } = settingEdit;
+
+    const [divisionPrice, setDivisionPrice] = useState(null);
+    const [difficultyCoef, setDifficultyCoef] = useState(null);
+
+    const [theme, setTheme] = useState(true);
     
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -154,6 +168,19 @@ export default function Dashbord() {
     const handleDrawerClose = () => {
         setOpen(false);
     };
+
+    const handleSaveSetting = (e) => {
+        e.preventDefault();
+        if(divisionPrice || difficultyCoef) {
+          dispatch(EditSetting(divisionPrice, difficultyCoef));
+        }
+    }
+
+    useEffect(() => {
+      if (userInfo && userInfo.rule === 'admin') {
+        dispatch(ListSetting())
+      }
+    }, [dispatch, userInfo])
 
     const fixedHeightPaper = clsx(classes.paper, classes.fixedHeight);
 
@@ -186,12 +213,14 @@ export default function Dashbord() {
                       userInfo.rule === 'client' ? (
                         <div className="flex-align-center">
                           <WbSunnyIcon />
-                          <label class="switch">
+                          <label className="switch">
                             <input type="checkbox" checked={theme} onChange={e =>  setTheme(!theme)} />
-                            <span class="slider round"></span>
+                            <span className="slider round"></span>
                           </label>
                           <Brightness2Icon />
                         </div>
+                      ) : userInfo.rule === 'admin' ? (
+                          <SettingsIcon id="setting-button" onClick={e => setShowSetting(!showSetting)} />
                       ) : ( '' )
                     }
                   </div>
@@ -231,7 +260,7 @@ export default function Dashbord() {
                         userInfo?.rule === 'admin' ? (
                          <React.Fragment>
                             <Route path="/dashbord" exact={true} render={ (props) =>
-                              <AdminHome fixedHeightPaper={fixedHeightPaper} classes={classes} />
+                              <AdminHome fixedHeightPaper={fixedHeightPaper} classes={classes} setting={setting} />
                             }/>
                             <Route path="/dashbord/paiedorders" exact={true} render={ (props) =>
                               <PaiedOrders />
@@ -276,6 +305,43 @@ export default function Dashbord() {
                   <Box pt={4} className={theme && userInfo.rule === 'client' ? 'client-footer' : ''}>
                     <Copyright />
                   </Box>
+
+                  {
+                    userInfo.rule === 'admin' ? (
+                      <div className={!showSetting ? "setting-container" : "setting-container show"}>
+                        <form>
+                          <h3>SETTINGS</h3>
+                          <div className="flex-align-center">
+                            <label htmlFor='division-price'>Division price</label>
+                            <input value={divisionPrice || parseFloat(setting?.find(s => s.name === 'division-price')?.value)}
+                            onChange={e => setDivisionPrice(e.target.value)}
+                            id='division-price' type='number' step='0.1' placeholder="Division price" />
+                          </div>
+                          <div className="flex-align-center">
+                            <label htmlFor='difficulty-coef'>Difficulty Coef</label>
+                            <input value={difficultyCoef || parseFloat(setting?.find(s => s.name === 'difficulty-coef')?.value)}
+                            onChange={e => setDifficultyCoef(e.target.value)}
+                            id='difficulty-coef' type='number' step='0.1' placeholder="Difficulity Coef" />
+                          </div>
+                          <button type="submit" value="Save" onClick={e => handleSaveSetting(e)} >
+                            &nbsp;Save
+                            {
+                              loadingSetting ? (
+                                <img src="/images/loading-buffering.gif" width='20' alt="Loading" />
+                              ) : ('')
+                            }
+                          </button>
+                            {
+                              feedback ? (
+                                <MessageBox >{errorSetting}</MessageBox>
+                              ) : errorSetting ? (
+                                <MessageBox variant="danger">{errorSetting}</MessageBox>
+                              ) : ( '' )
+                            }
+                        </form>
+                      </div>
+                    ) : ( '' )
+                  }
                 </Container>
               </main>
             </div>

@@ -151,11 +151,12 @@ export default function PlacementTab(props) {
     }
 
     const calculatePrice = useCallback(() => {
-        const MyVariable = 10.3;
+        const MyVariable = parseFloat(props.setting?.find(s => s.name === 'division-price').value) || 10.3;
+        const MyDiffCoef = parseFloat(props.setting?.find(s => s.name === 'difficulty-coef').value) || 1.4;
         let GeneratedPrice = 0;
     
         for (let index = 1; index <= rank; index++) {
-            let rankDificulty = index * 1.4;
+            let rankDificulty = index * MyDiffCoef;
 
             if (rank === 1) {
                 GeneratedPrice = ((MyVariable + rankDificulty) * division);
@@ -186,7 +187,7 @@ export default function PlacementTab(props) {
         }
 
         return GeneratedPrice;
-    }, [division, playWithBooster, priorityOrder, rank, withStreaming]);
+    }, [division, playWithBooster, priorityOrder, props.setting, rank, withStreaming]);
 
     useEffect(() => {
         if (rank > 0 && division > 0) {
