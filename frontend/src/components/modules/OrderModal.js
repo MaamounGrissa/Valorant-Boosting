@@ -11,15 +11,8 @@ export default function OrderModal(props) {
 
     let history = useHistory();
     const dispatch = useDispatch;
-    const { order } = props;
+    const { order, userInfo } = props;
 
-    const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo } = userSignin;
-
-    const orderAdd = useSelector((state) => state.orderAdd);
-    const { loading } = orderAdd;
-
-    
     const [sdkReady, setSdkReady] = useState(false);
     const [myOrder, setMyOrder] = useState({});
 
@@ -38,35 +31,6 @@ export default function OrderModal(props) {
         "II",
         'III',
     ];
-
-    const successPayementHandler = (e) => {
-        e.preventDefault();
-
-        dispatch(AddOrder(
-            myOrder.userid, 
-            myOrder.account, 
-            myOrder.password, 
-            myOrder.summoner, 
-            myOrder.server, 
-            myOrder.type, 
-            myOrder.startrank, 
-            myOrder.startdivision, 
-            myOrder.rankrating, 
-            myOrder.desiredrank, 
-            myOrder.desireddivision, 
-            myOrder.games, 
-            myOrder.duogame, 
-            myOrder.chatoffline, 
-            myOrder.specificagents, 
-            myOrder.priorityorder, 
-            myOrder.withstreaming, 
-            myOrder.price,
-            myOrder.payement,            
-        )).then(() => {
-            history.push('/dashbord');
-        })
-    }
-
 
     useEffect(() => {
 
@@ -123,6 +87,16 @@ export default function OrderModal(props) {
     }, [order, props.showOrderModal, userInfo]);
 
 
+    const successPayementHandler = (e) => {
+        e.preventDefault();
+
+        axios.post(
+        '/api/orders/addneworder', {myOrder}
+        ).then(() => {
+            history.push('/dashbord');
+        });
+    }
+
     if (props.showOrderModal) {
         return (
             <div className="modal-container order-modal show">
@@ -170,10 +144,10 @@ export default function OrderModal(props) {
                                 <div className="order-block-title">Payement gateway</div>
                                 <div className="order-block-content">
                                     <div className="order-submit">
-                                            <img src="/images/paypal-logo.png" alt="paypal" width="200" />
-                                            <div className='price'>
-                                                <NumberFormat value={order.price} displayType={'text'} thousandSeparator={true} prefix={'$'} />
-                                            </div>
+                                        <img src="/images/paypal-logo.png" alt="paypal" width="200" />
+                                        <div className='price'>
+                                            <NumberFormat value={order.price} displayType={'text'} thousandSeparator={true} prefix={'$'} />
+                                        </div>
                                     </div>                                        
                                 </div>
                             </div>
@@ -186,8 +160,6 @@ export default function OrderModal(props) {
                                         {
                                             sdkReady ? (
                                                 <PayPalButton amount={order.price} onSuccess={successPayementHandler}/>
-                                            ) : loading ? ( 
-                                                <img src="/images/loading.gif" alt="loading" width="20" />
                                             ) : (
                                                 'Paypal Not Ready !'
                                             )

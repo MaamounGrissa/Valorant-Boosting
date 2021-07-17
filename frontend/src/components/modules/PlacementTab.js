@@ -392,7 +392,7 @@ export default function PlacementTab(props) {
                             }
                         </div>
                     </div>
-                    <OrderModal showOrderModal={showOrderModal} onClose={e => setShowOrderModal(false)} order={order} />
+                    <OrderModal showOrderModal={showOrderModal} onClose={e => setShowOrderModal(false)} order={order} userInfo={userInfo} />
                 </Paper>
             </Grid>
         </Grid>

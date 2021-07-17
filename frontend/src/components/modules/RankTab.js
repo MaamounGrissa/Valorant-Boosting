@@ -455,7 +455,7 @@ export default function RankTab(props) {
                             }
                         </div>
                     </div>
-                    <OrderModal showOrderModal={showOrderModal} onClose={e => setShowOrderModal(false)} order={order} />
+                    <OrderModal showOrderModal={showOrderModal} onClose={e => setShowOrderModal(false)} order={order} userInfo={userInfo} />
                 </Paper>
             </Grid>
             

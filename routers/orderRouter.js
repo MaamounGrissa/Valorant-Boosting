@@ -98,6 +98,47 @@ orderRouter.post( '/add', expressAsyncHandler(async (req, res) => {
     })
 );
 
+// Add Order from front
+
+orderRouter.post( '/addneworder', expressAsyncHandler(async (req, res) => {
+
+    const now = Date.now();
+
+    const order = new Order({
+        status: 'Looking for a booster',
+        userId: req.body.myOrder.userid,
+        server: req.body.myOrder.server,
+        boostType: req.body.myOrder.type,
+        startRank: req.body.myOrder.startrank || 0,
+        startDivision: req.body.myOrder.startdivision || 0,
+        rankRating: req.body.myOrder.rankrating || 0,
+        desiredRank: req.body.myOrder.desiredrank,
+        desiredDivision: req.body.myOrder.desireddivision,
+        games: req.body.myOrder.games || 0,
+        duoGame:  req.body.myOrder.duogame,
+        chatOffine: req.body.myOrder.chatoffline,
+        specificAgents: req.body.myOrder.specificagents,
+        priorityOrder: req.body.myOrder.priorityorder,
+        withStreaming: req.body.myOrder.withstreaming,
+        price: req.body.myOrder.price,
+        payement: req.body.myOrder.payement || false,
+        isPaused: false,
+    });
+
+    await order.save();
+
+    const chat = new Chat({
+        userId: req.body.myOrder.userid,
+        orderId: order._id,
+        message: 'Chat created at ' + dateFormat(now, "dd/mm/yyyy"),
+    });
+
+    await chat.save();
+
+    res.send('Order Added');
+    })
+);
+
 // Change Status
 
 orderRouter.post('/changestatus', expressAsyncHandler(async (req, res) => {
