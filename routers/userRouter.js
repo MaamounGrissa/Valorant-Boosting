@@ -146,8 +146,17 @@ userRouter.post(
             return res.send([null, 'User not found !']);
         }
 
+        if (req.body.email && req.body.email !== user.email) {
+            const checkEmail = await User.findOne({email: req.body.email});
+            if (!checkEmail) {
+                user.email = req.body.email
+            } else {
+                res.send([null ,'This email is already exist !'])
+            }
+        }
+
         user.name = req.body.name;
-        req.body.password !== '' && ( user.password = bcrypt.hashSync(req.body.password, 8) );
+        user.password = bcrypt.hashSync(req.body.password, 8);
         user.rak = req.body.rank;
         user.paypal = req.body.paypal;
         user.percentage = req.body.percentage;

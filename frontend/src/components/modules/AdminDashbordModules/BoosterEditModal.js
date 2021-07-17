@@ -12,15 +12,15 @@ import SaveIcon from '@material-ui/icons/Save';
 export default function BoosterEditModal(props) {
     const { booster } = props;
     const boosterEdit = useSelector((state) => state.boosterEdit);
-    const { loading } = boosterEdit;
+    const { loading, feedback } = boosterEdit;
     const dispatch = useDispatch()
     const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [rank, setRank] = useState('');
     const [paypal, setPaypal] = useState('');
     const [percentage, setPercentage] = useState('')
-    const [myfeedback, setMyfeedback] = useState(null);
     const [errors, setErrors] = useState(null);
 
     const submitSave = (e) => {
@@ -36,13 +36,12 @@ export default function BoosterEditModal(props) {
             return;
         }
 
-        dispatch(EditBooster(booster._id, name, password, rank, paypal, percentage)).then(() => {
-            setMyfeedback('Booster Updated');
-        });
+        dispatch(EditBooster(booster._id, email, name, password, rank, paypal, percentage));
     }
 
     useEffect(() => {
         if (props.showEditBooster) {
+            setEmail(booster.email);
             setName(booster.name);
             setRank(booster.rank);
             setPaypal(booster.paypal);
@@ -71,7 +70,7 @@ export default function BoosterEditModal(props) {
                                     <TextField onChange={e => setPassword(e.target.value)} value={password} className="booster-input middle" type="password" label="New Password" variant="outlined" autoComplete="off" />
                                 </div>
                                 <div className="booster-group">
-                                    <TextField value={booster?.email} className="booster-input middle" type="email" label="Email" variant="outlined"   />
+                                    <TextField onChange={e => setEmail(e.target.value)} value={email} className="booster-input middle" type="email" label="Email" variant="outlined"   />
                                     <TextField onChange={e => setConfirmPassword(e.target.value)} value={confirmPassword} className="booster-input middle" type="password" label="Confirm New Password" variant="outlined" />
                                 </div>
                                 <FormControl className="booster-form-controle">
@@ -111,8 +110,8 @@ export default function BoosterEditModal(props) {
                                                 }
                                         </Button>
                                         {
-                                            myfeedback ? (
-                                                <MessageBox>{myfeedback}</MessageBox>
+                                            feedback ? (
+                                                <MessageBox>{feedback}</MessageBox>
                                             ) : errors ? (
                                                 <MessageBox variant='danger'>{errors}</MessageBox>
                                             ) : ( '' )

@@ -2384,7 +2384,7 @@ div[data=clientDrawer] .MuiListItemText-primary {
   }
 
   .mobile-menu {
-    display: block;
+    
     color: #fff;
     width: 40px;
     border: none;
@@ -2611,7 +2611,61 @@ div[data=clientDrawer] .MuiListItemText-primary {
   }
 
   .MuiGrid-spacing-xs-5 > .MuiGrid-item {
-    padding: 15px;
+    padding: 0 !important;
+  }
+
+  .switch-label {
+    font-size: 12px;
+  }
+
+  .account-form form {
+    flex-direction: column;
+  }
+
+  .client-account-formgroup {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 25px;
+  }
+
+  .account-form button {
+    width: 100%;
+  }
+
+  .client-dashbord .orders-select {
+    width: 145px;
+  }
+
+  .modal-box {
+    width: 100%;
+    height: auto;
+    min-height: auto;
+    padding: 0;
+  }
+
+  .order-modal-content {
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .order-modal-content .modal-col {
+    width: 100%;
+  }
+
+  .order-submit>img {
+    width: 150px !important;
+  }
+
+  .order-details {
+    margin-bottom: 15px;
+  }
+
+  .order-block-content .flex h3 {
+    font-size: 1.4rem;
+  }
+
+  .order-block-content .flex.start {
+    margin-bottom: 0;
   }
 }
 

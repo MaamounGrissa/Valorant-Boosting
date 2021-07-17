@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { PayPalButton } from 'react-paypal-button-v2';
-import { useDispatch, useSelector } from 'react-redux';
-import { AddOrder } from '../../actions/orderActions';
 import { useHistory } from 'react-router-dom';
 import NumberFormat from 'react-number-format';
 
@@ -10,7 +8,6 @@ import NumberFormat from 'react-number-format';
 export default function OrderModal(props) {
 
     let history = useHistory();
-    const dispatch = useDispatch;
     const { order, userInfo } = props;
 
     const [sdkReady, setSdkReady] = useState(false);

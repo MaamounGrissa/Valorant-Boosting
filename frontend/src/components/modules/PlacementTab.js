@@ -239,7 +239,7 @@ export default function PlacementTab(props) {
 
     return (
         <Grid container spacing={5}>
-            <Grid item xs={6} >
+            <Grid item xs={12} md={6}>
                 <Paper className="grid-paper">
                     <div className="ranks-container">
                         <div className="ranks-header">
@@ -320,7 +320,7 @@ export default function PlacementTab(props) {
                     </div>
                 </Paper>
             </Grid>
-            <Grid item xs={6} >
+            <Grid item xs={12} md={6} >
             <Paper className="grid-paper">
                     <div className="ranks-container">
                         <div className="ranks-header">

@@ -51,10 +51,10 @@ export const AddBooster = (name, email, password, rank, paypal, percentage) => a
     }
 }
 
-export const EditBooster = (id, name, password, rank, paypal, percentage) => async(dispatch) => {
-    dispatch({ type: BOOSTER_EDIT_REQUEST, payload: { id, name, password, rank, paypal, percentage } });
+export const EditBooster = (id, email, name, password, rank, paypal, percentage) => async(dispatch) => {
+    dispatch({ type: BOOSTER_EDIT_REQUEST, payload: { id, email, name, password, rank, paypal, percentage } });
     try {
-        const {data} = await axios.post('/api/users/editbooster', {id, name, password, rank, paypal, percentage});
+        const {data} = await axios.post('/api/users/editbooster', {id, email, name, password, rank, paypal, percentage});
         dispatch({ type: BOOSTER_EDIT_SUCCESS, payload: data});
     } catch(error) {
         dispatch({
