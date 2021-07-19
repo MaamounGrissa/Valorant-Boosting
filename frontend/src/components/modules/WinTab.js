@@ -83,7 +83,7 @@ export default function PlacementTab(props) {
     const [rank, setRank] = useState(0);
     const [division, setDivision] = useState(1);
     
-    const [games, setGames] = useState(5);
+    const [wins, setWins] = useState(5);
     const [server, setServer] = useState('');
 
     const [chatOffline, setChatOffline] = useState(false);
@@ -95,8 +95,8 @@ export default function PlacementTab(props) {
     const [price, setPrice] = useState(0);
     const [feedback, setFeedback] = useState(null);
 
-    const handleGames = (e, newValue) => {
-        setGames(newValue)
+    const handleWins = (e, newValue) => {
+        setWins(newValue)
     }
 
     const handleRank = (e, selected, imageLink) => {
@@ -146,13 +146,13 @@ export default function PlacementTab(props) {
     }
 
     const calculatePrice = useCallback(() => {
-        const placementBoostingPrices = props.setting?.filter(s => s.games === 1);
+        const winBoostingPrices = props.setting?.filter(s => s.win === 1);
         let GeneratedPrice = 0;
 
         if (rank === 0) {
-            GeneratedPrice = placementBoostingPrices.find(p => p.desiredRank === 0)?.amount  * games
+            GeneratedPrice = winBoostingPrices.find(p => p.desiredRank === 0)?.amount  * wins
         } else {
-            GeneratedPrice += placementBoostingPrices.find(p => p.desiredRank === rank)?.amount  * games
+            GeneratedPrice += winBoostingPrices.find(p => p.desiredRank === rank)?.amount  * wins
         }
     
         let optionPrice = GeneratedPrice;
@@ -172,11 +172,13 @@ export default function PlacementTab(props) {
         }
 
         return GeneratedPrice;
-    }, [games, playWithBooster, priorityOrder, props.setting, rank, withStreaming]);
+    }, [playWithBooster, priorityOrder, props.setting, rank, wins, withStreaming]);
 
     useEffect(() => {
-        setPrice(calculatePrice);
-    }, [calculatePrice])
+        if (rank) {
+            setPrice(calculatePrice);
+        }
+    }, [calculatePrice, rank])
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
@@ -194,10 +196,10 @@ export default function PlacementTab(props) {
                 setFeedback('Select your server !')
         } else {
             setOrder({
-                boostType : 'Placement Boosting',
+                boostType : 'Competitive Wins',
                 desiredRank : rank,
                 desiredDivision: division,
-                games: games,
+                wins: wins,
                 server: server,
                 price: price.toFixed(2),
                 chatOffline: chatOffline,
@@ -242,9 +244,6 @@ export default function PlacementTab(props) {
                             }
                         </div>
                         <div className="ranks placement">
-                            <div className={rank === 0 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 0, '/images/ranks/unranked.png')}>
-                                <img title="Iron" src="/images/ranks/unranked.png" alt="Rank" />
-                            </div>
                             <div className={rank === 1 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 1, '/images/ranks/iron.png')}>
                                 <img title="Iron" src="/images/ranks/iron.png" alt="Rank" />
                             </div>
@@ -265,9 +264,6 @@ export default function PlacementTab(props) {
                             </div>
                             <div className={rank === 7 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 7, '/images/ranks/immortal.png')}>
                                 <img title="Immortal" src="/images/ranks/immortal.png" alt="Rank" />
-                            </div>
-                            <div className={rank === 8 ? 'rank active' : 'rank'} onClick={e => handleRank(e, 8, '/images/ranks/radiant.png')}>
-                                <img title="Radiant" src="/images/ranks/radiant.png" alt="Rank" />
                             </div>
                         </div>
                         <div className="divisions-container">
@@ -301,13 +297,13 @@ export default function PlacementTab(props) {
                     <div className="ranks-container">
                         <div className="games-input">
                         <div className={classes.margin} />
-                            <Typography gutterBottom>Games</Typography>
+                            <Typography gutterBottom>Wins</Typography>
                             <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
                                         step={1}
                                         min={1}
-                                        max={5} 
-                                        value={games} 
-                                        onChange={handleGames} 
+                                        max={10} 
+                                        value={wins} 
+                                        onChange={handleWins} 
                                         />
                         <div className={classes.margin} />
                         </div>

@@ -30,8 +30,9 @@ import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
 import OrdersHistroy from './modules/ClientDashboadModules/OrdersHistroy.js';
 import CompletedOrders from './modules/BoosterDashbordModules/CompletedOrders.js';
 import SettingsIcon from '@material-ui/icons/Settings';
-import { EditSetting, ListSetting } from '../actions/settingActions.js';
-import MessageBox from './modules/MessageBox.js';
+import { ListSetting } from '../actions/settingActions.js';
+import EditIcon from '@material-ui/icons/Edit';
+import SettingEdit from './modules/SettingEdit.js';
 
 function Copyright() {
   return (
@@ -154,13 +155,40 @@ export default function Dashbord() {
     const settingList = useSelector((state) => state.settingList);
     const { setting } = settingList;
 
-    const settingEdit = useSelector((state) => state.settingEdit);
-    const { feedback, loadingSetting, errorSetting } = settingEdit;
-
-    const [divisionPrice, setDivisionPrice] = useState(null);
-    const [difficultyCoef, setDifficultyCoef] = useState(null);
-
+    const [selectedSetting, setSelectedSetting] = useState(false);
+    const [showEditSetting, setShowEditSetting] = useState(false);
     const [theme, setTheme] = useState(true);
+
+    const ranks = [
+      "Unranked",
+      "Iron",
+      "Bronze",
+      "Silver",
+      "Gold",
+      "Platinum",
+      "Diamond",
+      "Immortal",
+      "Radiant",
+    ];
+
+    const divisions = [
+      "Nothing",
+      "I",
+      "II",
+      'III',
+    ];
+
+    const handleSelectSetting = (e, selected) => {
+      e.preventDefault();
+      setSelectedSetting(selected);
+      setShowEditSetting(true);
+    }
+
+    const handleSavedSetting = () => {
+      dispatch(ListSetting());
+      setSelectedSetting(null);
+      setShowEditSetting(false);
+    }
     
     const handleDrawerOpen = () => {
         setOpen(true);
@@ -169,16 +197,9 @@ export default function Dashbord() {
         setOpen(false);
     };
 
-    const handleSaveSetting = (e) => {
-        e.preventDefault();
-        if(divisionPrice || difficultyCoef) {
-          dispatch(EditSetting(divisionPrice, difficultyCoef));
-        }
-    }
-
     useEffect(() => {
       if (userInfo && userInfo.rule === 'admin') {
-        dispatch(ListSetting())
+        dispatch(ListSetting());
       }
     }, [dispatch, userInfo])
 
@@ -189,7 +210,11 @@ export default function Dashbord() {
     } else if (error){
         return <ErrorPage msg="Login to have access to dashbord" />
     } else {
-        localStorage.setItem('myId', userInfo._id)
+        localStorage.setItem('myId', userInfo._id);
+        const rankBoostingPrices = setting?.filter(s => s.games === 0 && s.win === 0);
+        const placementBoostingPrices = setting?.filter(s => s.games > 0);
+        const winBoostingPrices = setting?.filter(s => s.win > 0);
+        
         return (
             <div className={classes.root}>
               <CssBaseline />
@@ -308,37 +333,58 @@ export default function Dashbord() {
 
                   {
                     userInfo.rule === 'admin' ? (
-                      <div className={!showSetting ? "setting-container" : "setting-container show"}>
-                        <form>
-                          <h3>SETTINGS</h3>
-                          <div className="flex-align-center">
-                            <label htmlFor='division-price'>Division price</label>
-                            <input value={divisionPrice || parseFloat(setting?.find(s => s.name === 'division-price')?.value)}
-                            onChange={e => setDivisionPrice(e.target.value)}
-                            id='division-price' type='number' step='0.1' placeholder="Division price" />
+                      <div>
+                        <div className={!showSetting ? "setting-container" : "setting-container show"}>
+                          <div className="flex-center-between">
+                            <h3>SETTINGS</h3>
                           </div>
-                          <div className="flex-align-center">
-                            <label htmlFor='difficulty-coef'>Difficulty Coef</label>
-                            <input value={difficultyCoef || parseFloat(setting?.find(s => s.name === 'difficulty-coef')?.value)}
-                            onChange={e => setDifficultyCoef(e.target.value)}
-                            id='difficulty-coef' type='number' step='0.1' placeholder="Difficulity Coef" />
-                          </div>
-                          <button type="submit" value="Save" onClick={e => handleSaveSetting(e)} >
-                            &nbsp;Save
-                            {
-                              loadingSetting ? (
-                                <img src="/images/loading-buffering.gif" width='20' alt="Loading" />
-                              ) : ('')
-                            }
-                          </button>
-                            {
-                              feedback ? (
-                                <MessageBox >{errorSetting}</MessageBox>
-                              ) : errorSetting ? (
-                                <MessageBox variant="danger">{errorSetting}</MessageBox>
-                              ) : ( '' )
-                            }
-                        </form>
+                          <h5>Rank boosting prices</h5>
+                          {
+                            rankBoostingPrices?.map((mySetting) =>
+                              <div key={mySetting._id} className="flex-align-center">
+                                <label>
+                                  {ranks[mySetting.rank] + ' ' + 
+                                  divisions[mySetting.division] + ' => ' + 
+                                  ranks[mySetting.desiredRank] + ' ' + 
+                                  divisions[mySetting.desiredDivision]}
+                                </label>
+                                <div className="setting-amount">
+                                  <label>{mySetting.amount}</label>
+                                  <EditIcon onClick={e => handleSelectSetting(e, mySetting)} />
+                                </div>
+                              </div>
+                            )
+                          }
+                          <h5>Placement boosting prices</h5>
+                          {
+                            placementBoostingPrices?.map((mySetting) =>
+                              <div key={mySetting._id} className="flex-align-center">
+                                <label>
+                                  {ranks[mySetting.desiredRank] + ' '}
+                                </label>
+                                <div className="setting-amount">
+                                  <label>{mySetting.amount}</label>
+                                  <EditIcon onClick={e => handleSelectSetting(e, mySetting)} />
+                                </div>
+                              </div>
+                            )
+                          }
+                          <h5>Win boosting prices</h5>
+                          {
+                            winBoostingPrices?.map((mySetting) =>
+                              <div key={mySetting._id} className="flex-align-center">
+                                <label>
+                                  {ranks[mySetting.desiredRank] + ' '}
+                                </label>
+                                <div className="setting-amount">
+                                  <label>{mySetting.amount}</label>
+                                  <EditIcon onClick={e => handleSelectSetting(e, mySetting)} />
+                                </div>
+                              </div>
+                            )
+                          }
+                        </div>
+                        <SettingEdit showEditSetting={showEditSetting} selectedSetting={selectedSetting} onClose={handleSavedSetting} />
                       </div>
                     ) : ( '' )
                   }

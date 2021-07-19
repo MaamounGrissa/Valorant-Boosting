@@ -45,7 +45,7 @@ export default function ClientHome(props) {
         "I",
         "II",
         'III',
-    ]
+    ];
 
     const ratingAmount = [
         " 0-20",

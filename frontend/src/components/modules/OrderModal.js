@@ -70,7 +70,8 @@ export default function OrderModal(props) {
                 rankrating : order.ratingAmount || 0, 
                 desiredrank : order.desiredRank, 
                 desireddivision : order.desiredDivision, 
-                games : order.games || 0, 
+                games : order.games || 0,
+                wins: order.wins || 0,
                 duogame : order.duoGame, 
                 chatoffline : order.chatOffline, 
                 specificagents : order.specificAgents, 
@@ -123,11 +124,18 @@ export default function OrderModal(props) {
                                                         &nbsp;
                                                         {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
                                                     </h3>
-                                                ) : (
+                                                ) : order.boostType === "Placement Boosting" ? (
                                                     <h3>
                                                         {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
                                                         &nbsp;
                                                         {'Games : ' + order.games}
+                                                        &nbsp;
+                                                    </h3>
+                                                ) : (
+                                                    <h3>
+                                                        {ranks[order.desiredRank - 1]} {divisions[order.desiredDivision - 1]}
+                                                        &nbsp;
+                                                        {'Wins : ' + order.wins}
                                                         &nbsp;
                                                     </h3>
                                                 )

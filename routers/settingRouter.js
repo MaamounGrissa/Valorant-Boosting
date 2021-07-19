@@ -29,20 +29,14 @@ settingRouter.get('/seed', expressAsyncHandler(async (req, res) => {
 // Edit Setting
 
 settingRouter.post( '/edit', expressAsyncHandler(async (req, res) => {
-
-    const divisionPrice = await Setting.findOne({name : 'division-price'});
-    if (req.body.divisionPrice) { 
-        divisionPrice.value = req.body.divisionPrice;
-        await divisionPrice.save();
+    const setting = await Setting.findOne({_id : req.body.id});
+    if (!setting) { 
+        res.status(404).send({message: 'Setting not found'});
+    } else {
+        setting.amount = req.body.newValue
+        await setting.save()
+        res.send('Setting Saved !');
     }
-
-    const difficultyCoef = await Setting.findOne({name : 'difficulty-coef'});
-    if (req.body.difficultyCoef) {
-        difficultyCoef.value = req.body.difficultyCoef;
-        await difficultyCoef.save();
-    } 
-    
-    res.send('Setting Saved !');
 }));
 
 export default settingRouter;

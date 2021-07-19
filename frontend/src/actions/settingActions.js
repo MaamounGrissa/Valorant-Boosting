@@ -18,10 +18,10 @@ export const ListSetting = () => async (dispatch) => {
 };
 
 
-export const EditSetting = (divisionPrice, difficultyCoef) => async(dispatch) => {
-    dispatch({ type: SETTING_EDIT_REQUEST, payload: { divisionPrice, difficultyCoef } });
+export const EditSetting = (id, newValue) => async(dispatch) => {
+    dispatch({ type: SETTING_EDIT_REQUEST, payload: { id, newValue } });
     try {
-        const {data} = await axios.post('/api/setting/edit', {divisionPrice, difficultyCoef});
+        const {data} = await axios.post('/api/setting/edit', { id, newValue });
         dispatch({ type: SETTING_EDIT_SUCCESS, payload: data});
     } catch(error) {
         dispatch({

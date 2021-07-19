@@ -86,6 +86,7 @@ export default function OrderAddModal(props) {
     const [desiredRank, setDesiredRank] = useState(0);
     const [desiredDivision, setDesiredDivision] = useState(0);
     const [games, setGames] = useState(5);
+    const [wins, setWins] = useState(5);
     const [price, setPrice] = useState(0);
     const [chatOffline, setChatOffline] = useState(false);
     const [specificAgents, setSpecificAgents] = useState(false);
@@ -114,10 +115,14 @@ export default function OrderAddModal(props) {
         setGames(newValue)
     }
 
+    const handleWins = (e, newValue) => {
+        setWins(newValue)
+    }
+
     const handleBoostType = (e, type) => {
         e.preventDefault();
         setBoostType(type)
-        if (type === 'Placement Boost') {
+        if (type === 'Placement Boost' || type === 'Competitive Wins') {
             setStartRank(0);
             setStartDivision(0);
             setRankRating(0);
@@ -127,31 +132,21 @@ export default function OrderAddModal(props) {
     const handleStartRank = (e) => {
         e.preventDefault();
         if (desiredRank === 0) {
-            setStartRank(e.target.value);
+            setStartRank(parseInt(e.target.value));
         } else {
-            if (e.target.value <= desiredRank) {
-                setStartRank(e.target.value);
-            }
-        }
-        if (startRank === desiredRank && startDivision > 0 && desiredDivision > 0) {
-            if (startDivision >= desiredDivision) {
-                setDesiredDivision(startDivision + 1)
+            if (parseInt(e.target.value) <= desiredRank) {
+                setStartRank(parseInt(e.target.value));
             }
         }
     }
 
     const handleDesiredRank = (e) => {
         e.preventDefault();
-        if (boostType === 'Placement Boosting') {
-            setDesiredRank(e.target.value);
+        if (boostType === 'Placement Boosting' || boostType === 'Competitive Wins') {
+            setDesiredRank(parseInt(e.target.value));
         } else {
-            if (boostType === 'Rank Boosting' && e.target.value >= startRank) {
-                setDesiredRank(e.target.value);
-            }
-            if (boostType === 'Rank Boosting' && startRank === desiredRank && startDivision > 0 && desiredDivision > 0) {
-                if (startDivision >= desiredDivision) {
-                    setDesiredDivision(startDivision + 1);
-                }
+            if (boostType === 'Rank Boosting' && parseInt(e.target.value) >= startRank) {
+                setDesiredRank(parseInt(e.target.value));
             }
         }
     }
@@ -159,63 +154,71 @@ export default function OrderAddModal(props) {
     const handleStartDivision = (e) => {
         e.preventDefault();
         if (startRank === desiredRank) {
-            if (desiredDivision > 0 && e.target.value < desiredDivision) {
-                setStartDivision(e.target.value);
+            if (desiredDivision > 0 && parseInt(e.target.value) < desiredDivision) {
+                setStartDivision(parseInt(e.target.value));
             }
         } else {
-            setStartDivision(e.target.value);
+            setStartDivision(parseInt(e.target.value));
         }
     }
 
     const handleDesiredDivision = (e) => {
         e.preventDefault();
         if (boostType === 'Rank Boosting' && startRank === desiredRank) {
-            if (e.target.value > startDivision) {
-                setDesiredDivision(e.target.value);
+            if (parseInt(e.target.value) > startDivision) {
+                setDesiredDivision(parseInt(e.target.value));
             }
         } else {
-            setDesiredDivision(e.target.value);
+            setDesiredDivision(parseInt(e.target.value));
         }
     }
 
     const calculatePrice = useCallback(() => {
-        const MyVariable = parseFloat(props.setting?.find(s => s.name === 'division-price').value) || 10.3;
-        const MyDiffCoef = parseFloat(props.setting?.find(s => s.name === 'difficulty-coef').value) || 1.4;
+        const rankBoostingPrices = props.setting?.filter(s => s.games === 0 && s.win === 0);
+        const placementBoostingPrices = props.setting?.filter(s => s.games === 1);
+        const winBoostingPrices = props.setting?.filter(s => s.win === 1);
         let GeneratedPrice = 0;
 
         if (boostType === 'Rank Boosting') {
-            for (let index = startRank; index <= desiredRank; index++) {
-                let rankDificulty = index * MyDiffCoef;
-                let rankRatingCalc = (((rankRating / 10) - 1) * rankDificulty) / 2;
-    
+            if (rankBoostingPrices) {
                 if (startRank === desiredRank) {
-                    GeneratedPrice = ((MyVariable + rankDificulty) * (desiredDivision - startDivision)) - rankRatingCalc;
-                } else {
-                    if (index === startRank) {
-                        GeneratedPrice += ((MyVariable + rankDificulty) * (3 - startDivision)) - rankRatingCalc ;
-                    } else if (index === desiredRank) {
-                        GeneratedPrice += (MyVariable + rankDificulty) * desiredDivision;
-                    } else {
-                        GeneratedPrice += (MyVariable + rankDificulty) * 3;
+                    for(let j = startDivision; j < desiredDivision; j++) {
+                        GeneratedPrice += rankBoostingPrices.find(p => p.rank === startRank && p.division === j && p.desiredRank === desiredRank && p.desiredDivision === j+1)?.amount
                     }
-                    
+                } else {
+                    for (let i = startRank; i <= desiredRank; i++) {
+                        if (i === startRank) {
+                            for (let j = startDivision; j <= 3; j++) {
+                                if (j === 3) {
+                                    GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 3 && p.desiredRank === i+1 && p.desiredDivision === 1)?.amount
+                                } else {
+                                    GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === j && p.desiredRank === i && p.desiredDivision === j+1)?.amount
+                                }
+                            }
+                        } else if (i === desiredRank) {
+                            if (desiredDivision === 2) {
+                                GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 1 && p.desiredRank === i && p.desiredDivision === 2)?.amount
+                            }
+                            if (desiredDivision === 3) {
+                                GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 2 && p.desiredRank === i && p.desiredDivision === 3)?.amount
+                                GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 3 && p.desiredRank === i+1 && p.desiredDivision === 1)?.amount
+                            }
+                        } else {
+                            GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 1 && p.desiredRank === i && p.desiredDivision === 2)?.amount
+                            GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 2 && p.desiredRank === i && p.desiredDivision === 3)?.amount
+                            GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 3 && p.desiredRank === i+1 && p.desiredDivision === 1)?.amount
+                        }  
+                    }
                 }
             }
-    
+        } else if (boostType === 'Placement Boosting'){
+            if (!desiredRank) {
+                GeneratedPrice = placementBoostingPrices.find(p => p.desiredRank === 0)?.amount  * games
+            } else {
+                GeneratedPrice = placementBoostingPrices.find(p => p.desiredRank === desiredRank)?.amount  * games
+            }
         } else {
-            for (let index = 1; index <= desiredRank; index++) {
-                let rankDificulty = index * MyDiffCoef;
-    
-                if (desiredRank === 1) {
-                    GeneratedPrice = ((MyVariable + rankDificulty) * desiredDivision);
-                } else {
-                    if (index === desiredRank) {
-                        GeneratedPrice += ((MyVariable + rankDificulty) * (desiredDivision)) ;
-                    } else {
-                        GeneratedPrice += (MyVariable + rankDificulty) * 3;
-                    }
-                }
-            }
+            GeneratedPrice = winBoostingPrices[desiredRank]?.amount * wins
         }
 
         let optionPrice = GeneratedPrice;
@@ -235,7 +238,7 @@ export default function OrderAddModal(props) {
         
         return GeneratedPrice.toFixed(2);
         
-    }, [props.setting, boostType, duoGame, priorityOrder, withStreaming, startRank, desiredRank, rankRating, desiredDivision, startDivision]);
+    }, [props.setting, boostType, duoGame, priorityOrder, withStreaming, startRank, desiredRank, startDivision, desiredDivision, games, wins]);
 
 
     const submitSave = (e) => {
@@ -282,7 +285,8 @@ export default function OrderAddModal(props) {
             rankRating, 
             desiredRank, 
             desiredDivision, 
-            games, 
+            games,
+            wins,
             duoGame, 
             chatOffline, 
             specificAgents, 
@@ -303,6 +307,7 @@ export default function OrderAddModal(props) {
                 setDesiredDivision(0);
                 setServer('');
                 setGames(5);
+                setWins(5);
                 setChatOffline(false);
                 setSpecificAgents(false);
                 setPriorityOrder(false);
@@ -319,11 +324,15 @@ export default function OrderAddModal(props) {
             setPassword(props.accounts.find(acc => acc.userId === user)?.password || '');
             setSummoner(props.accounts.find(acc => acc.userId === user)?.summoner || '');
         }
-        if (boostType === 'Rank Boosting' && startRank > 0 && desiredRank > 0 && startDivision > 0 && desiredDivision > 0 && rankRating > 0) {
+        if (boostType === 'Rank Boosting' && startRank > 0 && desiredRank > 0 && startDivision > 0 && desiredDivision > 0) {
             setPrice(calculatePrice);
         }
 
-        if (boostType === 'Placement Boosting' && desiredRank > 0 && desiredDivision > 0 ) {
+        if (boostType === 'Placement Boosting' && desiredRank > 0 ) {
+            setPrice(calculatePrice);
+        }
+
+        if (boostType === 'Competitive Wins' && desiredRank > 0 ) {
             setPrice(calculatePrice);
         }
     }, [boostType, calculatePrice, desiredDivision, desiredRank, props.accounts, rankRating, startDivision, startRank, user])
@@ -461,7 +470,13 @@ export default function OrderAddModal(props) {
                                             id: 'desiredrank-select',
                                         }}
                                         >
-                                         <option value={''}>Desired rank</option>
+                                        {
+                                            boostType === 'Placement Boosting' ? (
+                                            <option value={0}>Unranked</option>
+                                            ) : (
+                                                <option value={0}>Desired rank</option>
+                                            )
+                                        }
                                         {
                                             ranks.map((rank, index) => 
                                                 <option key={index} value={index + 1}>{rank}</option>
@@ -486,19 +501,37 @@ export default function OrderAddModal(props) {
                                         I
                                         </Select>
                                     </FormControl>
-                                    <div className="games-slider-input">
-                                        <div className={classes.margin} />
-                                        <Typography gutterBottom>Games</Typography>
-                                        <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
-                                        step={1}
-                                        min={1}
-                                        max={5} 
-                                        value={games} 
-                                        onChange={handleGames} 
-                                        disabled={boostType === 'Placement Boosting' ? false : true}
-                                        />
-                                        <div className={classes.margin} />
-                                    </div>
+                                    {
+                                        boostType === 'Competitive Wins' ? (
+                                            <div className="games-slider-input">
+                                                <div className={classes.margin} />
+                                                <Typography gutterBottom>Wins</Typography>
+                                                <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
+                                                step={1}
+                                                min={1}
+                                                max={10} 
+                                                value={wins} 
+                                                onChange={handleWins} 
+                                                />
+                                                <div className={classes.margin} />
+                                            </div>
+                                        ) : (
+                                            <div className="games-slider-input">
+                                                <div className={classes.margin} />
+                                                <Typography gutterBottom>Games</Typography>
+                                                <PrettoSlider valueLabelDisplay="auto" aria-label="pretto slider" 
+                                                step={1}
+                                                min={1}
+                                                max={5} 
+                                                value={games} 
+                                                onChange={handleGames} 
+                                                disabled={boostType === 'Placement Boosting' ? false : true}
+                                                />
+                                                <div className={classes.margin} />
+                                            </div>
+                                        )
+                                    }
+                                    
 
                                     <TextField onChange={e => setPrice(e.target.value)} 
                                         value={price} 
@@ -541,10 +574,10 @@ export default function OrderAddModal(props) {
                                     <div className="order-type">
                                         <button className={boostType === 'Rank Boosting' ? 'active' : ''} onClick={e => handleBoostType(e, 'Rank Boosting')}>Rank Boost</button>
                                         <button className={boostType === 'Placement Boosting' ? 'active' : ''} onClick={e => handleBoostType(e, 'Placement Boosting')}>Placement Boosting</button>
+                                        <button className={boostType === 'Competitive Wins' ? 'active' : ''} onClick={e => handleBoostType(e, 'Competitive Wins')}>Competitive Wins</button>
                                     </div>
                                 </div>
 
-                                
                                 <div className="form-center">
                                     <Button variant="contained"
                                                 color="primary"

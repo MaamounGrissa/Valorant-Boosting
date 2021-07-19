@@ -1,8 +1,13 @@
 import mongoose from 'mongoose';
 
 const settingSchema = new mongoose.Schema({
-    name: {type: String, required: true, unique: true},
-    value: {type: String},
+    rank: { type: Number },
+    desiredRank: { type: Number },
+    division: { type: Number },
+    desiredDivision: { type: Number },
+    games: { type: Number },
+    win: { type: Number },
+    amount: { type: Number },
 }, {
     timestamps: true
 });

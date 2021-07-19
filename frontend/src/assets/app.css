@@ -428,6 +428,15 @@ main > .overlay {
   box-shadow: inset 60px 0 120px rgb(119 134 131 / 20%), 0 0 9px 0 rgb(0 0 0 / 60%);
 }
 
+.ranks.placement {
+  width: 80%;
+}
+
+.ranks.placement .rank {
+  margin-bottom: 10px;
+  width: 17%;
+}
+
 .ranks .rank:hover, .ranks .rank.active {
   background-color: #ff9155;
 }
@@ -1841,19 +1850,28 @@ div[data=clientDrawer] .MuiListItemText-primary {
 }
 
 .setting-container {
-  width: 300px;
+  width: 350px;
   background-color: #ebc690;
   box-shadow: 0 5px 30px rgb(0 0 0 / 20%);
   border-radius: 20px;
   padding: 20px;
   position: fixed;
-  z-index: 999;
+  z-index: -1;
   top: 80px;
   right: 20px;
   transform: scale(0);
   opacity: 0;
   transition: all 0.5s;
   z-index: -1;
+  height: 83vh;
+  overflow-y: auto;
+}
+
+.flex-center-between {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
 }
 
 .setting-container.show {
@@ -1867,14 +1885,14 @@ div[data=clientDrawer] .MuiListItemText-primary {
 }
 
 .setting-container .flex-align-center {
+  display: flex;
+  align-items: center;
   justify-content: space-between;
   margin-bottom: 15px;
 }
 
 .setting-container h3 {
   font-size: 1.6rem;
-  text-align: right;
-  margin-bottom: 20px;
   color: #ff9155;
   font-weight: bold;
 }
@@ -1885,17 +1903,17 @@ div[data=clientDrawer] .MuiListItemText-primary {
   color: #222;
   width: 50%;
   border-radius: 20px;
-  padding: 5px 15px;
+  padding: 5px 10px;
   border: 1px solid #eee;
   font-weight: bold;
-  font-size: 1.1rem;
+  font-size: 1rem;
 }
 
 .setting-container button {
   display: block;
   justify-content: center;
   align-items: center;
-  margin: 20px 0 0 auto;
+  margin: 0 auto;
   border: 1px solid #ff9155;
   transition: all 0.5s;
   cursor: pointer;
@@ -1923,6 +1941,98 @@ div[data=clientDrawer] .MuiListItemText-primary {
   font-size: 14px;
   font-weight: bold;
 }
+
+.setting-amount {
+  display: flex;
+  align-items: center;
+  
+}
+
+.setting-amount svg {
+  color: #080;
+  transition: all 0.5s;
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.setting-amount svg:hover {
+  transform: scale(1.2)
+}
+
+.setting-edit-modal {
+  width: 250px;
+  background-color: #ebc690;
+  box-shadow: 0 5px 30px rgb(0 0 0 / 20%);
+  border-radius: 20px;
+  padding: 10px;
+  position: fixed;
+  z-index: 999;
+  top: 80px;
+  right: 380px;
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.5s;
+  z-index: -1;
+  min-height: 40vh;
+  overflow-y: auto;
+}
+
+.setting-edit-modal.show {
+  opacity: 1;
+  transform: scale(1);
+  z-index: 999;
+}
+
+.setting-edit-modal #close-modal {
+  display: block;
+  margin: 0 auto 0 0;
+  width: auto;
+}
+
+.setting-edit-modal label {
+  display: block;
+  font-size: 1.2rem;
+  margin: 15px 0;
+  text-align: center;
+}
+
+.setting-edit-modal input {
+  display: block;
+  font-size: 1.2rem;
+  font-weight: bold;
+  margin: 15px 0;
+  border-radius: 10px;
+  padding: 6px 15px;
+  border: none;
+  max-width: 100%;
+}
+
+.setting-edit-modal button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 93%;
+  margin: 15px auto;
+  border-radius: 10px;
+  padding: 8px 15px;
+  border: none;
+  max-width: 100%;
+  background-color: #fff;
+  border: 1px solid #eee;
+  cursor: pointer;
+  transition: all 0.5s;
+}
+
+.setting-edit-modal button:hover {
+  background-color: #ff9155;
+}
+
+.setting-container h5 {
+  margin: 20px 0;
+  padding-left: 20px;
+  font-size: 1.1rem;
+}
+
 /******************************************************************/
 /*************************** Frameworks ***************************/
 /******************************************************************/

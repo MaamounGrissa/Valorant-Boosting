@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { TransitionGroup, CSSTransition } from "react-transition-group";
 import RankTab from './modules/RankTab.js';
 import PlacementTab from './modules/PlacementTab.js';
+import WinTab from './modules/WinTab.js'
 import { useDispatch, useSelector } from 'react-redux';
 import { ListSetting } from '../actions/settingActions.js';
 
@@ -12,6 +13,7 @@ function Home () {
 
     const [rank, setRank] = useState(true);
     const [placement, setPlacement] = useState(false);
+    const [win, setWin] = useState(false);
 
     const settingList = useSelector((state) => state.settingList);
     const { setting } = settingList;
@@ -20,12 +22,21 @@ function Home () {
         e.preventDefault();
         setPlacement(false);
         setRank(true);
+        setWin(false);
     }
 
     const handlePlacement= (e) => {
         e.preventDefault();
         setRank(false);
         setPlacement(true);
+        setWin(false);
+    }
+
+    const handleWin= (e) => {
+        e.preventDefault();
+        setRank(false);
+        setPlacement(false);
+        setWin(true);
     }
 
     useEffect(() => {
@@ -41,6 +52,7 @@ function Home () {
                 <div className="intro-actions">
                     <button className={rank ? 'active' : ''} onClick={e => handleRank(e)} >Rank Boosting</button>
                     <button className={placement ? 'active' : ''} onClick={e => handlePlacement(e)} >Placements</button>
+                    <button className={win ? 'active' : ''} onClick={e => handleWin(e)} >Competitive Wins</button>
                 </div>
                 <div className="intro-tabs">
                 <TransitionGroup component={null}>
@@ -58,6 +70,13 @@ function Home () {
                     transitionName="myanimation"
                     timeout={300}>
                         <PlacementTab setting={setting} />
+                    </CSSTransition >
+                ) : win ? (
+                    <CSSTransition
+                    in={win}
+                    transitionName="myanimation"
+                    timeout={300}>
+                        <WinTab setting={setting} />
                     </CSSTransition >
                 ) : ('')
                 }

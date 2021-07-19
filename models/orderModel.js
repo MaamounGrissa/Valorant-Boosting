@@ -13,6 +13,7 @@ const orderSchema = new mongoose.Schema({
     desiredRank: { type: Number },
     desiredDivision: { type: Number },
     games: { type: Number },
+    wins: { type: Number },
     duoGame: { type: Boolean },
     chatOffine: { type: Boolean },
     specificAgents: { type: Boolean },

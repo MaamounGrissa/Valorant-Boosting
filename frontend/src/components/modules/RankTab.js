@@ -41,7 +41,7 @@ export default function RankTab(props) {
     const [selectedImage, setSelectedImage] = useState('');
     const [rank, setRank] = useState(0);
     const [division, setDivision] = useState(0);
-    const [ratingAmount, setRatingAmount] = useState(0);
+    const [ratingAmount, setRatingAmount] = useState(10);
     
     const [selectedDesiredImage, setSelectedDesiredImage] = useState('');
     const [desiredRank, setDesiredRank] = useState(0);
@@ -108,11 +108,6 @@ export default function RankTab(props) {
             setDesiredRank(selected)
             setSelectedDesiredImage(imageLink)
         }
-        if (rank === desiredRank && division > 0 && desiredDivision > 0) {
-            if (division >= desiredDivision) {
-                setDesiredDivision(division + 1)
-            }
-        }
     }
 
     const handleDesiredDivision = (e, selected) => {
@@ -164,30 +159,43 @@ export default function RankTab(props) {
     } 
 
     const calculatePrice = useCallback(() => {
-        const MyVariable = parseFloat(props.setting?.find(s => s.name === 'division-price').value) || 10.3;
-        const MyDiffCoef = parseFloat(props.setting?.find(s => s.name === 'difficulty-coef').value) || 1.4;
+        const rankBoostingPrices = props.setting?.filter(s => s.games === 0 && s.win === 0);
         let GeneratedPrice = 0;
-    
-        for (let index = rank; index <= desiredRank; index++) {
-            let rankDificulty = index * MyDiffCoef;
-            let rankRating = (((ratingAmount / 10) - 1) * rankDificulty) / 2;
 
+        if (rankBoostingPrices) {
             if (rank === desiredRank) {
-                GeneratedPrice = ((MyVariable + rankDificulty) * (desiredDivision - division)) - rankRating;
-            } else {
-                if (index === rank) {
-                    GeneratedPrice += ((MyVariable + rankDificulty) * (3 - division)) - rankRating ;
-                } else if (index === desiredRank) {
-                    GeneratedPrice += (MyVariable + rankDificulty) * desiredDivision;
-                } else {
-                    GeneratedPrice += (MyVariable + rankDificulty) * 3;
+                for(let j = division; j < desiredDivision; j++) {
+                    GeneratedPrice += rankBoostingPrices.find(p => p.rank === rank && p.division === j && p.desiredRank === desiredRank && p.desiredDivision === j+1)?.amount
                 }
-                
+            } else {
+                for (let i = rank; i <= desiredRank; i++) {
+                    if (i === rank) {
+                        for (let j = division; j <= 3; j++) {
+                            if (j === 3) {
+                                GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 3 && p.desiredRank === i+1 && p.desiredDivision === 1)?.amount
+                            } else {
+                                GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === j && p.desiredRank === i && p.desiredDivision === j+1)?.amount
+                            }
+                        }
+                    } else if (i === desiredRank) {
+                        if (desiredDivision === 2) {
+                            GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 1 && p.desiredRank === i && p.desiredDivision === 2)?.amount
+                        }
+                        if (desiredDivision === 3) {
+                            GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 2 && p.desiredRank === i && p.desiredDivision === 3)?.amount
+                            GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 3 && p.desiredRank === i+1 && p.desiredDivision === 1)?.amount
+                        }
+                    } else {
+                        GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 1 && p.desiredRank === i && p.desiredDivision === 2)?.amount
+                        GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 2 && p.desiredRank === i && p.desiredDivision === 3)?.amount
+                        GeneratedPrice += rankBoostingPrices.find(p => p.rank === i && p.division === 3 && p.desiredRank === i+1 && p.desiredDivision === 1)?.amount
+                    }  
+                }
             }
         }
 
         let optionPrice = GeneratedPrice;
-
+    
         if (playWithBooster) {
             optionPrice += ((GeneratedPrice / 100)  * 40);
         }
@@ -202,14 +210,15 @@ export default function RankTab(props) {
             GeneratedPrice = optionPrice;
         }
 
-        return GeneratedPrice;
-    }, [desiredDivision, desiredRank, division, playWithBooster, priorityOrder, props.setting, rank, ratingAmount, withStreaming]);
+        return parseFloat(GeneratedPrice);
+
+    }, [desiredDivision, desiredRank, division, playWithBooster, priorityOrder, props.setting, rank, withStreaming]);
 
     useEffect(() => {
-        if (rank > 0 && desiredRank > 0 && division > 0 && desiredDivision > 0 && ratingAmount > 0) {
+        if (rank > 0 && desiredRank > 0 && division > 0 && desiredDivision > 0 ) {
             setPrice(calculatePrice);
         }
-    }, [calculatePrice, desiredDivision, desiredRank, division, rank, ratingAmount])
+    }, [calculatePrice, desiredDivision, desiredRank, division, rank])
 
     const handleShowOrderModal = (e) => {
         e.preventDefault();
@@ -306,8 +315,7 @@ export default function RankTab(props) {
                                     <strong>III</strong>
                                 </div>
                             </div>
-                            <select className="myselect" value={ratingAmount} onChange={e => handleChangeRatingAmount(e)}>
-                                <option value={0}>Current rating amount</option>
+                            <select className="myselect" value={ratingAmount} onChange={e => handleChangeRatingAmount(e)} title="Current rating amount">
                                 <option value={10}>00 - 20</option>
                                 <option value={30}>21 - 40</option>
                                 <option value={50}>41 - 60</option>
