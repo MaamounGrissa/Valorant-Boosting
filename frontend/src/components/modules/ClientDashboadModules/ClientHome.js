@@ -223,7 +223,7 @@ export default function ClientHome(props) {
                                                     </h3>
                                                 </div>
                                             </div>
-                                        ) : (
+                                        ) : myOrders.find(order => order._id === selectedOrder).boostType === 'Placement Boosting' ? (
                                             <div className="myorders-rank">
                                                 <div>
                                                     <img src={`/images/ranks/${ranks[myOrders.find(order => order._id === selectedOrder).desiredRank - 1]}.png`} alt="Rank" />
@@ -234,6 +234,19 @@ export default function ClientHome(props) {
                                                 </div>
                                                 <div>
                                                     <h5>{myOrders.find(order => order._id === selectedOrder).games + ' Games'}</h5>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="myorders-rank">
+                                                <div>
+                                                    <img src={`/images/ranks/${ranks[myOrders.find(order => order._id === selectedOrder).desiredRank - 1]}.png`} alt="Rank" />
+                                                    <h3>
+                                                        <span>{ranks[myOrders.find(order => order._id === selectedOrder).desiredRank - 1]}</span>
+                                                        <span>{divisions[myOrders.find(order => order._id === selectedOrder).desiredDivision - 1]}</span>
+                                                    </h3>
+                                                </div>
+                                                <div>
+                                                    <h5>{myOrders.find(order => order._id === selectedOrder).wins + ' Wins'}</h5>
                                                 </div>
                                             </div>
                                         )

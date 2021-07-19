@@ -192,7 +192,7 @@ export default function MyOrders(props) {
                                                     </h3>
                                                 </div>
                                             </div>
-                                        ) : (
+                                        ) : progressOrders.find(order => order._id === selectedOrder).boostType === 'Placement Boosting' ? (
                                             <div className="myorders-rank">
                                                 <div>
                                                     <img src={`/images/ranks/${ranks[progressOrders.find(order => order._id === selectedOrder).desiredRank - 1]}.png`} alt="Rank" />
@@ -203,6 +203,19 @@ export default function MyOrders(props) {
                                                 </div>
                                                 <div>
                                                     <h5>{progressOrders.find(order => order._id === selectedOrder).games + ' Games'}</h5>
+                                                </div>
+                                            </div>
+                                        ) : (
+                                            <div className="myorders-rank">
+                                                <div>
+                                                    <img src={`/images/ranks/${ranks[progressOrders.find(order => order._id === selectedOrder).desiredRank - 1]}.png`} alt="Rank" />
+                                                    <h3>
+                                                        <span>{ranks[progressOrders.find(order => order._id === selectedOrder).desiredRank - 1]}</span>
+                                                        <span>{divisions[progressOrders.find(order => order._id === selectedOrder).desiredDivision - 1]}</span>
+                                                    </h3>
+                                                </div>
+                                                <div>
+                                                    <h5>{progressOrders.find(order => order._id === selectedOrder).wins + ' Wins'}</h5>
                                                 </div>
                                             </div>
                                         )

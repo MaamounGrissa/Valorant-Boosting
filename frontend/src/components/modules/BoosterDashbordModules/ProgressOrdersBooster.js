@@ -58,7 +58,7 @@ export default function ProgressOrdersBooster(props) {
                 onClick={() => props.selectOrder(order._id)}>
                 <TableCell>{Moment(order.createdAt).format('DD/MM/YY')}</TableCell>
                 <TableCell>{clients.find(b => b._id === order.userId)?.name}</TableCell>
-                <TableCell>{order.boostType.split(' ')[0]}</TableCell>
+                <TableCell>{order.boostType}</TableCell>
                 <TableCell>{order.duoGame ? 'Duo' : 'Solo'}</TableCell>
                 <TableCell>{order.server}</TableCell>
                 <TableCell>
@@ -69,8 +69,10 @@ export default function ProgressOrdersBooster(props) {
                               <span className="cap">{ranks[order.startRank - 1]}</span>
                               <span>&nbsp;{divisions[order.startDivision - 1]}</span>
                           </span>
-                      ) : (
+                      ) : order.boostType === "Placement Boosting" ? (
                           <span>{order.games}&nbsp;Games</span>
+                      ) : (
+                        <span>{order.wins}&nbsp;Wins</span>
                       )
                     }
                     <ForwardIcon />
