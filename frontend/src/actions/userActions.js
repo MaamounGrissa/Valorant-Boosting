@@ -35,10 +35,10 @@ export const signin = (email, password) => async(dispatch) => {
     }
 }
 
-export const AddBooster = (name, email, password, rank, paypal, percentage) => async(dispatch) => {
-    dispatch({ type: BOOSTER_ADD_REQUEST, payload: { name, email, password, rank, paypal, percentage } });
+export const AddBooster = (name, email, password, rank, paypal, percentage, rule) => async(dispatch) => {
+    dispatch({ type: BOOSTER_ADD_REQUEST, payload: { name, email, password, rank, paypal, percentage, rule } });
     try {
-        const {data} = await axios.post('/api/users/addbooster', {name, email, password, rank, paypal, percentage});
+        const {data} = await axios.post('/api/users/addbooster', {name, email, password, rank, paypal, percentage, rule});
         dispatch({ type: BOOSTER_ADD_SUCCESS, payload: data});
     } catch(error) {
         dispatch({
@@ -51,10 +51,10 @@ export const AddBooster = (name, email, password, rank, paypal, percentage) => a
     }
 }
 
-export const EditBooster = (id, email, name, password, rank, paypal, percentage) => async(dispatch) => {
-    dispatch({ type: BOOSTER_EDIT_REQUEST, payload: { id, email, name, password, rank, paypal, percentage } });
+export const EditBooster = (id, email, name, password, rank, paypal, percentage, rule) => async(dispatch) => {
+    dispatch({ type: BOOSTER_EDIT_REQUEST, payload: { id, email, name, password, rank, paypal, percentage, rule } });
     try {
-        const {data} = await axios.post('/api/users/editbooster', {id, email, name, password, rank, paypal, percentage});
+        const {data} = await axios.post('/api/users/editbooster', {id, email, name, password, rank, paypal, percentage, rule});
         dispatch({ type: BOOSTER_EDIT_SUCCESS, payload: data});
     } catch(error) {
         dispatch({

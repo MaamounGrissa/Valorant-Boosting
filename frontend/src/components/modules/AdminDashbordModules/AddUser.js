@@ -2,16 +2,13 @@ import React, { useState } from 'react';
 import { Grid, TextField } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import { useDispatch, useSelector } from 'react-redux';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
+import SaveIcon from '@material-ui/icons/Save';
 import Button from '@material-ui/core/Button';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Title from '../Title.js';
 import MessageBox from '../MessageBox.js';
-import LoadingBox from '../LoadingBox.js';
-import ErrorPage from '../ErrorPage.js';
-import { register } from '../../../actions/userActions.js';
+import { AddBooster, EditBooster } from '../../../actions/userActions.js';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -32,17 +29,18 @@ const useStyles = makeStyles((theme) => ({
     },
   }));
 
-export default function AddUser() {
+export default function AddUser(props) {
 
-    const userSignin = useSelector((state) => state.userSignin);
-    const { userInfo, loading, error } = userSignin;
+    const { user } = props;
+    const boosterEdit = useSelector((state) => state.boosterEdit);
+    const { loading } = boosterEdit;
     const classes = useStyles();
     const dispatch = useDispatch()
-    const [name, setName] = useState(userInfo.name);
-    const [password, setPassword] = useState('');
-    const [email, setEmail] = useState('');
-    const [confirmPassword, setConfirmPassword] = useState('');
-    const [rule, setRule] = useState('booster');
+    const [name, setName] = useState(null);
+    const [password, setPassword] = useState(null);
+    const [email, setEmail] = useState(null);
+    const [confirmPassword, setConfirmPassword] = useState(null);
+    const [rule, setRule] = useState(null);
     const [myfeedback, setMyfeedback] = useState(null);
     const [errors, setErrors] = useState(null);
     
@@ -69,93 +67,128 @@ export default function AddUser() {
     const submitEdit = (e) => {
         e.preventDefault();
 
-        if (!password || password === '' || password.length < 8 ) {
-            setErrors('Password lenght less than 8 !');
-            return;
-        }
+        if (user) {
 
-        if(password !== confirmPassword) {
-            setErrors('Confirm Password Error !');
-            return;
-        }
+            if(password !== confirmPassword) {
+                setErrors('Confirm Password Error !');
+                return;
+            }
 
-        dispatch(register(name, email, password, rule)).then(() => {
-            setMyfeedback('New Booster added');
-            setName('');
-            setEmail('');
-            setPassword(null);
-            setConfirmPassword('');
-        });
+            dispatch(EditBooster(user._id, email || null, name || null , password || null, null, null, null, rule || null)).then(() => {
+                setMyfeedback('User updated !')
+            });
+            
+        } else {
+            if (!password || password === '' || password.length < 8 ) {
+                setErrors('Password lenght less than 8 !');
+                return;
+            }
+    
+            if(password !== confirmPassword) {
+                setErrors('Confirm Password Error !');
+                return;
+            }
+    
+            dispatch(AddBooster(name, email, password, null, null, null, rule)).then(() => {
+                setMyfeedback('New User added');
+                setName(null);
+                setEmail(null);
+                setPassword(null);
+                setConfirmPassword(null);
+                setRule(null);
+            });
+        }
     }
 
-    if(loading) {
-        return <LoadingBox />
-    } else if (error){
-        return <ErrorPage msg="Login to have access to dashbord" />
-    } else {
-        if (userInfo.rule === 'admin') {
-               return (<div>
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} >
-                            <div className="form-center">
-                                <form  className={classes.root} noValidate autoComplete="off">
-                                    <div className='table-header-container'>
-                                        <Title>Add User</Title>
-                                    </div>
+  
+    if (props.showAddUser) {
+        return (
+            <div className="modal-container show">
+                <div className="modal-box">
+                    <div className="modal-content">
+                        <div className="modal-header">
+                                <h2>{user ? 'Edit ' : 'Add '} User</h2>
+                                <button id="close-modal" onClick={props.onClose} >
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                    </svg>
+                                </button>
+                        </div>
+                        <Grid container spacing={3}>
+                            <Grid item xs={12} >
+                                <div className="form-center">
+                                    <form  className={classes.root} noValidate autoComplete="off">
+                                        
+                                        <TextField type="text" label="Name" variant="outlined" 
+                                            onChange={e => handleName(e)} 
+                                            value={name || user?.name} />
+                                        
+                                        <TextField type="email" label="Email" variant="outlined" 
+                                            onChange={e => handleEmail(e)} 
+                                            value={email || user?.email}  />
+            
+                                        <TextField type="password" label="Password" variant="outlined" 
+                                            onChange={e => handlePassword(e)} 
+                                            value={password} />
+            
+                                        <TextField type="password" label="Confirm New Password" variant="outlined" 
+                                            onChange={e => handleConfirmPassword(e)} 
+                                            value={confirmPassword} />
                                     
-                                    <TextField type="text" label="Name" variant="outlined" onChange={e => handleName(e)} value={name} />
+                                        <FormControl className={classes.formControl}>
+                                            <InputLabel htmlFor="rules-select">User Type</InputLabel>
+                                            <Select
+                                            native
+                                            value={rule || user?.rule}
+                                            onChange={e => handleRule(e)}
+                                            inputProps={{
+                                                name: 'rules',
+                                                id: 'rules-select',
+                                            }}
+                                            >
+                                            <option value={'booster'}>Booster</option>
+                                            <option value={'client'}>Customer</option>
+                                            <option value={'admin'}>Admin</option>
+                                            </Select>
+                                        </FormControl>
                                     
-                                    <TextField type="email" label="Email" variant="outlined" onChange={e => handleEmail(e)} value={email}  />
-        
-                                    <TextField type="password" label="Password" variant="outlined" onChange={e => handlePassword(e)} value={password} />
-        
-                                    <TextField type="password" label="Confirm New Password" variant="outlined" onChange={e => handleConfirmPassword(e)} value={confirmPassword} />
-                                
-                                    <FormControl className={classes.formControl}>
-                                        <InputLabel htmlFor="rules-select">User Type</InputLabel>
-                                        <Select
-                                        native
-                                        value={rule}
-                                        onChange={e => handleRule(e)}
-                                        inputProps={{
-                                            name: 'rules',
-                                            id: 'rules-select',
-                                        }}
-                                        >
-                                        <option value={'booster'}>Booster</option>
-                                        <option value={'client'}>Customer</option>
-                                        <option value={'admin'}>Admin</option>
-                                        </Select>
-                                    </FormControl>
-                                
-                                </form>
-                            </div>
-                        </Grid>           
-                </Grid>
-                <Grid container spacing={3} >
-                    <Grid item xs={12}>
-                    <div className="form-center">
-                        <Button variant="contained"
-                                    color="primary"
-                                    className="mybtn"
-                                    startIcon={<AddCircleIcon />}
-                                    onClick={submitEdit}>
-                                    Add&nbsp;&nbsp;
-                            </Button>
-                            {
-                                myfeedback && myfeedback !== '' ? (
-                                    <MessageBox>{myfeedback}</MessageBox>
-                                ) : errors ? (
-                                    <MessageBox variant='danger'>{errors}</MessageBox>
-                                ) : ( '' )
-                            }
-                    </div>
+                                    </form>
+                                </div>
+                            </Grid>           
                     </Grid>
-                </Grid>
-            </div>)
-      } else {
-          return <ErrorPage msg='You dont have permission to access to this page' />
-       }
-        
+                    <Grid container spacing={3} >
+                        <Grid item xs={12}>
+                        <div className="form-center">
+                            <Button variant="contained"
+                                        color="primary"
+                                        className="mybtn"
+                                        startIcon={<SaveIcon />}
+                                        onClick={submitEdit}>
+                                        {
+                                            user ? 'Edit  ' : 'Add  '
+                                        }
+                                        {
+                                            loading ? (
+                                                <img src="/images/loading-buffering.gif" width='20' alt="Loading" />
+                                        ) : ( '' )
+                                        }
+                                        
+                                </Button>
+                                {
+                                    myfeedback && myfeedback !== '' ? (
+                                        <MessageBox>{myfeedback}</MessageBox>
+                                    ) : errors ? (
+                                        <MessageBox variant='danger'>{errors}</MessageBox>
+                                    ) : ( '' )
+                                }
+                        </div>
+                        </Grid>
+                    </Grid>
+                    </div>
+                </div>
+        </div>)
+    } else {
+        return null
     }
+        
 }

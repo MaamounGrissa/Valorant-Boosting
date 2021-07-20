@@ -71,6 +71,7 @@ export default function PaiedOrders(props) {
         paiedOrders = orders?.filter(order => order.status === 'Paied');
         return (
         <TableContainer component={Paper}>
+            <h3 className="mytitle">Paied Orders</h3>
             <Table className={classes.table} aria-label="simple table">
             <TableHead className="custom-thead">
                 <TableRow>

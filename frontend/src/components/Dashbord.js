@@ -24,6 +24,7 @@ import LoadingBox from './modules/LoadingBox.js';
 import ErrorPage from './modules/ErrorPage.js';
 import ProfileTab from './modules/ProfileTab.js';
 import PaiedOrders from './modules/AdminDashbordModules/PaiedOrders.js';
+import AdminListUsers from './modules/AdminDashbordModules/AdminListUsers.js';
 import AdminHome from './modules/AdminDashbordModules/AdminHome.js';
 import BoosterHome from './modules/BoosterDashbordModules/BoosterHome.js';
 import MyOrders from './modules/BoosterDashbordModules/MyOrders.js';
@@ -290,6 +291,10 @@ export default function Dashbord() {
                             <Route path="/dashbord/paiedorders" exact={true} render={ (props) =>
                               <PaiedOrders />
                             }/>
+                            <Route path="/dashbord/listusers" exact={true} render={ (props) =>
+                              <AdminListUsers />
+                            }/>
+
                             <Route path="/dashbord/profile" exact={true} render={ (props) =>
                                 <ProfileTab />
                             }/>

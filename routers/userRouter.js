@@ -102,7 +102,7 @@ userRouter.post(
             name: req.body.name,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 8),
-            rule: 'booster',
+            rule: req.body.rule || 'booster',
             rank: req.body.rank ? req.body.rank : null,
             paypal: req.body.paypal ? req.body.paypal : null,
             percentage: req.body.percentage ? req.body.percentage : null,
@@ -154,13 +154,25 @@ userRouter.post(
                 res.send([null ,'This email is already exist !'])
             }
         }
-
-        user.name = req.body.name;
-        user.password = bcrypt.hashSync(req.body.password, 8);
-        user.rak = req.body.rank;
-        user.paypal = req.body.paypal;
-        user.percentage = req.body.percentage;
-
+        if (req.body.name) {
+            user.name = req.body.name;
+        }
+        if (req.body.password) {
+            user.password =  bcrypt.hashSync(req.body.password, 8);
+        }
+        if (req.body.rank) {
+            user.rak = req.body.rank;
+        }
+        if (req.body.paypal) {
+            user.paypal = req.body.paypal;
+        }
+        if (req.body.percentage) {
+            user.percentage = req.body.percentage;
+        }
+        if (req.body.rule) {
+            user.rule = req.body.rule;
+        }
+        
         await user.save();
 
         res.send('Booster Updated');

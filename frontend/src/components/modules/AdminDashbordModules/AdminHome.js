@@ -174,8 +174,8 @@ export default function AdminHome(props) {
                     <Paper className={classes.paper}>
                         <div className="paper-header">
                             <div className="paper-title">Waiting orders</div>
-                                <div className="button-container">
-                                    <button onClick={() => setShowAddOrder(true)}><AddCircleIcon /></button>
+                            <div className="button-container">
+                                <button onClick={() => setShowAddOrder(true)}><AddCircleIcon /></button>
                             </div>
                         </div>
                             <div className="paper-content">

@@ -8,6 +8,7 @@ import Home from './components/Home.js';
 import Signin from './components/Signin.js';
 import Register from './components/Register';
 import Dashbord from './components/Dashbord';
+import ErrorPage from './components/modules/ErrorPage';
 
 function App(props) {
 
@@ -61,6 +62,8 @@ function App(props) {
           <Route path='/dashbord'>
             <Dashbord userInfo={userInfo} />
           </Route>
+
+          <Route component={ErrorPage} />
 
           
         </main>
