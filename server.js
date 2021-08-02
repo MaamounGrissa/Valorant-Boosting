@@ -11,6 +11,7 @@ import accountRouter from './routers/accountRouter.js';
 import settingRouter from './routers/settingRouter.js';
 
 dotenv.config();
+const __dirname = path.dirname(import.meta.url).replace(/^file:\/\/\//, '');
 
 // Define Express App
 const app = express();

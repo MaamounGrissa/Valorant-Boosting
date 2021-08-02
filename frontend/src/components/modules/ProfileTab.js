@@ -88,7 +88,9 @@ export default function ProfileTab(props) {
         formData.append('newPassword', newPassword);
 
         dispatch(EditUser(formData)).then(() => {
-            window.location.reload();
+            // window.location.reload();
+        }).catch((err) => {
+            console.log(err);
         });
     }
 
